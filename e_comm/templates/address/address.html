@@ -1,0 +1,67 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+address
+{% endblock  %}
+
+{% block content %}
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            Shoping Cart
+        </span>
+    </div>
+</div>
+    
+
+<!-- Shoping Cart -->
+<br>
+
+<div class="bg0 p-t-75 p-b-85">
+  <div class="container">
+    <div class="row">
+      <div class="col-lg-10 col-xl-7 m-lr-auto m-b-100 bor10">
+
+        <div class="row px-4">
+          {% for user_add in address %}
+          <div class="card border-light mb-3" id="card-{{ user_add.id }}" style="max-width: 18rem;">
+            <div class="card-header">Address{{ user_add.id }}</div>
+            <div class="card-body">
+              <h5 class="card-title">{{ user_add.first_name }} {{ user_add.last_name }}</h5>
+              <p class="card-text">{{ user_add.email }}</p>
+              <p class="card-text">
+                {{ user_add.address_line_1 }}
+                {{ user_add.city }}, {{ user_add.state }},
+                {{ user_add.country }}, {{ user_add.postal_code }}
+              </p>
+              <p class="card-text">Ph: {{ user_add.phone_number }}</p>
+              <div class="d-flex justify-content-between">
+                <div class="d-grid gap-2">
+                  <a href="{% url 'edit_address' address_id=user_add.id %}" class="btn btn-dark">Edit Address</a>
+                </div>
+                <div class="d-grid gap-2">
+                  <a href="{% url 'checkout' address_id=user_add.id %}" class="btn btn-light">Use Address</a>
+                </div>
+              </div>
+            </div>
+          </div>
+          {% endfor %}
+        </div>
+
+        <div class="flex-w flex-sb-m p-t-18 p-b-15 p-lr-40 p-lr-15-sm">
+          <a href="{% url 'add_address' %}" class="flex-c-m stext-101 cl2 size-119 bg8 bor13 hov-btn3 p-lr-15 trans-04 pointer m-tb-10">
+            ADD ADDRESS
+          </a>
+        </div>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+{% endblock  %}

@@ -1,0 +1,366 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+admin home
+{% endblock %}
+
+{% block content%}
+<div class="page-header card">
+    <div class="row align-items-end">
+        <div class="col-lg-12">
+            <div class="page-header-title d-flex justify-content-center">
+                <form method="GET" action="{% url 'admin_home' %}" class="form-inline">
+                    <div class="d-flex justify-content-spacearound mx-5">
+                      <label for="start-date" class="mr-2">Start Date:</label>
+                      <input type="date" id="start-date" name="start_date" class="form-control" required value="{{ start_date }}">
+                    </div>
+                    <div class="d-flex justify-content-spacearound mx-5">
+                      <label for="end-date" class="mr-2">End Date:</label>
+                      <input type="date" id="end-date" name="end_date" class="form-control" value="{{ end_date }}">
+                    </div>
+                    <button type="submit" class="btn btn-primary mb-2">Submit</button>
+                  </form>
+                
+            </div>
+        </div>
+        
+    </div>
+</div>
+<div class="page-body ">
+    <div class="row d-flex justify-content-center">
+       
+        <!-- card1 start -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card widget-card-1">
+                <div class="card-block-small">
+                  
+                    <span class="text-c-blue f-w-600">Orders Today</span>
+                    <h4>{{order_count_today}}</h4>
+                    <div>
+                        <span class="f-left m-t-10 text-muted">
+                            <i class="text-c-blue f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- card1 end -->
+        <!-- card1 start -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card widget-card-1">
+                <div class="card-block-small">
+               
+                    <span class="text-c-pink f-w-600">Revenue</span>
+                    <h4>${{total_price_today}}</h4>
+
+                    <div>
+                        <span class="f-left m-t-10 text-muted">
+                            <i class="text-c-pink f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- card1 end -->
+        <!-- card1 start -->
+        <div class="col-md-6 col-xl-3">
+            <div class="card widget-card-1">
+                <div class="card-block-small">
+                 
+                    <span class="text-c-green f-w-600">Pending Order</span>
+                    <h4>{{ pending_order_count }}</h4>
+                    <div>
+                        <span class="f-left m-t-10 text-muted">
+                            <i class="text-c-green f-16 icofont icofont-tag m-r-10"></i>Tracked vai Orders
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-md-6 col-xl-3">
+            <div class="card widget-card-1">
+                <div class="card-block-small">
+                  
+                    <span class="text-c-blue f-w-600">Deliverd</span>
+                    <h4>{{ delivered_order_count }}</h4>
+                    <div>
+                        <span class="f-left m-t-10 text-muted">
+                            <i class="text-c-blue f-16 icofont icofont-calendar m-r-10"></i>Last 24 hours
+                        </span>
+                    </div>
+                </div>
+            </div>
+        </div>
+  
+        <!-- Statestics Start -->
+        <div class="col-md-12 col-xl-8">
+            <div class="card">
+                
+               
+                   
+                <canvas id="myChart"></canvas>
+                 
+            </div>
+        </div>
+
+
+
+        <div class="col-md-12 col-xl-4 ">
+                <div class="card ">
+                    <div class="card-header">
+                      <h5>PRODUCTS AND CATOGERY</h5>
+                        
+                    </div>
+                    <div class="card-block text-center">
+                        <div id="chartContainer"></div>
+                          <canvas id="myChart1"></canvas>
+                    </div>
+                </div>
+            </div>
+        </div>
+            <div class="">
+                <div class="card project-task d-flex justify-content-spacearound mx-5">
+                    <div class="card-header">
+                        <div class="card-header-left ">
+                            <h5>TOP PRODUCT &amp; ITS SALE COUNT</h5>
+                        </div>
+                        <div class="card-header-right">
+                            <ul class="list-unstyled card-option">
+                                <h2>Today's Orders</h2>
+                   </ul>
+                        </div>
+                    </div>
+                    <div class="card-block p-b-10">
+                        <div class="table-responsive">
+                            <table class="table table-hover">
+                                
+                                <thead>
+                                    <tr>
+                                        <th>Product</th>
+                                        <th>Total Sale Count</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    {% if top_product %}
+                                    {% for product in top_product %}
+                                    <tr>
+                                        <td>
+                                            <div class="task-contain">
+                                                <h6 class="bg-c-blue d-inline-block text-center">P</h6>
+                                                <p class="d-inline-block m-l-20">{{ product.product.name }}</p>
+                                            </div>
+                                        </td>
+                                        <td>
+                                            <p class="d-inline-block m-r-20">{{ product.sale_count }}</p>
+                                            <div class="progress d-inline-block">
+                                                <div class="progress-bar bg-c-blue" role="progressbar" aria-valuemin="0" aria-valuemax="100" style="width:80%">
+                                                </div>
+                                            </div>
+                                        </td>
+                                    </tr>
+                                    {% endfor %}
+                                   {% endif %}
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="card">
+                    <div class="card-header">
+                    
+                        <div class="d-inline-block">
+                            <h5>Order AND Revenue</h5>
+                            <span>Analysis of Order vs Sales</span>
+                        </div>
+                    </div>
+                    <div class="card-block text-center">
+                        <div class="row">
+                            <div class="col-6 b-r-default">
+                                <h2>{{ order_count }}</h2>
+                             
+                            </div>
+                            <div class="col-6">
+                                <h4>${{ order_totals }}</h4>
+                               
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+                <div class="card ">
+                    <div class="card-header">
+                       
+                        <div class="d-inline-block">
+                            <h5>Top Selling Products:</h5>
+                           
+                        </div>
+                    </div>
+                    <div class="card-block text-center">
+                      
+                
+                    
+                    
+                    </div>
+                </div>
+                <div class="col-lg-12 d-flex align-items-stretch">
+                    <div class="card w-100">
+                      <div class="card-body p-4">
+                        <h5 class="card-title fw-semibold mb-4">Recent orders</h5>
+                        <div class="table-responsive">
+                          <table class="table text-nowrap mb-0 align-middle">
+                            <thead class="text-dark fs-4">
+                              <tr>
+                                <!-- <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Id</h6>
+                                </th> -->
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Username</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0"></h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">price</h6>
+                                </th>
+                                <th class="border-bottom-0">
+                                  <h6 class="fw-semibold mb-0">Payment method</h6>
+                                </th>
+                              </tr>
+                            </thead>
+                            <tbody>
+                              {% for order in recent_orders %}
+                      <tr>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-1">{{ order.address.first_name }}</h6>
+                          <span class="fw-normal">{{ order.address.state }}</span>                          
+                        </td>
+                        <td class="border-bottom-0">
+                          <p class="mb-0 fw-normal">{{ order.address.payment_status }}</p>
+                        </td>
+                        <td class="border-bottom-0">
+                          <div class="d-flex align-items-center gap-2">
+                            <span class="badge bg-primary rounded-3 fw-semibold">{{ order.total_price }}</span>
+                          </div>
+                        </td>
+                        <td class="border-bottom-0">
+                          <h6 class="fw-semibold mb-0 fs-4">{{ order.payment_method }}</h6>
+                        </td>
+                      </tr>
+                      {% endfor %}
+                    </tbody>
+                              
+                              
+                                           
+                            </tbody>
+                          </table>
+                        </div>
+
+                      </div>
+                    </div>
+                  </div>
+            </div>
+        </div>
+       
+        <!-- Email Sent End -->
+        <!-- Data widget start -->
+        
+        <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+          document.addEventListener("DOMContentLoaded", function() {
+            // Chart data
+            var data = {
+              labels: [{% for entry in daily_totals %}"{{ entry.date }}",{% endfor %}],
+              datasets: [{
+                label: "Total Order Profit",
+                data: [{% for entry in daily_totals %}{{ entry.total }},{% endfor %}],
+                fill: false,
+                borderColor: 'rgb(75, 192, 192)',
+                tension: 0.1
+              }]
+            };
+        
+            // Chart configuration
+            var config = {
+              type: 'line',
+              data: data,
+              options: {
+                responsive: true,
+                scales: {
+                  y: {
+                    beginAtZero: true
+                  }
+                }
+              }
+            };
+        
+            // Create the chart
+            var ctx = document.getElementById('myChart').getContext('2d');
+            var myChart = new Chart(ctx, config);
+          });
+        </script>
+
+
+
+
+
+
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+        <script>
+            document.addEventListener("DOMContentLoaded", function() {
+              const data = {
+                labels: [
+                  {% for category in categories %}
+                    "{{ category.name }}",
+                  {% endfor %}
+                ],
+                datasets: [{
+                  data: [
+                    {% for count in data %}
+                      {{ count }},
+                    {% endfor %}
+                  ],
+                  backgroundColor: [
+                    'rgb(255, 99, 132)',
+                    'rgb(54, 162, 235)',
+                    'rgb(255, 205, 86)',
+                    'rgb(75, 192, 192)',
+                    'rgb(153, 102, 255)',
+                    'rgb(255, 159, 64)',
+                    'rgb(120, 120, 120)',
+                    'rgb(0, 166, 90)',
+                    'rgb(255, 0, 255)',
+                    'rgb(255, 102, 0)'
+                  ],
+                  hoverOffset: 4
+                }]
+              };
+          
+              const ctx = document.getElementById('myChart1').getContext('2d');
+              new Chart(ctx, {
+                type: 'doughnut',
+                data: data,
+                options: {
+                  plugins: {
+                    legend: {
+                      display: false // Hide the legend
+                    },
+                    tooltip: {
+                      callbacks: {
+                        title: function(context) {
+                          // Retrieve the category label only on hover
+                          return data.labels[context[0].dataIndex];
+                        },
+                        label: function(context) {
+                          // Show the value as a label on hover
+                          return context.parsed + ' products';
+                        }
+                      }
+                    }
+                  }
+                }
+              });
+            });
+          </script> 
+          
+        
+{% endblock %}

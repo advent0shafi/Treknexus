@@ -1,0 +1,118 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+productsss
+{% endblock %}
+
+{% block content %}
+  
+  
+
+
+
+
+<div class="card">
+  <div class="card-header">
+      <h5>Product Management</h5>
+           <div class="card-header-right"><i
+          class="icofont icofont-spinner-alt-5"></i></div>
+
+          <div class="card-header-right">
+              <i class="icofont icofont-spinner-alt-5"></i>
+          </div>
+
+      </div>
+      <div class="card-block">
+          <h4 class="sub-title">Products </h4>
+          <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+              <div class="form-group row">
+                  <label class="col-sm-2 col-form-label">Product</label>
+                  <div class="col-sm-10">
+                      <input type="text" class="form-control " id="product_name" name="product_name" required placeholder="Name of Product">
+                  </div>
+              </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Catogery</label>
+                <div class="col-sm-10">
+                    <select id="category" name="category" class="form-control">
+                      {% for category in categories %}
+                      <option value="{{ category.id }}">{{ category.name }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+              <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Description</label>
+                <div class="col-sm-10">
+                    <textarea rows="5" cols="5" id="description" name="description" class="form-control"
+                    placeholder="Description"></textarea>
+                </div>
+            </div>
+            <h4 class="sub-title">Varaint </h4>
+            <div class="form-group row">
+              <label class="col-sm-2 col-form-label">Variant Title</label>
+              <div class="col-sm-10">
+                  <input type="text" class="form-control " id="variant_title" name="variant_title" required placeholder="Variant Title">
+              </div>
+          </div>
+          <div class="form-group row">
+            <label class="col-sm-2 col-form-label">Variant Size</label>
+            <div class="col-sm-10">
+                <select id="sizes" name="sizes" required class="form-control">
+                  {% for size in sizes %}
+                    <option value="{{ size.size }}">{{ size.size }}</option>
+                {% endfor %}
+                </select>
+            </div>
+        </div>
+        <div class="form-group row">
+          <label class="col-sm-2 col-form-label">Variant Color</label>
+          <div class="col-sm-10">
+              <select id="colors" name="colors" required class="form-control">
+                {% for color in colors %}
+              <option value="{{ color.color }}">{{ color.color }}</option>
+                    {% endfor %}
+              </select>
+          </div>
+      </div>
+      <div class="form-group row">
+        <label class="col-sm-2 col-form-label">Product Price</label>
+        <div class="col-sm-10">
+            <input class="form-control " type="number" id="price" name="price" required placeholder="Product Price">
+        </div>
+    </div>
+    <div class="form-group row">
+      <label class="col-sm-2 col-form-label">Product Quantity</label>
+      <div class="col-sm-10">
+          <input type="number" class="form-control " id="quantity" name="quantity" placeholder="Product Quantity">
+      </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 col-form-label">Product Stock</label>
+    <div class="col-sm-10">
+        <input class="form-control " type="number" id="stock" name="stock" required placeholder="Product Stock">
+    </div>
+</div>
+<div class="form-group row">
+  <label for='images'  class="col-sm-2 col-form-label">Display Image</label>
+  <div class="col-sm-10">
+      <input type="file" id="display_image" name="display_image" required class="form-control">
+  </div>
+</div>
+<div class="form-group row">
+  <label for='images' class="col-sm-2 col-form-label">Upload File</label>
+  <div class="col-sm-10">
+      <input type="file" id="images" name="images" multiple required class="form-control">
+  </div>
+</div>
+
+<div class=' row d-flex justify-content center' >
+<input class="btn btn-dark  mx-5 mx-5" type="submit" value="Add Product">
+</div>              
+
+      </form>
+   
+  {% endblock  %}
+  
+

@@ -1,0 +1,67 @@
+{% extends 'products/base.html' %}
+
+{% block title%}
+signup
+{% endblock %}
+
+{%block content%}
+{% load static %}
+ <!-- navbar  -->
+ 
+ <!-- descriptions -->
+
+ <div class="d-flex justify-content-center align-items-center py-5 h-100 mt-5" style="height: 100vh;">
+    <div class="border rounded-2xl border-gray-400 p-4" style="border-radius:24px;max-width: 100%; width: 470px; ">
+      <form class="d-flex flex-column align-items-center "id="signup-form"  action="" method="post" >
+        <!-- head of form box -->
+        {% csrf_token %}
+        <div class="form-outline mb-4">
+          <legend>Sign Up</legend>
+        </div>
+  <br>
+  <br>
+        <!-- Email input -->
+        <div class="form-outline mb-4 ">
+          <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="email" style="background-color:#F5F7FA;" />
+                </div>
+  <!-- Email input -->
+  <div class="form-outline mb-4 ">
+    <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="uername" name="username" style="background-color:#F5F7FA;" />
+          </div>
+
+        <!-- Password input -->
+        <div class="form-outline mb-4 ">
+          <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="password" name="pass1" style="background-color:#F5F7FA;" />
+        
+        </div>
+   <!-- Password input -->
+   <div class="form-outline mb-4 ">
+    <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="password" name="pass2" style="background-color:#F5F7FA;" />
+  
+  </div>
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+          <div class="col d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+              <label class="form-check-label" for="form2Example31"> Remember me </label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Submit button -->
+        <button type="submit" style="border-radius: 35px;width:200px;background-color: black;color: bisque;height: 46px;">Submit</button>
+        <br>
+        <div class="col text-center">
+          <!-- Simple link -->
+          <a href="{% url 'signin' %}">Already have an account? Log in</a>
+        </div>
+  
+        <!-- Register buttons -->
+     
+      </form>
+    </div>
+  </div>
+  <!-- footer -->
+{%endblock%}

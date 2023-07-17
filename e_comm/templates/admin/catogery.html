@@ -1,0 +1,37 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+catogery
+{% endblock %}
+
+{% block content%}
+{% load static %}
+<h3>Catogery Page</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Image</th>
+          <th>Actions</th>
+     
+        </tr>
+      </thead>
+      <tbody>
+        {% for catogery in cat %}
+        <tr>
+          <td>{{ catogery.id }}</td>
+          <td>{{ catogery.name }}</td>
+          
+          <td><img src="{{MEDIA_URL}}{{catogery.image.url}}" style="width:100px;height:100px;" alt=""></td>
+          <td> <a class="btn btn-dark" href="{% url 'catogery_delete' catogery.id %}">Delete</a>
+          
+          </td>
+     
+        </tr>
+        {% endfor %}
+      </tbody>
+      
+    </table>
+    <a class="btn btn-dark" style="width:200px;" href="{% url 'catogery_add' %}">ADD PRODUCTS</a>
+{% endblock %}

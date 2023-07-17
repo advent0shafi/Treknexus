@@ -1,0 +1,125 @@
+
+{% extends 'products/base.html' %}
+
+{% block title %}
+address
+{% endblock  %}
+
+{% block content %}
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            Shoping Cart
+        </span>
+    </div>
+</div>
+    
+
+<!-- Shoping Cart -->
+<br>
+
+    <div class="bg0 p-t-75 p-b-85" >
+    <div class="container">
+
+                <div class="row">
+                    <div class="col-md-12 mb-4 d-flex justify-content-center">
+                      <div class="card mb-4">
+                        <div class="card-header d-flex justify-content-center py-3">
+                          <h5 class="mb-0">Add Address</h5>
+                        </div>
+                        <div class="card-body d-flex justify-content-center">
+                            <form method="POST" action="{% url 'add_address' %}">
+                                {% csrf_token %}
+                              
+                            <!-- 2 column grid layout with text inputs for the first and last names -->
+                            <div class="row mb-3">
+                              <div class="col">
+                                <div class="form-outline">
+                                  <input type="text" id="form7Example1"  name='fname' class="form-control" placeholder='First Name' />
+                                </div>
+                              </div>
+                              <div class="col">
+                                <div class="form-outline">
+                                    <input type="text" id="form7Example1"  name='lname' class="form-control" placeholder='Last Name' />
+                                </div>
+                              </div>
+                            </div>
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form7Example4" class="form-control" name='address1' placeholder='Address '/>
+                          
+                                
+                            </div>
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form7Example4" class="form-control" name='address2' placeholder='Aditional Address '/>
+                          
+                                
+                            </div>
+                            
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                              <input type="text" id="form7Example4" class="form-control" name='city' placeholder='City'/>
+                          
+                            </div>
+                               
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form7Example4" class="form-control" name='state' placeholder='State'/>
+                            
+                              </div>
+                  
+                                 
+                            <!-- Text input -->
+                            <div class="form-outline mb-4">
+                                <input type="text" id="form7Example4" class="form-control" name='country' placeholder='country'/>
+                            
+                              </div>
+                    
+                  
+                            <!-- Email input -->
+                            <div class="form-outline mb-4">
+                              <input type="email" id="form7Example5" class="form-control"name='email' placeholder='Email' />
+                     
+                            </div>
+                  
+                            <!-- Number input -->
+                            <div class="form-outline mb-4">
+                              <input type="number" id="form7Example6" class="form-control" name='pincode' placeholder='Postal Code'/>
+                           
+                            </div>
+                              <!-- Number input -->
+                              <div class="form-outline mb-4">
+                                <input type="number" id="form7Example6" class="form-control" name='phone' placeholder='Mobile Number'/>
+                             
+                              </div>
+                  
+                         
+                  
+                            <!-- Checkbox -->
+                            <div class="form-group d-flex justify-content-center mb-2">
+                                <button type="submit" class="btn btn-dark  px-3 py-2" style='border-circle:28pc'>
+                                  Submit
+                                </button>
+                              </div>
+                              
+                              
+                          </form>
+                        </div>
+                      </div>
+                
+               
+                    
+            
+            </div>
+
+                    
+        </div>
+    </div>
+</div>
+
+{% endblock  %}

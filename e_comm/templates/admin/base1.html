@@ -1,0 +1,258 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <title>{% block title %}{% endblock  %} </title>
+    <!-- HTML5 Shim and Respond.js IE9 support of HTML5 elements and media queries -->
+    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+    <!--[if lt IE 9]>
+    <script src="https://oss.maxcdn.com/libs/html5shiv/3.7.0/html5shiv.js"></script>
+    <script src="https://oss.maxcdn.com/libs/respond.js/1.4.2/respond.min.js"></script>
+    <![endif]-->
+    <!-- Meta -->
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, user-scalable=0, minimal-ui">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge"/>
+    <meta name="description" content="CodedThemes">
+    <meta name="keywords" content="flat ui, admin  Admin , Responsive, Landing, Bootstrap, App, Template, Mobile, iOS, Android, apple, creative app">
+    <meta name="author" content="CodedThemes">
+    <!-- Favicon icon -->
+    <link rel="icon" href="{% static 'assets/images/favicon.ico' %}" type="image/x-icon">
+<!-- Google font -->
+<link href="https://fonts.googleapis.com/css?family=Open+Sans:400,600,800" rel="stylesheet">
+<!-- Required Framework -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/bootstrap/css/bootstrap.min.css' %}">
+<!-- themify-icons line icon -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/icon/themify-icons/themify-icons.css' %}">
+<!-- ico font -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/icon/icofont/css/icofont.css' %}">
+<!-- Style.css -->
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/style.css' %}">
+<link rel="stylesheet" type="text/css" href="{% static 'assets/css/jquery.mCustomScrollbar.css' %}">
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+{% block link %}{% endblock  %} 
+</head>
+
+<body>
+    <!-- Pre-loader start -->
+    
+    <!-- Pre-loader end -->
+    <div id="pcoded" class="pcoded">
+        <div class="pcoded-overlay-box"></div>
+        <div class="pcoded-container navbar-wrapper">
+
+            <nav class="navbar header-navbar pcoded-header ">
+                <div class="navbar-wrapper">
+
+                    <div class="navbar-logo"style="background-color:white;">
+                        <a class="mobile-menu" id="mobile-collapse" href="#!">
+                            <i class="ti-menu"></i>
+                        </a>
+                        <a class="mobile-search morphsearch-search" href="#">
+                            <i class="ti-search"></i>
+                        </a>
+                        <a href="index.html">
+                            <img class="img-fluid " style="width:100px;" src="{% static 'user/img/logo1.png' %}" alt="Theme-Logo" />
+                        </a>
+                        <a class="mobile-options">
+                            <i class="ti-more"></i>
+                        </a>
+                    </div>
+
+                    <div class="navbar-container container-fluid">
+                      
+                        <ul class="nav-right">
+                            
+                            <li class="user-profile header-notification">
+                                <a href="#!">
+                                    <button class="btn btn-primary btn-outline-primary btn-icon"><i class="icofont icofont-user-alt-3"></i></button>
+                                    
+                                    <span>John Doe</span>
+                                    <i class="ti-angle-down"></i>
+                                </a>
+                                <ul class="show-notification profile-notification">
+                                    
+                                    <li>
+                                        <a href="auth-normal-sign-in.html">
+                                            <i class="ti-layout-sidebar-left"></i> Logout
+                                        </a>
+                                    </li>
+                                </ul>
+                            </li>
+                        </ul>
+                        
+                    </div>
+                </div>
+            </nav>
+
+            <div class="pcoded-main-container" >
+                <div class="pcoded-wrapper ">
+                    <nav class="pcoded-navbar">
+                        <div class="sidebar_toggle">
+                            <a href="#"><i class="bi bi-x-circle-fill" style="font-size: 24px; color: #fff;"></i></a>
+                        </div>
+                        <div class="pcoded-inner-navbar main-menu" style="background-color:##b7cff7;">
+                            <div class="">
+                                <div class="main-menu-content">
+                                    <ul>
+                                        <li class="more-details">
+                                            <a href="#"><i class="bi bi-person" style="font-size: 20px; color: #fff;"></i>View Profile</a>
+                                            <a href="#"><i class="bi bi-gear" style="font-size: 20px; color: #fff;"></i>Settings</a>
+                                            <a href="#"><i class="bi bi-box-arrow-right" style="font-size: 20px; color: #fff;"></i>Logout</a>
+                                        </li>
+                                    </ul>
+                                </div>
+                            </div>
+                    
+                            <div class="pcoded-navigatio-lavel" style="background-color:black; color: #fff;" data-i18n="nav.category.navigation">Menu Bar</div>
+                            <ul class="pcoded-item">
+                                <li class="">
+                                    <a href="{% url 'admin_home' %}">
+                                        <span class="navbar-icon"><i class="bi bi-house-fill" style="font-size: 24px; "></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color:white;"><pre>Home</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                    
+                                <li class="">
+                                    <a href="{% url 'catogery' %}">
+                                        <span class="navbar-icon"><i class="bi bi-list" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Category</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                                
+                                <li class="pcoded-hasmenu">
+                                    <a href="{% url 'adminpage' %}">
+                                        <span class="navbar-icon"><i class="bi bi-cart4" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Products</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                    
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a href="{% url 'order_all'%}">
+                                        <span class="navbar-icon"><i class="bi bi-receipt" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Order</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a href="{% url 'coupons'%}">
+                                        <span class="navbar-icon"><i class="bi bi-receipt" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Coupons</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                    
+                            <div class="pcoded-navigatio-lavel" data-i18n="nav.category.other" style="color: #fff;">Other</div>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li class="pcoded-hasmenu ">
+                                    <a href="javascript:void(0)">
+                                        <span class="navbar-icon"><i class="bi bi-arrows-angle-expand" style="font-size: 24px; color: #fff;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.menu-levels.main" style="color: #fff;">Menu Levels</span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                    <ul class="pcoded-submenu">
+                                        <li class="">
+                                            <a href="javascript:void(0)">
+                                                <span class="navbar-icon"><i class="bi bi-chevron-right" style="font-size: 20px; color: #fff;"></i></span>
+                                                <span class="navbar-text" data-i18n="nav.menu-levels.menu-level-21" style="color: #fff;">Menu Level 2.1</span>
+                                                <span class="navbar-caret"></span>
+                                            </a>
+                                        </li>
+                                        <li class="pcoded-hasmenu">
+                                            <a href="javascript:void(0)">
+                                                <span class="navbar-icon"><i class="bi bi-arrows-angle-contract" style="font-size: 24px; color: #fff;"></i></span>
+                                                <span class="navbar-text" data-i18n="nav.menu-levels.menu-level-22.main" style="color: #fff;">Menu Level 2.2</span>
+                                                <span class="navbar-caret"></span>
+                                            </a>
+                                            <ul class="pcoded-submenu">
+                                                <li class="">
+                                                    <a href="javascript:void(0)">
+                                                        <span class="navbar-icon"><i class="bi bi-chevron-right" style="font-size: 20px; color: #fff;"></i></span>
+                                                        <span class="navbar-text" data-i18n="nav.menu-levels.menu-level-22.menu-level-31" style="color: #fff;">Menu Level 3.1</span>
+                                                        <span class="navbar-caret"></span>
+                                                    </a>
+                                                </li>
+                                            </ul>
+                                        </li>
+                                        <li class="">
+                                            <a href="javascript:void(0)">
+                                                <span class="navbar-icon"><i class="bi bi-chevron-right" style="font-size: 20px; color: #fff;"></i></span>
+                                                <span class="navbar-text" data-i18n="nav.menu-levels.menu-level-23" style="color: #fff;">Menu Level 2.3</span>
+                                                <span class="navbar-caret"></span>
+                                            </a>
+                                        </li>
+                                    </ul>
+                                </li>
+                            </ul>
+                        </div>
+                    </nav>
+                    
+                    
+                    <div class="pcoded-content">
+                        <div class="pcoded-inner-content">
+                            <div class="main-body">
+                                <div class="page-wrapper">
+
+                                    <div class="page-body">
+                                        <div class="row">
+                                        </div>
+                                    </div>
+                      
+                                    <!-- Page-header start -->
+                                    
+                                    <!-- Page-header end -->
+
+                                    <div class="page-body">
+                                        <div class="row">
+                                            <div class="col-sm-12">
+                                    
+                                                    {% block content %}
+                                                    {% endblock %}
+                                             
+                                            </div>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                           
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+<!-- Warning Section Ends -->
+<!-- Required Jquery -->
+{% block script %}{% endblock  %} 
+<script type="text/javascript" src="{% static 'assets/js/jquery/jquery.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/jquery-ui/jquery-ui.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/popper.js/popper.min.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/bootstrap/js/bootstrap.min.js' %}"></script>
+<!-- jquery slimscroll js -->
+<script type="text/javascript" src="{% static 'assets/js/jquery-slimscroll/jquery.slimscroll.js' %}"></script>
+<!-- modernizr js -->
+<script type="text/javascript" src="{% static 'assets/js/modernizr/modernizr.js' %}"></script>
+<script type="text/javascript" src="{% static 'assets/js/modernizr/css-scrollbars.js' %}"></script>
+<!-- classie js -->
+<script type="text/javascript" src="{% static 'assets/js/classie/classie.js' %}"></script>
+<!-- Custom js -->
+<script type="text/javascript" src="{% static 'assets/js/script.js' %}"></script>
+<script src="{% static 'assets/js/pcoded.min.js' %}"></script>
+<script src="{% static 'assets/js/demo-12.js' %}"></script>
+<script src="{% static 'assets/js/jquery.mCustomScrollbar.concat.min.js' %}"></script>
+
+</body>
+
+</html>

@@ -1,0 +1,281 @@
+
+{% extends 'products/base.html' %}
+
+{% block title %}
+EDIT address
+{% endblock  %}
+
+{% block content %}
+
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            Checkout
+        </span>
+    </div>
+</div>
+    
+
+<!-- Shoping Cart -->
+<br>
+
+
+
+{% load static %}
+
+<section >
+    <div class="container py-5">
+      <div class="card">
+        <div class="card-body">
+          <div class="row d-flex justify-content-center pb-5">
+            <div class="col-md-7 col-xl-5 mb-4 mb-md-0">
+              <div class="py-4 d-flex flex-row">
+            
+              </div>
+              <h4 class="text-success">CHECKOUT</h4>
+              <h4>{{ user_add.first_name }} {{ user_add.last_name }}</h4>
+              <div class="d-flex pt-2">
+                <div>
+                  <p>
+                    <b>Shipping Address </b>
+                  </p>
+                </div>
+                <div class="ms-auto">
+                  <p class="text-primary">
+                    <i class="fas fa-plus-circle text-primary pe-1">{{ user_add.email }}</i>
+                  </p>
+                </div>
+              </div>
+              <p>
+                {{ user_add.address_line_1 }}
+                {{ user_add.city }}, {{ user_add.state }},
+                {{ user_add.country }}, {{ user_add.postal_code }}
+              </p>
+              <div class="rounded d-flex" style="background-color: #f8f9fa;">
+                <div class="p-2">Mobile Number:</div>
+                <div class="ms-auto p-2">{{ user_add.phone_number }}</div>
+              </div>
+              <hr />
+              <div class="pt-2">
+                <div class="d-flex pb-2">
+                  <div>
+                    <p>
+                      <b>Payment Method</b>
+                    </p>
+                  </div>
+                  <div class="ms-auto">
+                    <p class="text-primary">
+                    
+                    </p>
+                  </div>
+                </div>
+                <p>
+     
+                    For selecting the payment option, there are two choices available: cash on delivery or paying using Razorpay.
+                <form class="pb-3">
+                  <div class="d-flex flex-row pb-3">
+                    <div class="d-flex align-items-center pe-2">
+                      <input class="form-check-input" type="radio" name="paymentOption" id="radioNoLabel1"
+                        value="cod" aria-label="..." checked />
+                    </div>
+                    <div class="rounded border d-flex w-100 p-3 align-items-center">
+                      <p class="mb-0">
+                        <i class="fab fa-cc-visa fa-lg text-primary pe-2"></i>Cash On Delivary
+                      </p>
+                     
+                    </div>
+                  </div>
+  
+                  <div class="d-flex flex-row">
+                    <div class="d-flex align-items-center pe-2">
+                      <input class="form-check-input" type="radio" name="paymentOption" id="radioNoLabel2"
+                        value="razorpay" aria-label="..." />
+                    </div>
+                    <div class="rounded border d-flex w-100 p-3 align-items-center">
+                      <p class="mb-0">
+                        <i class="fab fa-cc-mastercard fa-lg text-dark pe-2"></i>Pay Using Razorpay
+                      </p>
+                     
+                    </div>
+                  </div>
+                </form>
+                <input type="button" value="Proceed to payment" id="proceedBtn" class="btn btn-dark btn-block btn-lg" />
+              </div>
+            </div>
+  
+            <div class="col-md-5 col-xl-4 offset-xl-1">
+              <div class="py-4 d-flex justify-content-end">
+                <h6><a href="{%url 'products'%}">Cancel and return to website</a></h6>
+              </div>
+              <div class="rounded d-flex flex-column p-2" style="background-color: #f8f9fa;">
+                <div class="p-2 me-3">
+                  <h4>Order Recap</h4>
+                </div>
+                <div class="p-2 d-flex">
+                  <div class="col-8">Sub Total </div>
+                  <div class="ms-auto">$ {{subtotal}}</div>
+                </div>
+                <div class="p-2 d-flex">
+                  <div class="col-8">Amount toward deductible</div>
+                  <div class="ms-auto">$0.00</div>
+                </div>
+                <div class="p-2 d-flex">
+                  <div class="col-8">Coupon( 0% )</div>
+                  <div class="ms-auto">+ $0.00</div>
+                </div>
+                <div class="p-2 d-flex">
+                  <div class="col-8">Coupon Reductions</div>
+                  <div class="ms-auto">- ${{cart.coupons.discount_price}}</div>
+                </div>
+                <div class="border-top px-2 mx-2"></div>
+                <div class="p-2 d-flex pt-3">
+                  <div class="col-8">Tax</div>
+                  <div class="ms-auto">$0.00</div>
+                </div>
+                <div class="p-2 d-flex">
+                  <div class="col-8">
+                   Shipping amount when outside India
+                  </div>
+                  <div class="ms-auto">$0.00</div>
+                </div>
+                <div class="border-top px-2 mx-2"></div>
+                <div class="p-2 d-flex pt-3">
+                  <div class="col-8">Shipping Tax</div>
+                  <div class="ms-auto"><b>$0.00</b></div>
+                </div>
+                
+                <div class="border-top px-2 mx-2"></div>
+                <div class="p-2 d-flex pt-3">
+                  <div class="col-8"><b>Total</b></div>
+                  <div class="ms-auto"><b class="text-success">$ {{total_price}}</b></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  
+
+
+<script src="https://checkout.razorpay.com/v1/checkout.js"></script>
+<script>
+
+
+    function initiateRazorpayPayment(){
+    // Make an AJAX POST request to initiate the payment
+    $.ajax({
+        type: "POST",
+        url: "/initiate_payment/",  // Replace with the actual URL of your Django view
+        headers: { "X-CSRFToken": "{{ csrf_token }}" }, // Add this line to include the CSRF token
+        dataType: 'json',  // Expect JSON response from the server
+        success: function(response) {
+            // Update the options with the received data from the server
+            var options = {
+                "key": response.key,
+                "amount": response.amount,
+                "currency": response.currency,
+                "name": "TREK NEXSUS",
+                "description": "Thank you for purchasing from us",
+                "image": "{%static 'user/img/logo1.png'%}",
+                "order_id": response.order_id,                 
+                "handler": function (response) {
+                   alert(response.razorpay_payment_id);
+                    alert(response.razorpay_order_id);
+                    alert(response.razorpay_signature);
+               
+                    var paymentId = response.razorpay_payment_id;
+                    var orderId = response.razorpay_order_id;
+                    var signature = response.razorpay_signature;
+
+                    $.ajax({
+                        type: "POST",
+                        url: "/online_payment_order/{{user_add.id}}",
+                        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+                        data: {
+                            payment_id: paymentId,
+                            orderId: orderId,
+                            signature: signature
+                        },
+                        success: function(response) {
+                            var id = response.orderId
+                            console.log("Order ID:", id);
+                            window.location.href = "/order_success/" + id;
+                                                    
+                            console.log("Order placed successfully!");
+                        },
+                        error: function(xhr, status, error) {
+                            // Handle the error if any
+                            console.log(xhr.responseText);
+                            alert("Error placing the order. Please try again.");
+                        }
+                    });
+               
+                    
+                },
+                "prefill": {
+                    "name": "Gaurav Kumar",
+                    "email": "gaurav.kumar@example.com",
+                    "contact": "9000090000"
+                },
+                "notes": {
+                    "address": "Razorpay Corporate Office"
+                },
+                "theme": {
+                    "color": "#3399cc"
+                }
+            };
+
+            // Create a new instance of Razorpay with updated options
+            var rzp1 = new Razorpay(options);
+
+            // Handle the payment response
+            rzp1.on('payment.failed', function(response) {
+                alert(response.error.code);
+                alert(response.error.description);
+                alert(response.error.source);
+                alert(response.error.step);
+                alert(response.error.reason);
+                alert(response.error.metadata.order_id);
+                alert(response.error.metadata.payment_id);
+            });
+
+            // Open the Razorpay payment popup
+            rzp1.open();
+        },
+        error: function(xhr, status, error) {
+            // Handle the error if any
+            console.log(xhr.responseText);
+            alert("Error initiating payment. Please try again.");
+        }
+    });
+
+    e.preventDefault();
+};
+document.getElementById("proceedBtn").addEventListener("click", function () {
+    var paymentOption = document.querySelector('input[name="paymentOption"]:checked').value;
+
+    if (paymentOption === "cod") {
+      // Code for Cash on Delivery
+      window.location.href = "{% url 'place_order' user_add.id %}";
+      console.log("Cash on Delivery selected");
+    } else if (paymentOption === "razorpay") {
+      // Code for Razorpay
+      initiateRazorpayPayment();
+      console.log("Pay using Razorpay selected");
+    }
+  });
+</script>
+
+
+
+
+
+
+{% endblock  %}

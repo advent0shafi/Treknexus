@@ -1,0 +1,40 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+users
+{% endblock %}
+
+{% block content%}
+{% load static %}
+
+    <h1>Customers Table</h1>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>email</th>
+          <th>Active</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for user in userlist %}
+        <tr>
+          <td>{{ user.id }}</td>
+          <td>{{ user.name }}</td>
+          
+          <td>{{ user.username}}</td>
+          <td>{{ user.email }}</td>
+          <td>{{ user.is_active }}</td>
+          <td>{% if user.is_active %}
+            <a class="btn btn-danger" href="{% url 'block_user' user.id %}">Block</a>
+        {% else %}
+            <a class="btn btn-dark" href="{% url 'unblock_user' user.id %}">Unblock</a>
+        {% endif %}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+{% endblock %}

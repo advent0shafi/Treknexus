@@ -1,0 +1,67 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+customers
+{% endblock %}
+
+{% block content%}
+
+<!-- add_product.html -->
+
+<div class="card-block">
+    <h5 class="sub-title">Products additions</h5>
+{% comment %} 
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    
+    <!-- Product Form -->
+    {{ product_form.as_p}}
+    
+    <!-- Product Images Formset -->
+    <fieldset>
+      <legend>Product Images</legend>
+      {{ image_formset.management_form }}
+      {% for form in image_formset %}
+        <div class="form">
+          <div class="form-group">
+            {{ form.image.label_tag }}
+            {{ form.image }}
+          </div>
+        </div>
+      {% endfor %}
+    </fieldset>
+    
+    <input type="submit" value="Save">
+  </form> {% endcomment %}
+  {% comment %} <form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+
+    <!-- Product Form -->
+    {{ form.as_p }}
+
+    <!-- MultiFileField for Image Uploads -->
+    <div class="form">
+        <div class="form-group">
+            {{ form.images.label_tag }}
+            {{ form.images }}
+        </div>
+    </div>
+
+    <input type="submit" value="Save">
+</form>
+</div>  {% endcomment %}
+<form method="post" enctype="multipart/form-data">
+    {% csrf_token %}
+    {{ form.as_p }}
+    <fieldset>
+        <legend>Images</legend>
+        {{ formset.management_form }}
+        {% for form in formset %}
+            {{ form.as_table }}
+        {% endfor %}
+    </fieldset>
+    <input type="submit" value="Save">
+</form>
+
+  
+{% endblock %}

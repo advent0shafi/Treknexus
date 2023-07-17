@@ -1,0 +1,49 @@
+{% extends 'admin/base1.html' %}
+
+{% block title %}
+coupon management
+{% endblock  %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Varinat Table</h5>
+        <span>HEYY  <code>table</code> inside table element</span>
+        <div class="card-header-right">    <ul class="list-unstyled card-option">        <li><i class="icofont icofont-simple-left "></i></li>        <li><i class="icofont icofont-maximize full-card"></i></li>        <li><i class="icofont icofont-minus minimize-card"></i></li>        <li><i class="icofont icofont-refresh reload-card"></i></li>        <li><i class="icofont icofont-error close-card"></i></li>    </ul></div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Coupon Id</th>
+                        <th>Coupon code</th>
+                        <th>Minimum Amount</th>
+                        <th>Discount Amount</th>
+                        <th>Expired</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for coupons in coupon  %}
+                    <tr>
+                        <th scope="row">{{coupons.id}}</th>
+                        <td>{{coupons.coupon_code}}</td>
+                        <td>{{coupons.mininum_amount}}</td>
+                        <td>{{coupons.discount_price}}</td>
+                        <td>{{coupons.is_expired}}</td>
+                        <td><a class="btn btn-dark" href="">EDIT</a>
+                            <a class="btn btn-light" href="#">DELETE</a></td>
+                    </tr>
+                    {% endfor %}
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a class="btn btn-dark" href="#">ADD COUPONS </a>
+</div>
+
+{% endblock  %}
+
+

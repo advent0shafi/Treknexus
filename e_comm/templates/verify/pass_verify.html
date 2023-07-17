@@ -1,0 +1,11 @@
+{% autoescape off %}
+Welcome to TrekNexsus
+
+hellow {{name}}
+
+password updations
+
+{% comment %} confirmation link:http://{{ domain }}{% url 'activate' uidb64=uid token=token %}0 {% endcomment %}
+confirmation link:http://{{ domain }}{% url 'reset_password' uidb64=uid token=token %}
+
+{% endautoescape %}

@@ -1,0 +1,307 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+Order views
+{% endblock %}
+{% block link %}
+{% endblock  %} 
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+
+{% block content %}
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+           Order View
+        </span>
+    </div>
+</div>
+    
+
+<!-- Shoping Cart -->
+
+
+
+ {% load static %}
+
+    <div class="container mt-5 mb-5">
+
+      <div class="row d-flex justify-content-center">
+  
+          <div class="col-md-12">
+  
+              <div class="card">
+  
+  
+                      <div class="text-left logo p-2 px-5">
+  
+                          <img src="{%static 'user/img/logo1.png'%}" width="50">
+                          
+  
+                      </div>
+  
+                      <div class="invoice p-5">
+  
+                          <h5>Product Order Details</h5>
+  
+                          
+                          <span class="font-weight-bold d-block mt-4"> {{orders.address.first_name }}</span>
+                        <span>Order confirmations and Cancelations options</span>
+                          <div class="payment border-top mt-3 mb-3 border-bottom table-responsive">
+  
+                              <table class="table table-borderless">
+                                  
+                                  <tbody>
+                                      <tr>
+                                          <td>
+                                              <div class="py-2">
+  
+                                                  <span class="d-block text-muted">Order Date</span>
+                                              <span>{{orders.order_date.date}}</span>
+                                                  
+                                              </div>
+                                          </td>
+  
+                                          <td>
+                                              <div class="py-2">
+  
+                                                  <span class="d-block text-muted">Order No</span>
+                                              <span>TKN002023{{orders.id}}</span>
+                                                  
+                                              </div>
+                                          </td>
+  
+                                          <td>
+                                              <div class="py-2">
+  
+                                                  <span class="d-block text-muted">Payment</span>
+                                              <span><img src="https://w7.pngwing.com/pngs/88/578/png-transparent-razorpay-logo-thumbnail-tech-companies-thumbnail.png" width="20" /></span>
+                                                  
+                                              </div>
+                                          </td>
+  
+                                          <td>
+                                              <div class="py-2">
+  
+                                                  <span class="d-block text-muted">Shiping Address</span>
+                                              <span>{{orders.address.address_line_1}}</span>
+                                                  
+                                              </div>
+                                          </td>
+                                      </tr>
+                                  </tbody>
+  
+                              </table>
+  
+  
+  
+  
+                              
+                          </div>
+  
+  
+  
+  
+                              <div class="product border-bottom table-responsive">
+  
+                                  <table class="table table-borderless">
+                                      {%for product in items %}
+                                  <tbody>
+                                      <tr>
+                                          <td width="20%">
+                                          
+                                          <img src="{{MEDIA_URL}}{{product.product.variant_image.url}}" width="90">
+  
+                                      </td>
+                              
+                                      <td width="60%">
+                                          <span class="font-weight-bold">{{product.product.title}}</span>
+                                          <div class="product-qty">
+                                              <span class="d-block">Quantity:{{product.quantity}}</span>
+                                              <span>Color:{{product.product.color}}</span>
+                                              
+                                          </div>
+                                      </td>
+                                      <td width="20%">
+                                          <div class="text-right">
+                                              <span class="font-weight-bold">{{product.product.price}}</span>
+                                          </div>
+                                      </td>
+                                      </tr>
+                                      {% endfor %}
+  
+                                
+                                  </tbody> 
+                                      
+                                  </table>
+                                  
+  
+  
+                              </div>
+  
+  
+  
+                              <div class="row d-flex justify-content-end">
+  
+                                  <div class="col-md-5">
+  
+                                      <table class="table table-borderless">
+  
+                                          <tbody class="totals">
+  
+                                              <tr>
+                                                  <td>
+                                                      <div class="text-left">
+  
+                                                          <span class="text-muted">Subtotal</span>
+                                                          
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="text-right">
+                                                          <span>${{total_price}}</span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+  
+  
+                                               <tr>
+                                                  <td>
+                                                      <div class="text-left">
+  
+                                                          <span class="text-muted">Shipping Fee</span>
+                                                          
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="text-right">
+                                                          <span>$00</span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+  
+  
+                                               <tr>
+                                                  <td>
+                                                      <div class="text-left">
+  
+                                                          <span class="text-muted">Tax Fee</span>
+                                                          
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="text-right">
+                                                          <span>$00</span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+  
+  
+                                               <tr>
+                                                  <td>
+                                                      <div class="text-left">
+  
+                                                          <span class="text-muted">Discount</span>
+                                                          
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="text-right">
+                                                          <span class="text-success">$00</span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+  
+  
+                                               <tr class="border-top border-bottom">
+                                                  <td>
+                                                      <div class="text-left">
+  
+                                                          <span class="font-weight-bold">Subtotal</span>
+                                                          
+                                                      </div>
+                                                  </td>
+                                                  <td>
+                                                      <div class="text-right">
+                                                          <span class="font-weight-bold">${{orders.total_price}}</span>
+                                                      </div>
+                                                  </td>
+                                              </tr>
+                                              
+                                          </tbody>
+                                          
+                                      </table>
+                                      
+                                  </div>
+                                  
+  
+  
+                              </div>
+  
+  
+  
+  
+                          
+  
+                      </div>
+  
+  
+                      <div class="d-flex justify-content-between footer p-3">
+  
+                          <span>Continue Shopping <a href="{% url 'products' %}"> Shop More</a></span>
+                           <span>{{orders.order_date.date}}</span>
+                          
+                      </div>
+  
+  
+  
+          
+      </div>
+              
+          </div>
+          
+      </div>
+      
+  </div>
+
+  <div class="page-header card">
+    <div class="row align-items-end">
+        <div class="col-lg-8">
+            <div class="page-header-title">
+                <i class="icofont icofont-layout bg-c-blue"></i>
+                <div class="d-inline">
+                    <h4>Accordion</h4>
+                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+                </div>
+            </div>
+        </div>
+        <div class="col-lg-4">
+            <div class="page-header-breadcrumb">
+                <ul class="breadcrumb-title">
+                    <li class="breadcrumb-item">
+                        <a href="index.html">
+                            <i class="icofont icofont-home"></i>
+                        </a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Basic Components</a>
+                    </li>
+                    <li class="breadcrumb-item"><a href="#!">Accordion</a>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </div>
+</div>
+{% block script %}
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+{% endblock  %}
+
+   
+  {% endblock  %}
+  
+

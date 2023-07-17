@@ -1,0 +1,100 @@
+
+{% extends 'products/base.html' %}
+
+{% block title %}
+order place
+{% endblock  %}
+
+{% block content %}
+<div class="container">
+    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
+        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+            Home
+            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
+        </a>
+
+        <span class="stext-109 cl4">
+            User Order History
+        </span>
+    </div>
+</div>
+    
+
+<!-- Shoping Cart -->
+
+
+
+
+  <div class="container">
+    <div class="row d-flex justify-content-center align-items-center ">
+      <div class="col-lg-12 col-xl-12">
+        
+         
+          <div class="card-body p-5">
+            <div class="card shadow-0 border mb-4" style="background-color: #d3dbd5;" >
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Order Id</span>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Order Date</span>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Order Status</span>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Payment Method</span>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Delivery Date</span>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <span class="font-weight-bold">Actions</span>
+                  </div>
+                </div>
+              
+              
+              </div>
+          
+            </div>
+            {% for orders in order %}
+
+            <div class="card shadow-0 border mb-4">
+              <div class="card-body">
+                <div class="row">
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{orders.id}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0">{{orders.order_date.date}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{orders.payment_status}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{orders.payment_method}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <p class="text-muted mb-0 small">{{orders.delivery_date.date}}</p>
+                  </div>
+                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
+                    <a class="btn btn-dark" href="{%url 'cancel_orderss' orders.id %}" role="button">Cancel</a>
+            <a href="{%url 'order_view' orders.id%}" role='button' class="btn btn-light">View</a>
+                  </div>
+                </div>
+              
+              
+              </div>
+          
+            </div>
+            {% endfor %}
+           
+         
+        </div>
+   
+    </div>
+  </div>
+</div>
+
+{% endblock  %}

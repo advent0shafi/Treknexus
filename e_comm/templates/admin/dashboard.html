@@ -1,0 +1,47 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+users
+{% endblock %}
+
+{% block content%}
+{% load static %}
+
+    <h3>Product Page</h3>
+    <table class="table table-striped">
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Image</th>
+          <th>Name</th>
+          <th>Category</th>
+          <th>Available</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for pro in products %}
+        <tr>
+          <td>{{ pro.id }}</td>
+          {% with pros=pro.variant_set.all|random %}
+          <td><img style="width:50px;height:50px;" class="product-image" src="{{ MEDIA_URL }}{{ pros.variant_image.url }}" alt=""></td>
+          {% endwith %}
+          <td>{{ pro.name }}</td>
+          <td>{{ pro.category }}</td>
+          <td>{{ pro.is_avaiable }}</td>
+         
+          <td> {% if pro.is_avaiable %}
+            <a class="btn btn-dark" href="{% url 'delete_product' pro.id%}">SOFT DELETE</a>
+            {% else %}
+            <a class="btn btn-dark" href="{% url 'activate_product' pro.id%}">ACTIVATE</a>
+            {% endif %}
+            <a class="btn btn-light" href="{%url 'product_view' pro.id%}">VIEW VARIANT</a></td>
+
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+    <div>
+    <a class="btn btn-dark" style="width:200px;" href="{% url 'addproduct'%}">ADD PRODUCTS</a>
+    </div>
+{% endblock %}

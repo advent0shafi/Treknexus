@@ -1,0 +1,62 @@
+{% extends 'products/base.html' %}
+{% block title%}
+sigin
+{% endblock%} <!-- descriptions -->
+{% block content %}
+ <div class="d-flex justify-content-center align-items-center py-5 h-100 mt-5" style="height: 100vh;">
+    <div class="border rounded-2xl border-gray-400 p-4" style="border-radius: 24px; max-width: 100%; width: 470px;" >
+      <form class="d-flex flex-column align-items-center form" id="signup-form"  action="" method="post" >
+     
+        {% csrf_token %}
+        <div class="form-outline mb-4">
+          <legend>Login Page</legend>
+        </div>
+  <br>
+  <br>
+        <!-- Email input -->
+        <div class="form-outline mb-4 ">
+          <input type="uername" id="form2Example17" class="form-control form-control-lg" placeholder="uername" name='username' style="background-color:#F5F7FA;" />
+                </div>
+  
+        <!-- Password input -->
+        <div class="form-outline mb-4 ">
+          <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="password" name='pass1' style="background-color:#F5F7FA;" />
+        
+        </div>
+        
+  
+        <!-- 2 column grid layout for inline styling -->
+        <div class="row mb-4">
+          <div class="col d-flex justify-content-center">
+            <!-- Checkbox -->
+            <div class="form-check">
+              <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+              <label class="form-check-label" for="form2Example31"> Remember me </label>
+            </div>
+          </div>
+        </div>
+  
+        <!-- Submit button -->
+        <button type="submit" style="border-radius: 35px;width:200px;background-color: black;color: bisque;height: 46px;">Submit</button>
+        
+        <div class="text-center">
+          <!-- Simple link -->
+          <a href="{% url 'forget_password' %}" class="text-decoration-none">Forgot password?</a>
+      </div>
+      
+  
+        <!-- Register buttons -->
+        <div class="a-divider a-divider-break text-center mt-4">
+          <hr class="hr" >
+          <p aria-level="2">New to TrekNexsus?</p>
+  
+            <button type='submit' style="border-radius: 35px;width:200px;background-color: black;color: bisque;height: 46px;"> <a href="{% url 'signup' %}" style="text-decoration: none; color: white;">Create Account</a>
+            </button>
+        
+                  </div>
+      </form>
+    </div>
+  </div>
+ <!--footer-->
+ <!-- Footer -->
+{% endblock %}

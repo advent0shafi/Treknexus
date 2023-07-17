@@ -1,0 +1,54 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+product view
+{% endblock %}
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Varinat Table</h5>
+        <span>HEYY  <code>table</code> inside table element</span>
+        <div class="card-header-right">    <ul class="list-unstyled card-option">        <li><i class="icofont icofont-simple-left "></i></li>        <li><i class="icofont icofont-maximize full-card"></i></li>        <li><i class="icofont icofont-minus minimize-card"></i></li>        <li><i class="icofont icofont-refresh reload-card"></i></li>        <li><i class="icofont icofont-error close-card"></i></li>    </ul></div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>Variant Id</th>
+                        <th>Title</th>
+                        <th></th>
+                        <th>Stock</th>
+                        <th>Variations</th>
+                        <th>Action</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for products in product  %}
+                    <tr>
+                        <th scope="row">{{products.id}}</th>
+                        <td>{{products.title}}</td>
+                        <td><img style="width:120px;height:150px;" src="{{MEDIA_URL}}{{products.variant_image.url}}" alt=""></td>
+                        <td>{{products.stock}}</td>
+                        <td>{{products.color}}//{{products.size}}</td>
+                        <td><a class="btn btn-dark" href="{% url 'variant_edit' products.id%}">VARIANT EDIT</a>
+                            <a class="btn btn-light" href="#">SOFT DELETE</a></td>
+                    </tr>
+                    {% endfor %}
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a class="btn btn-dark" href="{% url 'variant_add' pro.id%}">ADD VARIANT </a>
+</div>
+  
+
+
+
+
+   
+  {% endblock  %}
+  
+
