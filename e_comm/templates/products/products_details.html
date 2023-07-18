@@ -5,6 +5,37 @@
 detail vie
 {% endblock %}
 
+
+{% block style %}
+
+
+<style>
+	/* Style for the wishlist icon */
+	.wishlist-icon {
+	  cursor: pointer;
+	  position: relative;
+	  display: inline-block;
+	}
+	
+	/* Hide the filled icon by default */
+	.wishlist-icon .filled {
+	  display: none;
+	  position: absolute;
+	  top: 0;
+	  left: 0;
+	}
+	
+	/* Show the filled icon when the class 'active' is added to the wishlist-icon */
+	.wishlist-icon.active .filled {
+	  display: block;
+	}
+	
+	/* Hide the unfilled icon when the class 'active' is added to the wishlist-icon */
+	.wishlist-icon.active i:not(.filled) {
+	  display: none;
+	}
+  </style>
+{% endblock %}
 {% block content%}
 {% load static %}
 
@@ -33,80 +64,51 @@ detail vie
 		<div class="container">
 			<div class="row">
                 <div class="col-md-6 col-lg-7 p-b-30">
-                <div class="p-l-25 p-r-30 p-lr-0-lg">
-                  <div class="wrap-slick3 flex-sb flex-w">
-                    <div class="wrap-slick3-dots"></div>
-              {% comment %} <div id="imageCarousel" class="carousel slide" data-bs-ride="carousel"> {% endcomment %}
-  <!-- Indicators -->
-  {% comment %} <ol class="carousel-indicators">
-    {% for pro in pros.product_image_set.all %}
-      <li data-bs-target="#imageCarousel" data-bs-slide-to="{{ forloop.counter0 }}" {% if forloop.first %}class="active"{% endif %}></li>
-    {% endfor %}
-  </ol> {% endcomment %}
+					<div class="p-l-25 p-r-30 p-lr-0-lg">
+						<div class="wrap-slick3 flex-sb flex-w">
+							<div class="wrap-slick3-dots"></div>
+							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
 
-  <!-- Slides -->
-  {% comment %} <div class="carousel-inner">
-    {% for pro in pros.product_image_set.all %}
-      <div class="zoom carousel-item {% if forloop.first %}active{% endif %}">
-        <img class="zoom" src="{{ MEDIA_URL }}{{ pro.image.url }}" class="d-block w-100" alt="IMG-PRODUCT">
-      </div>
-    {% endfor %}
-  </div> {% endcomment %}
+							<div class="slick3 gallery-lb">
+								{% for pro in pros.product_image_set.all %}
+								<div class="item-slick3" data-thumb="{{ pro.image.url }}">
+									<div class="wrap-pic-w pos-relative">
+										<img class="zoom" src="{{ pro.image.url }}" alt="IMG-PRODUCT">
 
-  <!-- Controls -->
-  {% comment %} <a class="carousel-control-prev" href="#imageCarousel" role="button" data-bs-slide="prev">
-    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Previous</span>
-  </a>
-  <a class="carousel-control-next" href="#imageCarousel" role="button" data-bs-slide="next">
-    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-    <span class="visually-hidden">Next</span>
-  </a>
-</div> {% endcomment %}
+										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
+											<i class="fa fa-expand"></i>
+										</a>
+									</div>
+								</div>
+   								{% endfor %}
 
-
-   <div class="col-lg-16 pb-5 ">
-                    <div id="product-carousel" class="carousel slide" data-ride="carousel">
-                        <div class="carousel-inner border">
-							{% for pro in pros.product_image_set.all %}
-                            <div class="carousel-item   {% if forloop.first %}active{% endif %}">
-                                <div class="zoom">
-                                    <img class="w-100 h-100 " src="{{ pro.image.url }}" data-origin="{{ pro.image.url }}" alt="Image">
-                                </div>
-                            </div>
-                            {% endfor %}
-                        </div>
-                        <a class="carousel-control-prev" href="#product-carousel" data-slide="prev">
-                            <i class="fa fa-2x fa-angle-left text-dark"></i>
-                        </a>
-                        <a class="carousel-control-next" href="#product-carousel" data-slide="next">
-                            <i class="fa fa-2x fa-angle-right text-dark"></i>
-                        </a>
-                    </div>
-                </div>
-
-
-                   
-                  </div>
-                </div>
-              </div>
+							</div>
+						</div>
+					</div>
+				</div>
               
 					
 				<div class="col-md-6 col-lg-5 p-b-30">
 					<div class="p-r-50 p-t-5 p-lr-0-lg">
+					  <div class="d-flex">
 						<h4 class="mtext-105 cl2 js-name-detail p-b-14">
-						{{pros.title}}
+						  {{ pros.title }}
 						</h4>
-
-						<span class="mtext-106 cl2">
-							{{pros.price}}
-						</span>
-
-						<p class="stext-102 cl3 p-t-23">
-							{{ pros.product.category }}
-						</p>
-						
-						<!--  -->
+						<div class="block2-txt-child2 flex-r p-t-3 mx-5">
+							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pros.id }}">
+								<img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+							  </a>
+						</div>
+					  </div>
+				  
+					  <span class="mtext-106 cl2">
+						{{ pros.price }}
+					  </span>
+				  
+					  <p class="stext-102 cl3 p-t-23">
+						{{ pros.product.category }}
+					  </p>
 						<div class="p-t-33">
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
@@ -130,60 +132,71 @@ detail vie
 
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
-									Colors
+									Color
 								</div>
 
 								<div class="size-204 respon6-next">
-									<div class="container">
-										<div class="row">
-										  <div class="col-md-12">
-											<div class="d-flex ">
-											  {% for variant in pros.product.variant_set.all %}
-											  <div class="col-md-3">
-												<a href="{{ variant.get_absolute_url }}">
-												  <img src="{{ MEDIA_URL }}{{ variant.variant_image.url }}" style="width:50px;height:50px; border: 1px solid #ccc; padding: 5px;" alt="Image 1">
-												</a>
-											  </div>
-											  {% endfor %}
-											</div>
-										  </div>
-										</div>
-									  </div>
-									  
-									  
-									  
+									<div class="rs1-select2 bor8 bg0">
+										<select class="js-select2" name="time">
+											<option>Choose an option</option>
+											<option>Red</option>
+											<option>Blue</option>
+											<option>White</option>
+											<option>Grey</option>
+										</select>
+										<div class="dropDownSelect2"></div>
+									</div>
 								</div>
 							</div>
-
 							
 
-							<div class="flex-w flex-r-m p-b-10">
-								<div class="size-204 flex-w flex-m respon6-next">
-									<div class="wrap-num-product flex-w m-r-20 m-tb-10">
-										<h5>{{pros.stock}}</h5>
+								<div class="flex-w flex-r-m p-b-10">
+									<div class="size-203 flex-c-m respon6">
+										Variants
 									</div>
+	
+									<div class="size-204 respon6-next">
+										<div class="container">
+											<div class="row">
+											  <div class="col-md-12">
+												<div class="d-flex ">
+												  {% for variant in pros.product.variant_set.all %}
+												  <div class="col-md-3">
+													<a href="{{ variant.get_absolute_url }}">
+													  <img src="{{ MEDIA_URL }}{{ variant.variant_image.url }}" style="width:50px;height:50px; border: 1px solid #ccc; padding: 5px;" alt="Image 1">
+													</a>
+												  </div>
+												  {% endfor %}
+												</div>
+											  </div>
+											</div>
+										  </div>
+										  
+										  
+										  
+									</div>
+								</div>
                         {% if pros.stock <= 0 %}
-						<a href="{% url 'products' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
+						<a href="{% url 'products' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="width:290px">
 							Out of Stock
 						  </a>
+						 
 									  {% else %}
 									  <a href="{% url 'add_to_cart' variant_id=pros.id %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Add to cart
 									  </a>
-{% endif %}
-								</div>
-							</div>	
-						</div>
+									 
+						{% endif %}						</div>
 
-						<!--  -->
-						<div class="flex-w flex-m p-l-100 p-t-40 respon7">
-							
+
+							</div>	
 						</div>
 					</div>
 				</div>
 			</div>
+		
 
-			<div class="bor10 m-t-50 p-t-43 p-b-40">
+				<div class="bor10 m-t-50 p-t-43 p-b-40">
 				<!-- Tab01 -->
 				<div class="tab01">
 					<!-- Nav tabs -->
@@ -387,8 +400,8 @@ detail vie
 					<div class="item-slick2 p-l-15 p-r-15 p-t-15 p-b-15">
 						<!-- Block2 -->
 						{% with pros=pross.variant_set.all|random %}
-						<div class="block2" style="display: inline-block;">
-							<div class="block2-pic hov-img0">
+						<div class="block2 zoom" style="display: inline-block;">
+							<div class="block2-pic hov-img0 ">
 								<img src="{{ MEDIA_URL }}{{ pros.variant_image.url }}" alt="IMG-PRODUCT">
 	
 								<a href="{{pros.get_absolute_url}}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-moda1"> 
@@ -410,11 +423,12 @@ detail vie
 								</div>
 								{% load static %}
 								<div class="block2-txt-child2 flex-r p-t-3">
-									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2">
-									  <img class="icon-heart1 d-block translate-middle" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
-									  <img class="icon-heart2 d-block translate-middle" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
-												</a>
+									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pross.id }}">
+										<img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+									  </a>
 								</div>
+								
 							</div>
 						</div>
 						{% endwith %}
@@ -432,17 +446,90 @@ detail vie
 {% endblock %}
 
 {% block script  %}
-<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script> 
-
-
 
 <script>
+
+
+
   $(document).ready(function() {
     $('.zoom').elevateZoom({
       zoomWindowWidth: 300, 
       zoomWindowHeight: 200
     });
   });
+
+
+  $('.js-addcart-detail').each(function(){
+	var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+	$(this).on('click', function(){
+		swal(nameProduct, "is added to cart !", "success");
+	});
+});
+
 </script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+<script>
+$(document).ready(function() {
+	$('.btn-addwish-b2').on('click', function(e) {
+	  e.preventDefault();
+	  const wishlistButton = $(this);
+	  const variantId = wishlistButton.data('variant-id');
+	  
+	  if (wishlistButton.hasClass('js-addedwish-b2')) {
+		$.ajax({
+		  type: 'POST',
+		  headers: { "X-CSRFToken": "{{ csrf_token }}" },
+		  url: '/removing_wishlist/',
+		  data: {
+			variant_id: variantId
+		  },
+		  success: function() {
+			swal({
+			  text: `Item removed from the wishlist!`,
+			  icon: "warning",
+			  button: false,
+			  timer: 1500 // Auto close the alert after 1.5 seconds
+			});
+  
+			wishlistButton.removeClass('js-addedwish-b2');
+			wishlistButton.find('.icon-heart1').show();
+			wishlistButton.find('.icon-heart2').hide();
+		  },
+		  error: function() {
+			console.log('Error while removing from the wishlist.');
+		  }
+		});
+	  } else {
+		$.ajax({
+		  type: 'POST',
+		  headers: { "X-CSRFToken": "{{ csrf_token }}" },
+		  url: '/adding_wishlist/',
+		  data: {
+			variant_id: variantId
+		  },
+		  success: function() {
+			swal({
+			  text: `Item added to the wishlist!`,
+			  icon: "success",
+			  button: false,
+			  timer: 1500 // Auto close the success message after 1.5 seconds
+			});
+  
+			wishlistButton.addClass('js-addedwish-b2');
+			wishlistButton.find('.icon-heart1').hide();
+			wishlistButton.find('.icon-heart2').show();
+		  },
+		  error: function() {
+			console.log('Error while adding to the wishlist.');
+		  }
+		});
+	  }
+	});
+  });
+  </script>
+  
+  
+
+
 {% endblock  %}

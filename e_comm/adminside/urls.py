@@ -41,4 +41,8 @@ path('order_views/<int:order_id>',views.order_views,name='order_views'),
 
 path('coupon/',views.coupon_view,name="coupons"),
 
+path('coupon_expired/<int:coupon_id>',views.coupon_expired,name='coupon_expired'),
+
+path('coupon_activate/<int:coupon_id>',views.coupon_activate,name='coupon_activate'),
+
 ]

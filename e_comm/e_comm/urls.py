@@ -29,6 +29,7 @@ urlpatterns = [
     path('',include('adminside.urls')),
     path('',include('userprofile.urls')),
     path('',include('userorder.urls')),
+    path('',include('wishlist.urls')),
     # path('logout/', auth_views.LogoutView.as_view(), name='logout'),
     
 ]+static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

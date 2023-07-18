@@ -33,6 +33,7 @@ def add_to_cart(request, variant_id):
 # def view_cart(request):
 
 
+
 def view_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
     total_price = cart.get_total_price()
@@ -42,7 +43,7 @@ def view_cart(request):
         
         try:
             coupon = Coupon.objects.get(coupon_code=coupon_code)
-            usercoupon = Usercoupon.objects.filter(coupon = coupon ,user = request.user) 
+            usercoupon = Usercoupon.objects.filter(coupon=coupon, user=request.user) 
             
             if not coupon.is_expired and total_price >= coupon.mininum_amount and not usercoupon.exists():
                 # Apply coupon discount to the total price
@@ -50,19 +51,25 @@ def view_cart(request):
 
                 # Set the applied coupon in the cart
                 Usercoupon.objects.create(
-                    user = request.user,
-                    coupon = coupon, used = True, 
-                    total_price = total_price
-                    )
+                    user=request.user,
+                    coupon=coupon, used=True, 
+                    total_price=total_price
+                )
                 cart.coupons = coupon
                 cart.save()
 
                 messages.success(request, 'Coupon applied successfully.')
             else:
-                messages.error(request, 'Invalid coupon.')
+                messages.error(request, 'Coupon already applied')
+
+            # Redirect to a different URL after processing the POST data
+            return redirect('cart')
                 
         except ObjectDoesNotExist:
             messages.error(request, 'Coupon does not exist.')
+
+            # Redirect to a different URL after processing the POST data
+            return redirect('cart')
 
     # Check if the cart is empty and set the coupon to None
     if cart.cartitems_set.count() == 0:

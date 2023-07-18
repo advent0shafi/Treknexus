@@ -438,9 +438,42 @@ def catogery_delete(request,catogery_id):
 
 def coupon_view(request):
     coupon = Coupon.objects.all()
+    if request.method == 'POST':
+        coupon_code = request.POST.get('coupon')
+        discount_price = request.POST.get('discount_amount')
+        minimum_amount = request.POST.get('minimum_amount')
+        is_expired = 'is_expired' in request.POST
 
+        # Create a new Coupon object
+        coupon = Coupon.objects.create(
+            coupon_code=coupon_code,
+            discount_price=discount_price,
+            mininum_amount=minimum_amount,
+            is_expired=is_expired
+        )
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
     context ={
         'coupon':coupon
     }
 
     return render(request,"admin/coupon.html",context)
+
+
+def coupon_expired(request,coupon_id):
+
+    coupon = Coupon.objects.get(id = coupon_id)
+    coupon.is_expired = True
+    coupon.save()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))\
+    
+
+
+def coupon_activate(request,coupon_id):
+
+    coupon = Coupon.objects.get(id = coupon_id)
+    coupon.is_expired = False
+    coupon.save()
+    
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+

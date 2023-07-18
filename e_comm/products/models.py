@@ -54,6 +54,7 @@ class Variant(models.Model):
     variant_image = models.ImageField( upload_to="Varients", height_field=None, width_field=None, max_length=None)
     quantity = models.IntegerField(default=0)
     price = models.DecimalField( max_digits=8, decimal_places=2)
+    
     stock = models.PositiveIntegerField(default=0)
     slug = models.SlugField(unique=True,blank=True,null=True)
 

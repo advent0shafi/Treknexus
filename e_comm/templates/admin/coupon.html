@@ -5,6 +5,57 @@ coupon management
 {% endblock  %}
 
 {% block content %}
+
+<div class="card">
+    <div class="card-header">
+        <h5>Coupon Management</h5>
+        <div class="card-header-right">
+            <i class="icofont icofont-spinner-alt-5"></i>
+        </div>
+        <div class="card-header-right">
+            <i class="icofont icofont-spinner-alt-5"></i>
+        </div>
+    </div>
+    <div class="card-block">
+        <h4 class="sub-title">Coupon Code</h4>
+        <form method="post">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Coupon Code</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="product_name" name="coupon" required
+                           placeholder="Coupon code">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Minimum Amount</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="variant_title" name="minimum_amount" required
+                           placeholder="Minimum amount">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Discount Amount</label>
+                <div class="col-sm-10">
+                    <input class="form-control" type="number" id="price" name="discount_amount" required
+                           placeholder="Discount Amount">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-check-label" for="defaultCheck1">
+                    Expired
+                </label>
+                <div class="col-sm-10">
+                    <input class="form-check-input" name="is_expired" type="checkbox" value="on" id="defaultCheck1">
+                </div>
+            </div>
+            <div class='row d-flex justify-content-center'>
+                <input class="btn btn-dark mx-5" type="submit" value="Add Coupon">
+            </div>
+        </form>
+    </div>
+</div>
+
 <div class="card">
     <div class="card-header">
         <h5>Varinat Table</h5>
@@ -32,8 +83,12 @@ coupon management
                         <td>{{coupons.mininum_amount}}</td>
                         <td>{{coupons.discount_price}}</td>
                         <td>{{coupons.is_expired}}</td>
-                        <td><a class="btn btn-dark" href="">EDIT</a>
-                            <a class="btn btn-light" href="#">DELETE</a></td>
+                        <td>{% if coupons.is_expired %}
+                            <a class="btn btn-light" href="{% url 'coupon_activate' coupons.id%}">ACTIVATE</a></td>
+                            {% else %}
+                            <a class="btn btn-dark" href="{% url 'coupon_expired' coupons.id%}">EXPIRED</a>
+                          
+                            {% endif %}
                     </tr>
                     {% endfor %}
                   
@@ -41,7 +96,7 @@ coupon management
             </table>
         </div>
     </div>
-    <a class="btn btn-dark" href="#">ADD COUPONS </a>
+    
 </div>
 
 {% endblock  %}

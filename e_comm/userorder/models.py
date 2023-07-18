@@ -4,8 +4,10 @@ from products.models import *
 from django.contrib.auth.models import User
 from django.utils import timezone
 from datetime import timedelta
+import uuid
 
 # # Create your models here.
+
 
 
 class Order(models.Model):
@@ -27,6 +29,7 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
     message = models.TextField(null=True)
     tracking_no = models.CharField(max_length=150,null=True)
+   
     order_date = models.DateTimeField(default=timezone.now)
     delivery_date = models.DateTimeField(blank=True, null=True)
     razor_pay_order_id =models.CharField( max_length=150,null=True, blank=True)
@@ -44,7 +47,9 @@ class Order(models.Model):
         if not self.delivery_date:
             self.delivery_date = self.order_date + timedelta(hours=24)
         super().save(*args, **kwargs)
-    
+   
+
+
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.CASCADE)
     product = models.ForeignKey(Variant, on_delete=models.CASCADE)

@@ -1,0 +1,83 @@
+
+{% extends 'products/base.html' %}
+{% block title%}
+Shop
+{% endblock %}
+
+{% block content %}
+
+<div class="bg0 m-t-23 p-b-140">
+  <div class="container">
+    <div class="flex-w flex-sb-m p-b-52">
+      <div class="flex-w flex-l-m filter-tope-group m-tb-10">
+      
+      </div>
+
+      <div class="flex-w flex-c-m m-tb-10">
+        
+      </div>
+      
+      <!-- Search product -->
+      <div class="dis-none panel-search w-full p-t-10 p-b-15">
+       
+      </div>
+
+      <!-- Filter -->
+      <div class="dis-none panel-filter w-full p-t-10">
+        
+      </div>
+    </div>
+
+    <div class="row isotope-grid">
+      {% for pros in product  %}
+      <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item women">
+        <!-- Block2 -->
+        
+        
+        <div class="block2 ">
+        
+          <div class="block2-pic hov-img0">
+            <img src="{{pros.product.variant_image.url}}" alt="IMG-PRODUCT">
+
+            <a href="{{pros.product.get_absolute_url}}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-moda1"> 
+              Quick View
+              </a>
+          </div>
+
+          <div class="block2-txt flex-w flex-t p-t-14">
+            <div class="block2-txt-child1 flex-col-l ">
+              <a href="product-detail.html" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+             {{pros.product.title}}
+              </a>
+
+              <span class="stext-105 cl3">
+                {{pros.product.price}}
+              </span>
+            </div>
+
+            <div class="block2-txt-child2 flex-r p-t-3">
+              <a href="{% url 'remove_item' pros.product.id%}" class=" dis-block pos-relative">
+                <i class="bi bi-heart"></i>
+                <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-heart" viewBox="0 0 16 16">
+                  <path d="m8 2.748-.717-.737C5.6.281 2.514.878 1.4 3.053c-.523 1.023-.641 2.5.314 4.385.92 1.815 2.834 3.989 6.286 6.357 3.452-2.368 5.365-4.542 6.286-6.357.955-1.886.838-3.362.314-4.385C13.486.878 10.4.28 8.717 2.01L8 2.748zM8 15C-7.333 4.868 3.279-3.04 7.824 1.143c.06.055.119.112.176.171a3.12 3.12 0 0 1 .176-.17C12.72-3.042 23.333 4.867 8 15z"/>
+                </svg>
+              </a>
+            </div>
+          </div>
+        </div>
+        
+      </div>
+      {% endfor %}
+    </div>
+    <!-- Load more -->
+    <div class="flex-c-m flex-w w-full p-t-45">
+      <a href="#" class="flex-c-m stext-101 cl5 size-103 bg2 bor1 hov-btn1 p-lr-15 trans-04">
+        Load More
+      </a>
+    </div>
+  </div>
+</div>
+  
+
+
+      {% endblock %}

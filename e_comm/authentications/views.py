@@ -59,7 +59,7 @@ def signin(request):
          request.session['otp'] = otp_store
          request.session['user_pk'] = user.pk
          subject = "OTP confirmations"
-         
+         print(otp_store,"--------------otp===================")
          message = f"Your otp is{otp_store}"
          from_email = settings.EMAIL_HOST_USER
          to_list = [user.email]
@@ -194,9 +194,6 @@ def update_password(request):
       return redirect('home')
    else:
       return render(request, 'verify/reset_password.html')
-
-   
-  
 
       
 def logout_user(request):

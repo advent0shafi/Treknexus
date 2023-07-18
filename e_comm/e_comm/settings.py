@@ -53,6 +53,8 @@ INSTALLED_APPS = [
     'authentications',
     'adminside',
     'coupon',
+    'banners',
+    'wishlist',
 ]
 # RAZO PAY SET -----------------------
 

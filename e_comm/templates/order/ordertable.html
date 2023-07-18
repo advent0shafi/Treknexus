@@ -5,6 +5,48 @@
 order place
 {% endblock  %}
 
+
+{% block style %}
+<style>
+
+  .track-line {
+    height: 2px !important;
+    background-color: #488978;
+    opacity: 1;
+    }
+    
+    .dot {
+    height: 10px;
+    width: 10px;
+    margin-left: 3px;
+    margin-right: 3px;
+    margin-top: 0px;
+    background-color: #488978;
+    border-radius: 50%;
+    display: inline-block
+    }
+    
+    .big-dot {
+    height: 25px;
+    width: 25px;
+    margin-left: 0px;
+    margin-right: 0px;
+    margin-top: 0px;
+    background-color: #488978;
+    border-radius: 50%;
+    display: inline-block;
+    }
+    
+    .big-dot i {
+    font-size: 12px;
+    }
+    
+    .card-stepper {
+    z-index: 0
+    }
+</style>
+{% endblock  %}
+
 {% block content %}
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
@@ -25,6 +67,113 @@ order place
 
 
 
+<section >
+  <div class="container py-5">
+    <div class="row">
+      <div class="col">
+        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+          <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'user_address'%}">Address</a></li>
+            <li class="breadcrumb-item active" aria-current="page">Offers</li>
+          </ol>
+        </nav>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-lg-4" style="background-color:#f5e5e4;">
+        <div class="card mb-4 sticky-top">
+          <div class="card-body text-center">
+            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+              class="rounded-circle img-fluid" style="width: 150px;">
+            <h5 class="my-3">{{user.username}}</h5>
+            <p class="text-muted mb-1">User Profile</p>
+            <p class="text-muted mb-4">{{user.email}}</p>
+            <div class="d-flex justify-content-center mb-2">
+              <a href="{% url 'logout_user' %}" class="btn btn-dark" style="background-color: #343a40; width: 200px; border-radius: 20px;">Logout</a>
+            </div>
+            
+          </div>
+        </div>
+        <div class="card mb-4 mb-lg-0">
+          <div class="card-body p-0">
+            <ul class="list-group list-group-flush rounded-3">
+             
+            </ul>
+          </div>
+        </div>
+      </div>
+      <div class="col-lg-8">
+       
+              <div class="row d-flex justify-content-center align-items-center h-100">
+                <div class="col">
+                  {% for orders in order %}
+                  <div class="card card-stepper" style="border-radius: 10px; margin-bottom: 20px;">
+                    <div class="card-body p-4" style="padding-bottom: 20px;">
+          
+                      <div class="d-flex justify-content-between align-items-center">
+                        <div class="d-flex flex-column">
+                          <span class="lead fw-normal">Order Id: TKN0020231456{{orders.id}}</span>
+                          <span class="text-muted small">Order Date{{orders.order_date.date}}</span>
+                          <span class="text small">Payment Method :{{orders.payment_method}}</span>
+                          <span class="lead fw-normal">Items :{{orders.total_products}}</span>
+                        </div>
+                        <div>
+                          <a href="{%url 'order_view' orders.id%}" class="btn btn-outline-primary" role="button">Track order details</a>
+                        </div>
+                        
+                      </div>
+                      <hr class="my-4">
+          
+                      <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
+                        <span class="dot"></span>
+                        <hr class="flex-fill track-line"><span class="dot"></span>
+                        <hr class="flex-fill track-line"><span class="dot"></span>
+                        <hr class="flex-fill track-line"><span class="dot"></span>
+                        <hr class="flex-fill track-line"><span
+                          class="d-flex justify-content-center align-items-center big-dot dot">
+                          <i class="fa fa-check text-white"></i></span>
+                      </div>
+          
+                      <div class="d-flex flex-row justify-content-between align-items-center">
+                        <div class="d-flex flex-column align-items-start"><span>15 Mar</span><span>Order placed</span>
+                        </div>
+                        <div class="d-flex flex-column justify-content-center"><span>15 Mar</span><span>Order
+                            placed</span></div>
+                        <div class="d-flex flex-column justify-content-center align-items-center"><span>15
+                            Mar</span><span>Order Dispatched</span></div>
+                        <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for
+                            delivery</span></div>
+                        <div class="d-flex flex-column align-items-end"><span>15 Mar</span><span>Delivered</span></div>
+                      </div>
+          
+                    </div>
+                  </div>
+                  {% endfor %}
+                </div>
+         
+          </div>
+        </div>
+        
+        
+      </div>
+    </div>
+  </div>
+</section>
+
+
+
+
+
+
+
+
+
+
+
+
+{% comment %} 
   <div class="container">
     <div class="row d-flex justify-content-center align-items-center ">
       <div class="col-lg-12 col-xl-12">
@@ -95,6 +244,8 @@ order place
    
     </div>
   </div>
-</div>
+</div> {% endcomment %}
+
+
 
 {% endblock  %}

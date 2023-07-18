@@ -145,7 +145,7 @@ def place_order(request, userId):
 
 
 def ordertable(request):
-    order = Order.objects.filter(user=request.user)
+    order = Order.objects.filter(user=request.user).annotate(total_products=Sum('orderitem__quantity'))
 
     context = {
         'order':order
@@ -218,7 +218,7 @@ def initiate_payment(request):
               'payment_capture': 1
               
               })
-        print(payment)
+       
     
         response_data = {
             'order_id': payment['id'],
