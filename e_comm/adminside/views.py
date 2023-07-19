@@ -361,7 +361,7 @@ def catogery_add(request):
 
 
 def order_all(request):
-    order = Order.objects.all()
+    order = Order.objects.all().order_by('-order_date')
     context ={
         'order':order
     }
@@ -369,10 +369,23 @@ def order_all(request):
 
 def order_views(request,order_id):
     orders = Order.objects.get(id=order_id)
+    status = Order.PAYMENT_STATUS_CHOICES
+    order = Order.ORDER_STATUS_CHOICES
     items = OrderItem.objects.filter(order=orders)
     total_price = sum(item.price * item.quantity for item in items)
+    if request.method == 'POST':
+        new_status = request.POST.get('new_status')
+        order_status = request.POST.get('order_status')
+      
+        orders.payment_status = new_status
+        orders.order_status = order_status
+        print('success--------------------->>>>>>>>>>>>>>>>>>')
+        orders.save()
+     
 
     context = {
+        'order':order,
+        'status':status,
         'orders':orders,
         'items':items,
         'total_price':total_price

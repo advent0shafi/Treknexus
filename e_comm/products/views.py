@@ -1,33 +1,63 @@
 from django.shortcuts import render,get_object_or_404,redirect
 from .models import *
-from django.db.models import Q
+from django.db.models import Q 
+from django.db.models import Q, Min
+from decimal import Decimal
 
 # Create your views here.
 
-
 def products(request):
-    categories = Category.objects.all()
+    cat = Category.objects.all()
+    colors =color.objects.all() 
     category_filter = request.GET.get('category')
     search_query = request.GET.get('search')
+    sort_by = request.GET.get('sort')
+    color_filter = request.GET.get('color') 
+    price_filter = request.GET.get('price')
+
+    variants = Variant.objects.all()
 
     if category_filter and category_filter != 'all':
-        products = Products.objects.filter(category__name=category_filter)
-    else:
-        products = Products.objects.all()
+        variants = variants.filter(product__category__name=category_filter)
 
     if search_query:
-        products = products.filter(
-            Q(name__icontains=search_query) | Q(descriptions__icontains=search_query)
+        variants = variants.filter(
+            Q(product__name__icontains=search_query) | Q(product__descriptions__icontains=search_query)
         )
 
+    if price_filter:
+        if price_filter == '0-500':
+            variants = variants.filter(price__range=(Decimal('0.00'), Decimal('500.00')))
+        elif price_filter == '500-2000':
+            variants = variants.filter(price__range=(Decimal('500.00'), Decimal('2000.00')))
+        elif price_filter == '2000-4000':
+            variants = variants.filter(price__range=(Decimal('2000.00'), Decimal('4000.00')))
+        elif price_filter == '4000-6000':
+            variants = variants.filter(price__range=(Decimal('4000.00'), Decimal('6000.00')))
+        else:
+            variants = variants.filter(price__gte=Decimal('6000.00'))
+
+    if color_filter and color_filter != 'all':
+        variants = variants.filter(color__color=color_filter)
+
+    if sort_by == 'popularity':
+        variants = variants.order_by('-product__created_at')
+    elif sort_by == 'newness':
+        variants = variants.order_by('-product__created_at')
+    elif sort_by == 'price_low_to_high':
+        variants = variants.order_by('price')
+    elif sort_by == 'price_high_to_low':
+        variants = variants.order_by('-price')
+
     context = {
-        'products': products,
-        'cat': categories,
+        'colors':colors,
+        'variant': variants,
+        'cat': cat,
         'search_query': search_query,
     }
 
     return render(request, 'products/shop.html', context)
-
+    
 def product_details(request,slug):
   
     

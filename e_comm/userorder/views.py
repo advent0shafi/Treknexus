@@ -6,7 +6,7 @@ from userorder.models import*
 import razorpay
 from django.conf import settings
 from django.http import JsonResponse
-from coupon.models import Coupon
+from coupon.models import Coupon,Usercoupon
 
 # Create your views here.
 
@@ -64,14 +64,26 @@ def online_payment_order(request, userId):
             total_price=total_price,
             payment_status='PAID',
             payment_method='PAYPAL',
+            order_status = 'ORDERED',
             razor_pay_payment_id=payment_id,
             razor_pay_payment_signature=signature,
             razor_pay_order_id = orderId,
         )
        
-        coupon = get_object_or_404(Cart, user=request.user)
-        coupon.coupons = None
-        coupon.save()
+        if cartss and cartss.coupons:
+            coupon = get_object_or_404(Cart, user=request.user)
+            couponss = Coupon.objects.get(coupon_code=coupon.coupons)
+            Usercoupon.objects.create(
+                user=request.user,
+                coupon=couponss,
+                used=True,
+                total_price=total_price
+            )
+            coupon.coupons = None
+            coupon.save()
+        else:
+        # Add any additional logic that should be executed when no coupon is used
+            pass
 
         for cart_item in items:
             OrderItem.objects.create(
@@ -94,7 +106,7 @@ def online_payment_order(request, userId):
     
 
 
-def place_order(request, userId):   
+def place_order(request, userId):
     user_adds = UserAddress.objects.get(id=userId, user=request.user)
     cartss = Cart.objects.get(user=request.user)
     items = CartItems.objects.filter(cart=cartss)
@@ -107,17 +119,30 @@ def place_order(request, userId):
         total_price = subtotal - min_amount
     else:
         total_price = subtotal
+    
     order = Order.objects.create(
         user=request.user,
         address=user_adds,
         total_price=total_price,
+        order_status='ORDERED',
         payment_status='PENDING',
         payment_method='CASH_ON_DELIVERY',
     )
-    coupon = get_object_or_404(Cart, user=request.user)
-    coupon.coupons = None
-    coupon.save()
-
+    
+    if cartss and cartss.coupons:
+        coupon = get_object_or_404(Cart, user=request.user)
+        couponss = Coupon.objects.get(coupon_code=coupon.coupons)
+        Usercoupon.objects.create(
+            user=request.user,
+            coupon=couponss,
+            used=True,
+            total_price=total_price
+        )
+        coupon.coupons = None
+        coupon.save()
+    else:
+        # Add any additional logic that should be executed when no coupon is used
+        pass
 
     for cart_item in items:
         OrderItem.objects.create(
@@ -126,22 +151,21 @@ def place_order(request, userId):
             price=cart_item.price,
             quantity=cart_item.quantity
         )
-        print(order,"----------------")
+      
         variant = cart_item.product
         variant.stock -= cart_item.quantity
         variant.save()
 
-    # Fetch the updated order instance
-   
     items.delete()
     itemss = OrderItem.objects.filter(order=order)
-   
+
     context = {
         'items': itemss,
         'total_price': total_price,
         'orders': order
     }
     return render(request, "order/order_success.html", context)
+
 
 
 def ordertable(request):
@@ -185,6 +209,7 @@ def cancel_orderss(request,order_id):
         print(walletss.wallet_total,"-------------------------")
         walletss.save()
         order.payment_status = 'CANCELLED'
+        order.order_status = 'CANCELLED'
         order.save()
         order_items.delete()
 

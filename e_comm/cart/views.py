@@ -49,12 +49,7 @@ def view_cart(request):
                 # Apply coupon discount to the total price
                 total_price -= coupon.discount_price
 
-                # Set the applied coupon in the cart
-                Usercoupon.objects.create(
-                    user=request.user,
-                    coupon=coupon, used=True, 
-                    total_price=total_price
-                )
+          
                 cart.coupons = coupon
                 cart.save()
 

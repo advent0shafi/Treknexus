@@ -1,6 +1,7 @@
 from django.db import models
 from django.utils.text import slugify
 from django.urls import reverse
+from django.db.models import Min
 
 # Create your models here.
 
@@ -30,6 +31,8 @@ class Products(models.Model):
         super(Products,self).save(*args, **kwargs)
     def __str__(self):
         return self.name
+    def get_min_variant_price(self):
+        return self.variants.aggregate(min_price=Min('price'))['min_price']
   
 
 

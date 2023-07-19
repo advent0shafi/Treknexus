@@ -115,9 +115,9 @@ order place
                       <div class="d-flex justify-content-between align-items-center">
                         <div class="d-flex flex-column">
                           <span class="lead fw-normal">Order Id: TKN0020231456{{orders.id}}</span>
-                          <span class="text-muted small">Order Date{{orders.order_date.date}}</span>
-                          <span class="text small">Payment Method :{{orders.payment_method}}</span>
-                          <span class="lead fw-normal">Items :{{orders.total_products}}</span>
+                          <span class="text-muted small">Name :{{orders.user.first_name}} {{orders.user.last_name}}</span>
+                          <span class="text-muted small">Delivery Address :{{orders.address.address_line_1}}</span>
+                          <span class="text-muted ">Items :{{orders.total_products}}</span>
                         </div>
                         <div>
                           <a href="{%url 'order_view' orders.id%}" class="btn btn-outline-primary" role="button">Track order details</a>
@@ -126,26 +126,18 @@ order place
                       </div>
                       <hr class="my-4">
           
-                      <div class="d-flex flex-row justify-content-between align-items-center align-content-center">
-                        <span class="dot"></span>
-                        <hr class="flex-fill track-line"><span class="dot"></span>
-                        <hr class="flex-fill track-line"><span class="dot"></span>
-                        <hr class="flex-fill track-line"><span class="dot"></span>
-                        <hr class="flex-fill track-line"><span
-                          class="d-flex justify-content-center align-items-center big-dot dot">
-                          <i class="fa fa-check text-white"></i></span>
-                      </div>
+                                            
+                      
+                      
+                      
           
                       <div class="d-flex flex-row justify-content-between align-items-center">
-                        <div class="d-flex flex-column align-items-start"><span>15 Mar</span><span>Order placed</span>
+                        <div class="d-flex flex-column align-items-start"><span class="text-muted small">{{orders.order_date.date}}</span><span>Ordered Date</span>
                         </div>
-                        <div class="d-flex flex-column justify-content-center"><span>15 Mar</span><span>Order
-                            placed</span></div>
-                        <div class="d-flex flex-column justify-content-center align-items-center"><span>15
-                            Mar</span><span>Order Dispatched</span></div>
-                        <div class="d-flex flex-column align-items-center"><span>15 Mar</span><span>Out for
-                            delivery</span></div>
-                        <div class="d-flex flex-column align-items-end"><span>15 Mar</span><span>Delivered</span></div>
+                        <div class="d-flex flex-column justify-content-center"><span class="text-muted small">Within 2 Week</span><span >Expecting Delivery</span></div>
+                        <div class="d-flex flex-column justify-content-center align-items-center"><span class="text-muted small">{{orders.order_status}}</span><span>Current Status</span></div>
+                        <div class="d-flex flex-column align-items-center"><span class="text-muted small">{{orders.payment_status}}</span><span>Payment Status</span></div>
+                        <div class="d-flex flex-column align-items-end"><span class="text-muted small"><a href="{%url 'cancel_orderss' orders.id %}" >Click Here</a></span><span>Cancellations</span></div>
                       </div>
           
                     </div>
@@ -249,3 +241,37 @@ order place
 
 
 {% endblock  %}
+
+{% block script %}
+<!-- Add this in the head section of your HTML file -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<script>
+  $(document).ready(function () {
+    // Get the current payment status of the order
+    const currentStatus = "{{ orders.payment_status }}";
+    
+    // Array to store the order status positions
+    const statusPositions = [
+      'PENDING', 'PAID', 'CANCELLED', 'DELIVERED', 'ORDERED',
+      'RETURNED', 'SHIPPED', 'PROCESSING'
+    ];
+    
+    // Find the index of the current status in the statusPositions array
+    const currentStatusIndex = statusPositions.indexOf(currentStatus);
+    
+    // Find all the dots and lines in the tracking view
+    const dots = $('.dot');
+    const lines = $('.track-line');
+    
+    // Update the view based on the current status
+    for (let i = 0; i < currentStatusIndex; i++) {
+      dots.eq(i).addClass('completed-dot');
+      lines.eq(i).addClass('completed-line');
+    }
+  });
+</script>
+
+{% endblock  %}
+
+

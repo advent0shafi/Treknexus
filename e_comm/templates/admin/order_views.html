@@ -272,26 +272,39 @@ Order views
     <div class="row align-items-end">
         <div class="col-lg-8">
             <div class="page-header-title">
-                <i class="icofont icofont-layout bg-c-blue"></i>
+                <a class="btn btn-dark" href="{% url 'cancel_order' orders.id%}">ORDER CANCEL</a>
                 <div class="d-inline">
-                    <h4>Accordion</h4>
-                    <span>lorem ipsum dolor sit amet, consectetur adipisicing elit</span>
+               
+                  
                 </div>
             </div>
         </div>
         <div class="col-lg-4">
             <div class="page-header-breadcrumb">
-                <ul class="breadcrumb-title">
-                    <li class="breadcrumb-item">
-                        <a href="index.html">
-                            <i class="icofont icofont-home"></i>
-                        </a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="#!">Basic Components</a>
-                    </li>
-                    <li class="breadcrumb-item"><a href="#!">Accordion</a>
-                    </li>
-                </ul>
+                
+                  <!-- Default dropup button -->
+          
+                  <form method="post">
+                    {% csrf_token %}
+                    <select class="form-select" name="new_status" aria-label="Default select example">
+                      <option selected>{{ orders.payment_status }}</option>
+                      {% for status_choice in status %}
+                      <option value="{{ status_choice.0 }}">{{ status_choice.1 }}</option>
+                      {% endfor %}
+                    </select>
+               
+                    <select class="form-select" name="order_status" aria-label="Default select example">
+                      <option selected>{{ orders.order_status }}</option>
+                      {% for status_choice in order %}
+                      <option value="{{ status_choice.0 }}">{{ status_choice.1 }}</option>
+                      {% endfor %}
+                    </select>
+                    <button type="submit">Update Status</button>
+                  </form>
+                    </div>
+                </div>
+                                        
+               
             </div>
         </div>
     </div>

@@ -12,11 +12,19 @@ import uuid
 
 class Order(models.Model):
     PAYMENT_STATUS_CHOICES = [
-        ('PENDING','pending'),
-        ('PAID','paid'),
-        ('CANCELLED','cancelled'),
+        ('PENDING','Pending'),
+        ('PAID','Paid'),
+        ('CANCELLED','Cancelled'),
+        ('REFUNDED','Refunded'),
+      
+    ]
+    ORDER_STATUS_CHOICES = [
+        ('CANCELLED','Cancelled'),
         ('DELIVERED','Delivered'),
+        ('ORDERED','Ordered'),
+        ('RETURNED','Returned'),
         ('SHIPPED','Shipped'),
+        ('PROCESSING','Processing'),
     ]
     PAYMENT_METHOD_CHOICES = [
         ('PAYPAL', 'PayPal'),
@@ -29,7 +37,7 @@ class Order(models.Model):
     payment_method = models.CharField(max_length=20, choices=PAYMENT_METHOD_CHOICES)
     message = models.TextField(null=True)
     tracking_no = models.CharField(max_length=150,null=True)
-   
+    order_status =  models.CharField(max_length=20, choices=ORDER_STATUS_CHOICES, default='ordered',null=True,blank =True)
     order_date = models.DateTimeField(default=timezone.now)
     delivery_date = models.DateTimeField(blank=True, null=True)
     razor_pay_order_id =models.CharField( max_length=150,null=True, blank=True)

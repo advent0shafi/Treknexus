@@ -21,6 +21,27 @@ from products.models import *
 from django.core.paginator import Paginator
 
 
+def is_valid_password(password):
+   
+    if len(password) < 8:
+        return False
+
+    # Check if the password contains at least one uppercase letter, one lowercase letter, and one digit
+    if not any(char.isupper() for char in password):
+        return False
+    if not any(char.islower() for char in password):
+        return False
+    if not any(char.isdigit() for char in password):
+        return False
+
+    # Check if the password contains spaces
+    if ' ' in password:
+        return False
+
+    return True
+
+
+
 def home(request):
    if request.user.is_authenticated:
       product =  Products.objects.all()
@@ -66,7 +87,7 @@ def signin(request):
          send_mail(subject, from_email,message,to_list, fail_silently = True )
          # login(request,user)
          # return redirect('home')
-
+         message,sussex(re)
          return render(request,'verify/otp_login.html')
       else :
          messages.error(request, "username or password incorrect")  
@@ -75,12 +96,29 @@ def signin(request):
       
    return render(request,'verify/sigin.html')
 
+
 def signup(request):
    if request.method == 'POST' :
       username = request.POST['username']
       email = request.POST['email']
       pass1 = request.POST['pass1']
       pass2 = request.POST['pass2']
+
+      if pass1 != pass2:
+         messages.error(request, "Passwords do not match.")
+         return redirect('signup')
+
+      if User.objects.filter(username=username).exists():
+         messages.error(request, "Username already exists.")
+         return redirect('signup')
+
+      if User.objects.filter(email=email).exists():
+         messages.error(request, "Email already registered.")
+         return redirect('signup')
+      if not is_valid_password(pass1):
+         messages.error(request, "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one digit.")
+         return redirect('signup')
+      
       myuser = User.objects.create_user(username,email,pass1)
       myuser.is_active = False
       myuser.save()
