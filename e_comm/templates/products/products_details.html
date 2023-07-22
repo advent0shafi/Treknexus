@@ -101,10 +101,20 @@ detail vie
 							  </a>
 						</div>
 					  </div>
-				  
+					  {% if pros.discount_price %}
+					  <span class="stext-105 cl3">
+						<del>$ {{ pros.price }}</del> 
+					  </span> 
+						<!-- Display original price with a strikethrough -->
+						<span class="mtext-106 cl2">
+					   $ {{ pros.discount_price }} 
+					  </span> 
+					  {% else %}
 					  <span class="mtext-106 cl2">
-						{{ pros.price }}
-					  </span>
+					  $ {{ pros.price }}
+						  </span> 
+							 {% endif %}   
+				
 				  
 					  <p class="stext-102 cl3 p-t-23">
 						{{ pros.product.category }}

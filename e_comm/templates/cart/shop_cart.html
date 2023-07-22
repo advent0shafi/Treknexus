@@ -145,7 +145,7 @@
 
                         <div class="size-209">
                             <span class="mtext-110 cl2">
-                            {{total_price}}
+                            {{total_prices}}
                             </span>
                         </div>
                     </div>
@@ -193,21 +193,16 @@
 
                         <div class="size-209 p-t-1">
                             <span class="mtext-110 cl2">
-                                {{total_price}}
+                                {{total_prices}}
                             </span>
                         </div>
                     </div>
-{% if total_price == None%}
-<button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-    <a href="{% url "products" %}" style="text-decoration: none;color: inherit;">Shop more
-   </a> 
-</button>
-                    {% else %}
-                    <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+
+          <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
                         <a href="{% url 'address' %}" style="text-decoration: none;color: inherit;">Proceed to Checkout
                        </a> 
                     </button>
-                    {% endif %}
+                
                 </div>
             </div>
         </div>

@@ -2,17 +2,20 @@ from django.shortcuts import render
 from django.http import HttpResponse, HttpResponseRedirect, JsonResponse
 from products.models import *
 from .models import *
+from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
 # Create your views here.
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def wishlist(request):
-    product = whishlist.objects.all()
+    
+    product = whishlist.objects.filter(user = request.user)
 
 
     context = {
         'product':product
     }
     return render(request,"wishlist/wishlist.html",context)
-
-
 
 
 
@@ -57,6 +60,7 @@ def removing_wishlist(request):
 def remove_item(request,variant_id):
    
     variant = Variant.objects.get(id=variant_id)
+    print(variant_id,'-----------------------------')
  
     try:
         wishlist_item = whishlist.objects.get(user=request.user, product=variant)

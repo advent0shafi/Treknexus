@@ -10,16 +10,21 @@ urlpatterns = [
 
       path('place_order/<userId>',views.place_order,name='place_order'),
 
+      path('pay_wallet/<userId>',views.pay_wallet,name='pay_wallet'),
+
       path('ordertable',views.ordertable,name="ordertable"),
 
       path('order_view/<int:order_id>',views.order_view,name='order_view'),
 
-      path('cancel_orderss/<int:order_id>/', views.cancel_orderss, name='cancel_orderss'),
+      path('cancel_orders/<int:order_id>/', views.cancel_orders, name='cancel_orders'),
 
       path('initiate_payment/', views.initiate_payment, name='initiate_payment'),
 
-      path('order_success/<int:orderId>/', views.order_success, name='order_success'),
+      path('order_success/<int:orderId>/', views.order_success, name='order_success'),\
       
-      # path('success/', views.success_view, name='success'),
+      path('order_pdf/<int:order_id>/', views.order_pdf, name='order_pdf'),
+
+      
+     
 ]
 

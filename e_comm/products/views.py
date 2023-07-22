@@ -5,14 +5,15 @@ from django.db.models import Q, Min
 from decimal import Decimal
 
 # Create your views here.
+from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
 def products(request):
     cat = Category.objects.all()
-    colors =color.objects.all() 
+    colors = color.objects.all()
     category_filter = request.GET.get('category')
     search_query = request.GET.get('search')
     sort_by = request.GET.get('sort')
-    color_filter = request.GET.get('color') 
+    color_filter = request.GET.get('color')
     price_filter = request.GET.get('price')
 
     variants = Variant.objects.all()
@@ -49,14 +50,34 @@ def products(request):
     elif sort_by == 'price_high_to_low':
         variants = variants.order_by('-price')
 
+    # Number of products to display per page
+    products_per_page = 8
+
+    # Create a Paginator object
+    paginator = Paginator(variants, products_per_page)
+
+    # Get the requested page number from the query parameters
+    page_number = request.GET.get('page')
+
+    try:
+        # Get the products for the requested page
+        variants = paginator.page(page_number)
+    except PageNotAnInteger:
+        # If page is not an integer, deliver the first page.
+        variants = paginator.page(1)
+    except EmptyPage:
+        # If page is out of range (e.g. 9999), deliver the last page of results.
+        variants = paginator.page(paginator.num_pages)
+
     context = {
-        'colors':colors,
+        'colors': colors,
         'variant': variants,
         'cat': cat,
         'search_query': search_query,
     }
 
     return render(request, 'products/shop.html', context)
+
     
 def product_details(request,slug):
   

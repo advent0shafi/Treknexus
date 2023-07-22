@@ -25,10 +25,14 @@ class Order(models.Model):
         ('RETURNED','Returned'),
         ('SHIPPED','Shipped'),
         ('PROCESSING','Processing'),
+        ('RETURN','return'),
+
     ]
     PAYMENT_METHOD_CHOICES = [
         ('PAYPAL', 'PayPal'),
         ('CASH_ON_DELIVERY', 'Cash on Delivery'),
+        ('RAZORPAY', 'RazorPay'),
+        ('WALLET', 'Wallet'),
     ]
     user = models.ForeignKey(User, on_delete=models.CASCADE)
     address = models.ForeignKey(UserAddress, on_delete=models.CASCADE)

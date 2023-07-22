@@ -4,18 +4,69 @@
 Shop
 {% endblock %}
 
+{% block link %}
+<!-- Sweet Alert CSS -->
+{% comment %} <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.min.css"> {% endcomment %}
+
+{% endblock %}
+{% block style%}
+<style>
+		
+  /* Pagination container styles */
+  .pagination {
+    display: flex;
+    justify-content: center;
+    margin-top: 20px;
+  }
+  
+  /* Pagination link styles */
+  .pagination a {
+    color: #080707;
+    text-decoration: none;
+    padding: 8px 12px;
+    border: 1px solid #080707;
+    border-radius: 4px;
+    margin: 0 4px;
+    transition: background-color 0.3s ease;
+  }
+  
+  .pagination a:hover {
+    background-color: #080707;
+    color: #fff;
+  }
+  
+  /* Current page styles */
+  .pagination .current {
+    padding: 8px 12px;
+    border: 1px solid #080707;
+    border-radius: 4px;
+    background-color:#080707;
+    color: #fff;
+    margin: 0 4px;
+  }
+  
+  /* Left and right chevron styles */
+  .pagination .page-item.disabled .page-link {
+    pointer-events: none;
+    cursor: default;
+    background-color: #f1f1f1;
+    border-color: #f1f1f1;
+  }
+  
+  </style>
+{% endblock  %}
 {% block content %}
 <div class="bg0 m-t-23 p-b-140">
   <div class="container">
     <div class="flex-w flex-sb-m p-b-52">
       <div class="flex-w flex-l-m filter-tope-group m-tb-10">
      <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-      <a href="?category=all" style="text-decoration: none;">All</a>
+      <a href="?category=all" style="text-decoration:none;">All</a>
     </button>
     
     {% for category in cat %}
       <button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32">
-        <a href="?category={{ category.name }}" style="text-decoration: none;">{{ category.name }}</a>
+        <a href="?category={{ category.name }}" style="text-decoration:none;">{{ category.name }}</a>
       </button>
     {% endfor %}
     
@@ -184,22 +235,38 @@ Shop
                 {{ pross.title }}
               </a>
               
-
-              <span class="stext-105 cl3">
-                {{pross.price}}
-              </span>
+{% if pross.discount_price %}
+      <span class="stext-105 cl3">
+        <del>$ {{ pross.price }}</del> 
+      </span> 
+        <!-- Display original price with a strikethrough -->
+        <span class="stext-105 cl3">
+       $ {{ pross.discount_price }} 
+      </span> 
+      {% else %}
+      <span class="stext-105 cl3">
+      $ {{ pross.price }}
+          </span> 
+             {% endif %} 
             </div>
 {% load static %}
        
             {% load static %}
+            {% if user.is_authenticated %}
             <div class="block2-txt-child2 flex-r p-t-3">
               <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pross.id }}">
                 <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
                 <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
               </a>
             </div>
-            
-
+            {% else %}
+            <div class="block2-txt-child2 flex-r p-t-3">
+              <a href="#" class="dis-block pos-relative wishlist-button">
+                <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+               
+              </a>
+            </div>
+{% endif %}
           </div>
         </div>
       </div>
@@ -208,7 +275,23 @@ Shop
     </div>
   </div>
 </div>
+<div class="pagination justify-content-center">
+  <ul class="pagination">
+    {% if variant.has_previous %}
+      <li class="page-item"><a class="page-link" href="?page=1">&laquo; first</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ variant.previous_page_number }}">previous</a></li>
+    {% endif %}
 
+    <li class="page-item disabled">
+      <span class="page-link">Page {{ variant.number }} of {{ variant.paginator.num_pages }}.</span>
+    </li>
+
+    {% if variant.has_next %}
+      <li class="page-item"><a class="page-link" href="?page={{ variant.next_page_number }}">next</a></li>
+      <li class="page-item"><a class="page-link" href="?page={{ variant.paginator.num_pages }}">last &raquo;</a></li>
+    {% endif %}
+  </ul>
+</div>
       {% endblock %}
 
       {% block script  %}
@@ -295,10 +378,38 @@ Shop
         });
       });
       </script>
-      
-        
-      
-      
+
+
+      <script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.all.min.js"></script>
+<script>
+  document.addEventListener("DOMContentLoaded", function() {
+    // Get all the wishlist buttons by the common class name
+    const wishlistButtons = document.querySelectorAll(".wishlist-button");
+
+    wishlistButtons.forEach((button) => {
+      button.addEventListener("click", function(event) {
+        event.preventDefault(); // Prevent the default behavior of the link (e.g., navigating to '#')
+
+        Swal.fire({
+          icon: "info",
+          title: "Login Required",
+          text: "You need to log in to add items to your wishlist.",
+          showCancelButton: true,
+          confirmButtonText: "Go to Login Page",
+          cancelButtonText: "Stay on this Page",
+        }).then((result) => {
+          if (result.isConfirmed) {
+            // Redirect to the login page (Replace 'login-page.html' with your actual login page URL)
+            window.location.href = "{% url 'signin' %}";
+          } else {
+            // User chose to stay on the current page, add your logic here if needed
+            console.log("User chose to stay on this page");
+          }
+        });
+      });
+    });
+  });
+</script>
       {% endblock  %}
 
       

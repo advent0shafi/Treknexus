@@ -1,11 +1,18 @@
 {% autoescape off %}
-Welcome to TrekNexsus
 
-hellow {{name}}
+Dear {{ name }},
 
-please confirm your email
+Thank you for signing up with us! We appreciate your interest in our platform.
 
-{% comment %} confirmation link:http://{{ domain }}{% url 'activate' uidb64=uid token=token %}0 {% endcomment %}
-confirmation link:http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+To ensure the security and validity of your account, we have initiated the email verification process. A verification link has been sent to your registered email address. Kindly access your email inbox and click on the provided link to complete the verification.
+
+Should you encounter any issues during the verification process or require any assistance, please do not hesitate to reach out to our support team at [joytreknex@gmail.com]. We are here to help.
+
+We look forward to having you as a valued member of our community.
+
+Confirmation Link: http://{{ domain }}{% url 'activate' uidb64=uid token=token %}
+
+Best regards,
+TrekNexsus
 
 {% endautoescape %}

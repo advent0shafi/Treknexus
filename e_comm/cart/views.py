@@ -8,35 +8,49 @@ from coupon.models import Coupon , Usercoupon
 from django.contrib import messages
 from django.core.exceptions import ObjectDoesNotExist
 from django.shortcuts import get_object_or_404
+from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
+from django.db.models import Sum
 
 
 
 def add_to_cart(request, variant_id):
     variant = Variant.objects.get(id=variant_id)
 
-    # Check if a cart exists for the user, or create a new one
+
     cart, created = Cart.objects.get_or_create(user=request.user)
 
-    # Check if the item is already in the cart
     item = cart.cartitems_set.filter(product=variant).first()
 
     if item:
-        # If the item already exists, increment the quantity
+        
         item.quantity += 1
         item.save()
     else:
-        # If the item doesn't exist, create a new cart item
-        CartItems.objects.create(cart=cart, product=variant, quantity=1, price=variant.price)
+        if variant.discount_price:
+            print('>>>>>>>>>>>>>>>>>>',variant.discount_price)
+            price_item = variant.discount_price
+        else:
+            price_item = variant.price
+
+        CartItems.objects.create(cart=cart,
+                                product=variant, 
+                                quantity=1, 
+                                price=price_item)
 
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirect to the cart view
 
 # def view_cart(request):
 
 
-
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def view_cart(request):
     cart = get_object_or_404(Cart, user=request.user)
-    total_price = cart.get_total_price()
+    items = CartItems.objects.filter(cart=cart)
+    total_prices = items.aggregate(total_price=Sum('price'))['total_price'] or 0
+   
+    # total_price = cart.get_total_price()
 
     if request.method == 'POST':
         coupon_code = request.POST.get('coupon')
@@ -66,13 +80,14 @@ def view_cart(request):
             # Redirect to a different URL after processing the POST data
             return redirect('cart')
 
-    # Check if the cart is empty and set the coupon to None
+   
     if cart.cartitems_set.count() == 0:
         cart.coupons = None
         cart.save()
     context = {
         'cart': cart,
-        'total_price': total_price,
+    
+        'total_prices': total_prices,
     }
 
     return render(request, 'cart/shop_cart.html', context)
@@ -99,7 +114,10 @@ def update_quantity(request):
         
         product = CartItems.objects.get(id=product_id)
         product.quantity = quantity
-        product.price = product.product.price * Decimal(product.quantity)
+        if product.product.discount_price:
+            product.price = product.product.discount_price * Decimal(product.quantity)
+        else:
+            product.price = product.product.price * Decimal(product.quantity)
         product.save()
         
         # Prepare the response data
@@ -125,12 +143,12 @@ def remove_coupon(request):
     carts.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def view_wallet(request):
     try:
         wallets = wallet.objects.get(user=request.user)
     except ObjectDoesNotExist:
-        # Handle the case when the wallet doesn't exist for the user
-        # For example, you can create a new wallet for the user
         wallet.objects.create(user=request.user)
         wallets = wallet.objects.get(user=request.user)
 

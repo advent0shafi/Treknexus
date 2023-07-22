@@ -48,18 +48,7 @@ order place
 {% endblock  %}
 
 {% block content %}
-<div class="container">
-    <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
-            Home
-            <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
-        </a>
 
-        <span class="stext-109 cl4">
-            User Order History
-        </span>
-    </div>
-</div>
     
 
 <!-- Shoping Cart -->
@@ -73,23 +62,27 @@ order place
       <div class="col">
         <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
           <ol class="breadcrumb mb-0">
+            <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
             <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
             <li class="breadcrumb-item"><a href="{% url 'user_address'%}">Address</a></li>
-            <li class="breadcrumb-item active" aria-current="page">Offers</li>
+           
+            <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile<a/></li>
+        
           </ol>
         </nav>
       </div>
     </div>
 
     <div class="row">
-      <div class="col-lg-4" style="background-color:#f5e5e4;">
+      <div class="col-lg-4">
         <div class="card mb-4 sticky-top">
           <div class="card-body text-center">
-            <img src="https://mdbcdn.b-cdn.net/img/Photos/new-templates/bootstrap-chat/ava3.webp" alt="avatar"
+            <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;">
             <h5 class="my-3">{{user.username}}</h5>
             <p class="text-muted mb-1">User Profile</p>
             <p class="text-muted mb-4">{{user.email}}</p>
+           
             <div class="d-flex justify-content-center mb-2">
               <a href="{% url 'logout_user' %}" class="btn btn-dark" style="background-color: #343a40; width: 200px; border-radius: 20px;">Logout</a>
             </div>
@@ -119,10 +112,16 @@ order place
                           <span class="text-muted small">Delivery Address :{{orders.address.address_line_1}}</span>
                           <span class="text-muted ">Items :{{orders.total_products}}</span>
                         </div>
+
+                        {% if orders.order_status == 'CANCELLED' %}
+                        <div>
+                          <a href="{%url 'products' %}" class="btn btn-outline-danger" role="button">Shop More</a>
+                        </div>
+                        {% else %}
                         <div>
                           <a href="{%url 'order_view' orders.id%}" class="btn btn-outline-primary" role="button">Track order details</a>
                         </div>
-                        
+                        {% endif %}
                       </div>
                       <hr class="my-4">
           
@@ -137,7 +136,7 @@ order place
                         <div class="d-flex flex-column justify-content-center"><span class="text-muted small">Within 2 Week</span><span >Expecting Delivery</span></div>
                         <div class="d-flex flex-column justify-content-center align-items-center"><span class="text-muted small">{{orders.order_status}}</span><span>Current Status</span></div>
                         <div class="d-flex flex-column align-items-center"><span class="text-muted small">{{orders.payment_status}}</span><span>Payment Status</span></div>
-                        <div class="d-flex flex-column align-items-end"><span class="text-muted small"><a href="{%url 'cancel_orderss' orders.id %}" >Click Here</a></span><span>Cancellations</span></div>
+                        <div class="d-flex flex-column align-items-end"><span class="text-muted small"><a href="{%url 'cancel_orders' orders.id %}" >Click Here</a></span><span>Cancellations</span></div>
                       </div>
           
                     </div>
@@ -165,78 +164,7 @@ order place
 
 
 
-{% comment %} 
-  <div class="container">
-    <div class="row d-flex justify-content-center align-items-center ">
-      <div class="col-lg-12 col-xl-12">
-        
-         
-          <div class="card-body p-5">
-            <div class="card shadow-0 border mb-4" style="background-color: #d3dbd5;" >
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Order Id</span>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Order Date</span>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Order Status</span>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Payment Method</span>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Delivery Date</span>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <span class="font-weight-bold">Actions</span>
-                  </div>
-                </div>
-              
-              
-              </div>
-          
-            </div>
-            {% for orders in order %}
 
-            <div class="card shadow-0 border mb-4">
-              <div class="card-body">
-                <div class="row">
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0">{{orders.id}}</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0">{{orders.order_date.date}}</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{orders.payment_status}}</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{orders.payment_method}}</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <p class="text-muted mb-0 small">{{orders.delivery_date.date}}</p>
-                  </div>
-                  <div class="col-md-2 text-center d-flex justify-content-center align-items-center">
-                    <a class="btn btn-dark" href="{%url 'cancel_orderss' orders.id %}" role="button">Cancel</a>
-            <a href="{%url 'order_view' orders.id%}" role='button' class="btn btn-light">View</a>
-                  </div>
-                </div>
-              
-              
-              </div>
-          
-            </div>
-            {% endfor %}
-           
-         
-        </div>
-   
-    </div>
-  </div>
-</div> {% endcomment %}
 
 
 

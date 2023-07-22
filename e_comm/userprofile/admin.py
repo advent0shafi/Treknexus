@@ -5,3 +5,4 @@ from .models import *
 
 
 admin.site.register(UserAddress)
+admin.site.register(Referral)

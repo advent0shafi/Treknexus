@@ -68,13 +68,13 @@
                                 <a href="#!">
                                     <button class="btn btn-primary btn-outline-primary btn-icon"><i class="icofont icofont-user-alt-3"></i></button>
                                     
-                                    <span>John Doe</span>
+                                    <span>{{user.username}}</span>
                                     <i class="ti-angle-down"></i>
                                 </a>
                                 <ul class="show-notification profile-notification">
                                     
                                     <li>
-                                        <a href="auth-normal-sign-in.html">
+                                        <a href="{% url 'admin_logout' %}">
                                             <i class="ti-layout-sidebar-left"></i> Logout
                                         </a>
                                     </li>

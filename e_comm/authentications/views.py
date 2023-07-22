@@ -19,26 +19,27 @@ import random
 from django.utils.crypto import get_random_string        
 from products.models import *      
 from django.core.paginator import Paginator
+from userprofile.models import Referral, generate_referral_code
 
 
-def is_valid_password(password):
+# def is_valid_password(password):
    
-    if len(password) < 8:
-        return False
+#     if len(password) < 8:
+#         return False
 
-    # Check if the password contains at least one uppercase letter, one lowercase letter, and one digit
-    if not any(char.isupper() for char in password):
-        return False
-    if not any(char.islower() for char in password):
-        return False
-    if not any(char.isdigit() for char in password):
-        return False
+#     # Check if the password contains at least one uppercase letter, one lowercase letter, and one digit
+#     if not any(char.isupper() for char in password):
+#         return False
+#     if not any(char.islower() for char in password):
+#         return False
+#     if not any(char.isdigit() for char in password):
+#         return False
 
-    # Check if the password contains spaces
-    if ' ' in password:
-        return False
+#     # Check if the password contains spaces
+#     if ' ' in password:
+#         return False
 
-    return True
+#     return True
 
 
 
@@ -46,7 +47,7 @@ def home(request):
    if request.user.is_authenticated:
       product =  Products.objects.all()
       
-      paginator = Paginator(product, 5)  # Display 3 products per page
+      paginator = Paginator(product, 8)  # Display 3 products per page
   
       page_number = request.GET.get('page')
       products = paginator.get_page(page_number)
@@ -87,7 +88,7 @@ def signin(request):
          send_mail(subject, from_email,message,to_list, fail_silently = True )
          # login(request,user)
          # return redirect('home')
-         message,sussex(re)
+        
          return render(request,'verify/otp_login.html')
       else :
          messages.error(request, "username or password incorrect")  
@@ -103,6 +104,8 @@ def signup(request):
       email = request.POST['email']
       pass1 = request.POST['pass1']
       pass2 = request.POST['pass2']
+      referral_code = request.POST['referal_code'] 
+      print(referral_code,'>>>>>>>>>>>><<<<<<<<<<<<<<<<')
 
       if pass1 != pass2:
          messages.error(request, "Passwords do not match.")
@@ -112,20 +115,42 @@ def signup(request):
          messages.error(request, "Username already exists.")
          return redirect('signup')
 
-      if User.objects.filter(email=email).exists():
-         messages.error(request, "Email already registered.")
-         return redirect('signup')
-      if not is_valid_password(pass1):
-         messages.error(request, "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one digit.")
-         return redirect('signup')
-      
-      myuser = User.objects.create_user(username,email,pass1)
+      # if User.objects.filter(email=email).exists():
+      #    messages.error(request, "Email already registered.")
+      #    return redirect('signup')
+      # if not is_valid_password(pass1):
+      #    messages.error(request, "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one digit.")
+      #    return redirect('signup')
+      if referral_code:
+         try:
+            referal = Referral.objects.get(referral_code = referral_code)
+            referred_by_user = referal.user
+            print('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<else')
+         except User.DoesNotExist:
+            messages.error(request, "Invalid referral code.")
+            return redirect('signup')
+
+# Create the user
+      myuser = User.objects.create_user(username=username, email=email, password=pass1)
       myuser.is_active = False
       myuser.save()
+      refferal_codes = Referral.objects.get(user =myuser)
+      
 
 
+      if referral_code:
+       
+         refferal_codes.referred_by = referred_by_user
+         refferal_codes.save()
+  
+      else:
+        
+         refferal_codes.referred_by = None
+         refferal_codes.save()
 
 # send email to confirm 
+      messages.success(request, "An link has been sent to your email so please go to the email and click the link give in that")
+      
       current_site = get_current_site(request)
       esubject = "confirm your email @ trejnexsus"
       emessage = render_to_string('verify/email_confirm.html',{

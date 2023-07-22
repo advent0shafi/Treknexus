@@ -37,11 +37,21 @@ class CartItems(models.Model):
     
 # User wallet 
 
+# class wallet(models.Model):
+#     user = models.ForeignKey(User,on_delete=models.CASCADE)
+#     wallet_total =models.IntegerField(null=True,blank=True)
+
+
+
+
+
 class wallet(models.Model):
-    user = models.ForeignKey(User,on_delete=models.CASCADE)
-    wallet_total =models.IntegerField(null=True,blank=True)
+    user=models.ForeignKey(User,on_delete=models.CASCADE)
+    Wallettotal=models.IntegerField(null=True,blank=True,default=0)
 
-
+    def Wallet_total(self):
+        return f"{self.user.username}'s wallet:{self.Wallettotal}"
+    
     @receiver(post_save, sender=User)
     def create_user_wallet(sender, instance, created, **kwargs):
         if created:

@@ -9,6 +9,7 @@ admin home
     <div class="row align-items-end">
         <div class="col-lg-12">
             <div class="page-header-title d-flex justify-content-center">
+              <a href="{% url 'sales_report'%}" class="btn btn-primary mb-2" role="button" aria-pressed="true">Sales Report</a>
                 <form method="GET" action="{% url 'admin_home' %}" class="form-inline">
                     <div class="d-flex justify-content-spacearound mx-5">
                       <label for="start-date" class="mr-2">Start Date:</label>

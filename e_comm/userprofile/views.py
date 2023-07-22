@@ -1,6 +1,7 @@
 from django.http import HttpResponse
 from django.shortcuts import render,redirect
 from .models import *
+from cart.models import *
 
 # Create your views here.
 
@@ -113,5 +114,12 @@ def user_address(request):
     return render(request,'address/address.html',context) 
 
 def test(request):
-
-    return render(request,"profile/user_address.html")
+    refferal = Referral.objects.get(user = request.user)
+    wallets = wallet.objects.get(user=request.user)
+    user = Referral.objects.filter(referred_by = request.user)
+    context ={
+        'user':user,
+        'offers':refferal,
+        'wallets':wallets    
+        }
+    return render(request,"profile/offers.html",context)

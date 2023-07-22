@@ -301,19 +301,30 @@ order view
       
                                       <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
                                         <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                                            <a href="" style="text-decoration: none;color: inherit;">Cancel The Order
+                                            <a href="{% url 'order_pdf' orders.id %}" style="text-decoration: none;color: inherit;">Order PDF
                                            </a> 
                                         </button>
                                       </div>
                                       <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
-                                     
+                                    </div>
+
+                                  {% if orders.order_status == 'DELIVERED' %}
+                                <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                                        <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
+                                            <a href="{% url 'order_pdf' orders.id %}" style="text-decoration: none;color: inherit;">Return Order
+                                           </a> 
+                                        </button>
                                       </div>
+                                      <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
+                                    
+                                      {% else %}
                                       <div class="col-md-4 text-center d-flex justify-content-center align-items-center">
                                         <button class="flex-c-m stext-101 cl0 size-116 bg3 bor14 hov-btn3 p-lr-15 trans-04 pointer">
-                                            <a href="{%url 'cancel_orderss' orders.id %}" style="text-decoration: none;color: inherit;">Cancel The Order
+                                            <a href="{%url 'cancel_orders' orders.id %}" style="text-decoration: none;color: inherit;">Cancel The Order
                                            </a> 
                                         </button>
-                                      </div>
+                                    </div>
+                                      {% endif %}
                                     </div>
                                   
                                   

@@ -4,6 +4,34 @@
 signup
 {% endblock %}
 
+{% block link  %}
+
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css">
+
+{% endblock  %}
+
+{% block style  %}
+<style>
+  .form-outline {
+      display: flex;
+      align-items: center;
+  }
+
+  .toggle-password {
+      cursor: pointer;
+      margin-left: -30px;
+      padding-right: 8px;
+      display: flex;
+      align-items: center;
+  }
+</style>
+
+{% endblock  %}
+
+
+
+
+
 {%block content%}
 {% load static %}
  <!-- navbar  -->
@@ -18,27 +46,47 @@ signup
         <div class="form-outline mb-4">
           <legend>Sign Up</legend>
         </div>
+        {% if messages %}
+        {% for message in messages %}
+        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+          <strong>Hello User</strong>   {{ message }}
+          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        {% endfor %}
+    {% endif %}
   <br>
   <br>
-        <!-- Email input -->
-        <div class="form-outline mb-4 ">
-          <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="email" style="background-color:#F5F7FA;" />
-                </div>
-  <!-- Email input -->
   <div class="form-outline mb-4 ">
-    <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="uername" name="username" style="background-color:#F5F7FA;" />
+    <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name="username" style="background-color:#F5F7FA;" />
           </div>
 
-        <!-- Password input -->
+        <!-- Email input -->
         <div class="form-outline mb-4 ">
-          <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="password" name="pass1" style="background-color:#F5F7FA;" />
-        
-        </div>
+          <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="Email" style="background-color:#F5F7FA;" />
+                </div>
+
+
+        <!-- Password input -->
+        <div class="form-outline mb-4">
+          <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" name="pass1" style="background-color:#F5F7FA;" />
+          <!-- Add the toggle password button -->
+          <span toggle="#passwordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
+              <i class="far fa-eye"></i>
+          </span>
+      </div>
    <!-- Password input -->
-   <div class="form-outline mb-4 ">
-    <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="password" name="pass2" style="background-color:#F5F7FA;" />
-  
-  </div>
+   <div class="form-outline mb-4">
+    <input type="password" id="confirmPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" name="pass2" style="background-color:#F5F7FA;" />
+    <!-- Add the toggle password button -->
+    <span toggle="#confirmPasswordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
+        <i class="far fa-eye"></i>
+    </span>
+</div>
+<div class="form-outline mb-4 ">
+  <input type="text" id="form2Example17" class="form-control form-control-lg" placeholder="Referal Code" name="referal_code" style="background-color:#F5F7FA;" />
+        </div>
         <!-- 2 column grid layout for inline styling -->
         <div class="row mb-4">
           <div class="col d-flex justify-content-center">
@@ -65,3 +113,21 @@ signup
   </div>
   <!-- footer -->
 {%endblock%}
+
+
+{% block  script%}
+<script>
+  function togglePasswordVisibility(event) {
+      event.preventDefault();
+      let inputElement = document.querySelector(event.currentTarget.getAttribute('toggle'));
+      if (inputElement.type === "password") {
+          inputElement.type = "text";
+          event.currentTarget.innerHTML = '<i class="far fa-eye-slash"></i>';
+      } else {
+          inputElement.type = "password";
+          event.currentTarget.innerHTML = '<i class="far fa-eye"></i>';
+      }
+  }
+</script>
+
+{% endblock  %}

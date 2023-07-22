@@ -1,0 +1,107 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+offers
+{% endblock %}
+{% block link %}
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+
+{% endblock  %}
+{% block content %}
+<section >
+    <div class="container py-5">
+      <div class="row">
+        <div class="col">
+          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+            <ol class="breadcrumb mb-0">
+              <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
+              <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
+              <li class="breadcrumb-item"><a href="{% url 'user_address'%}">Address</a></li>
+             
+              <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile<a/></li>
+          
+            </ol>
+          </nav>
+        </div>
+      </div>
+  
+      <div class="row">
+        <div class="col-lg-4">
+          <div class="card mb-4">
+            <div class="card-body text-center">
+              <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar"
+                class="rounded-circle img-fluid" style="width: 150px;">
+              <h5 class="my-3">{{user.username}}</h5>
+              <p class="text-muted mb-1">User Profile</p>
+              <p class="text-muted mb-4">{{user.email}}</p>
+              <p class="text mb-1">Referal Code</p>
+              <p class="text-muted mb-1">{{offers.referral_code }}</p>
+              <div class="d-flex justify-content-center mb-2">
+                <a href="{% url 'logout_user' %}" class="btn btn-dark" style="background-color: #343a40; width: 200px; border-radius: 20px;">Logout</a>
+              </div>
+              
+            </div>
+          </div>
+          <div class="card mb-4 mb-lg-0">
+            <div class="card-body p-0">
+              <ul class="list-group list-group-flush rounded-3">
+               
+              </ul>
+            </div>
+          </div>
+        </div>
+        <div class="col-lg-8">
+          
+            <div class="card mb-4">
+              <div class="col-lg-12">
+                <label for="wallet_amount">
+                  <br>
+                  <i class="fas fa-info-circle"></i> ReferralProgram
+                  <br>
+                  <br>
+                  <span>"When a user refers another person, and that referred individual purchases a product which is subsequently delivered, both the user and the referred person receive rewards. The user is rewarded with 50 rupees, while the referred person receives 100 rupees. This incentivizes users to share their positive experiences and promote the product to others, creating a win-win situation for all parties involved."</span>
+
+              </div>
+
+
+              <div class="card-body">
+                
+          
+                <div class="row">
+                    <div class="col-sm-3">
+                        <label for="wallet_amount">
+                          <i class="fas fa-wallet"></i> Wallet Amount</label>
+                      </div>
+                      
+                    <div class="col-sm-9">
+                      <p> {{ wallets.Wallettotal }}</p> <!-- Display the wallet amount here -->
+                    </div>
+                  </div>
+                  <hr>
+                  <div class="row">
+                    <div class="col-sm-3">
+                      <!-- <span>{{description}}</span> -->
+                        <label for="referred_users">
+                            <i class="fas fa-users"></i> Referred Users
+                        </label>
+                        {% for referred_user in user %}
+                        <p class="text-muted mb-4">
+                            <i class="fas fa-user"></i> {{ referred_user.user.username }}
+                        </p>
+                    {% endfor %}
+                    </div>
+                    <div class="col-sm-9">
+                      
+                    </div>
+                  </div>
+                  <br>
+              
+                  
+          
+      </div>
+    </div>
+  </div>
+    </div>
+  </section>
+
+{% endblock  %}
