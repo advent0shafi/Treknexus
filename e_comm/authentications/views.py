@@ -20,7 +20,9 @@ from django.utils.crypto import get_random_string
 from products.models import *      
 from django.core.paginator import Paginator
 from userprofile.models import Referral, generate_referral_code
-
+from banners.models import Banner
+from userorder.models import *
+from django.db.models import Count
 
 # def is_valid_password(password):
    
@@ -45,26 +47,53 @@ from userprofile.models import Referral, generate_referral_code
 
 def home(request):
    if request.user.is_authenticated:
-      product =  Products.objects.all()
-      
-      paginator = Paginator(product, 8)  # Display 3 products per page
-  
+      products = Products.objects.all()
+      orders = OrderItem.objects.values('product').annotate(order_count=Count('product'))
+
+      # Create a dictionary to store product IDs and their order counts
+      product_order_count = {item['product']: item['order_count'] for item in orders}
+
+      # Sort products based on order count (most-sold first)
+      trending_products = sorted(products, key=lambda p: product_order_count.get(p.id, 0), reverse=True)
+
+      paginator = Paginator(trending_products, 4)  # Display 8 products per page
       page_number = request.GET.get('page')
       products = paginator.get_page(page_number)
 
-   
       cat = Category.objects.all()
-   
+      banners = Banner.objects.all()
       context = {
-        'products':products
-        ,'cat':cat
-        }
+         'products': products,
+         'cat': cat,
+         'banners': banners
+      }
 
-      
+            
       return render(request, 'verify/home1.html', context)
    else:
+      products = Products.objects.all()
+      orders = OrderItem.objects.values('product').annotate(order_count=Count('product'))
 
-      return render(request, 'verify/home1.html')
+      # Create a dictionary to store product IDs and their order counts
+      product_order_count = {item['product']: item['order_count'] for item in orders}
+
+      # Sort products based on order count (most-sold first)
+      trending_products = sorted(products, key=lambda p: product_order_count.get(p.id, 0), reverse=True)
+
+      paginator = Paginator(trending_products, 4)  # Display 8 products per page
+      page_number = request.GET.get('page')
+      products = paginator.get_page(page_number)
+
+      cat = Category.objects.all()
+      banners = Banner.objects.all()
+      context = {
+         'products': products,
+         'cat': cat,
+         'banners': banners
+      }
+
+            
+      return render(request, 'verify/home1.html',context)
 
 def signin(request):
  
@@ -86,8 +115,7 @@ def signin(request):
          from_email = settings.EMAIL_HOST_USER
          to_list = [user.email]
          send_mail(subject, from_email,message,to_list, fail_silently = True )
-         # login(request,user)
-         # return redirect('home')
+   
         
          return render(request,'verify/otp_login.html')
       else :

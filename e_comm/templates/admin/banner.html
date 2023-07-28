@@ -1,0 +1,119 @@
+{% extends 'admin/base1.html' %}
+
+{% block title%}
+Banner Managment
+{% endblock %}
+
+{% block link %}
+
+{% endblock  %}
+
+
+
+
+{% block content %}
+<div class="card">
+    <div class="card-header">
+        <h5>Banner</h5>
+        <div class="card-header-right">
+            <i class="icofont icofont-spinner-alt-5"></i>
+        </div>
+        <div class="card-header-right">
+            <i class="icofont icofont-spinner-alt-5"></i>
+        </div>
+    </div>
+    <div class="card-block">
+        <h4 class="sub-title">Banner Management</h4>
+        <form method="post" enctype="multipart/form-data">
+            {% csrf_token %}
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Banner Name</label>
+                <div class="col-sm-10">
+                    <input type="text" class="form-control" id="product_name" name="banner_name" required
+                           placeholder="Banner Name">
+                </div>
+            </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-label">Product Varaint</label>
+                <div class="col-sm-10">
+                    <select id="variant" name="varaints" class="form-control">
+                      {% for pross in variant %}
+                      <option value="{{ pross.id }}">{{ pross.title }}</option>
+                    {% endfor %}
+                    </select>
+                </div>
+            </div>
+            <div class="form-group row">
+                <label for='images'  class="col-sm-2 col-form-label">Display Image</label>
+                <div class="col-sm-10">
+                    <input type="file" id="display_image" name="banner_image" required class="form-control">
+                </div>
+              </div>
+            <div class="form-group row">
+                <label class="col-sm-2 col-form-check-label" for="defaultCheck1">
+                  Active
+                </label>
+                <div class="col-sm-10">
+                    <input class="form-check-input" name="is_active" type="checkbox" value="on" id="defaultCheck1">
+                </div>
+            </div>
+            <div class='row d-flex justify-content-center'>
+                <input class="btn btn-dark mx-5" type="submit" value="ADD BANNER">
+            </div>
+        </form>
+    </div>
+</div>
+
+<div class="card">
+    <div class="card-header">
+        <h5>Banner</h5>
+        <span>Managment <code>table</code> inside table element</span>
+        <div class="card-header-right">    <ul class="list-unstyled card-option">        <li><i class="icofont icofont-simple-left "></i></li>        <li><i class="icofont icofont-maximize full-card"></i></li>        <li><i class="icofont icofont-minus minimize-card"></i></li>        <li><i class="icofont icofont-refresh reload-card"></i></li>        <li><i class="icofont icofont-error close-card"></i></li>    </ul></div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table class="table">
+                <thead>
+                    <tr>
+                        <th>No.</th>
+                        <th>Banner Img</th>
+                        <th>Name</th>
+                        <th>Categery</th>
+                        <th>Active</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in banner  %}
+                    <tr>
+                        <tr>
+                            <th scope="row">{{ forloop.counter }}</th>
+                            <td><img style="width:200px;height:120px;" src="{{ MEDIA_URL }}{{ item.banner_image.url }}" alt=""></td>
+                            <td class="banner-name">{{ item.name }}</td>
+                            <td class="banner-category">{{ item.catogery }}</td>
+                            <td>{{ item.is_active }}</td>
+                            <td>
+                              {% if item.is_active %}
+                                <a class="btn btn-dark" href="{% url 'banner_block' item.id %}">DEACTIVATE</a>
+                              {% else %}
+                                <a class="btn btn-dark" href="{% url 'banner_active' item.id %}">ACTIVATE</a>
+                              {% endif %}
+                              <a class="btn btn-light edit-banner-btn" href="{% url 'edit_banner' item.id %}" >Edit</a>
+                              <a class="btn btn-light" href="{% url 'banner_remove' item.id %}">Delete</a>
+                            </td>
+                          </tr>
+                    {% endfor %}
+                  
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+  
+
+
+
+   
+  {% endblock  %}
+  
+

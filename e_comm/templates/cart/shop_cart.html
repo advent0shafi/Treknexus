@@ -2,7 +2,16 @@
 
 
 {% block title %}shopping cart{% endblock%}
-
+{% block style %}
+<style>
+.button-up-button,
+.button-down-button {
+  width: 45px;
+  height: 100%;
+  cursor: pointer;
+}
+</style>
+{% endblock  %}
 {% block content %}
 <!-- breadcrumb -->
 <div class="container">
@@ -42,25 +51,26 @@
                             {% for carts in cart.cartitems_set.all  %}
                             <tr class="table_row">
                                 <td class="column-1">
-                                    <div class="how-itemcart1">
-                                        <img src="{{MEDIA_URL}}{{carts.product.variant_image.url}}" alt="IMG">
-                                    </div>
+                                    <a href="{% url 'remove_from_cart' carts.id %}"><div class="how-itemcart1">
+                                     <img src="{{MEDIA_URL}}{{carts.product.variant_image.url}}" alt="IMG">
+                                    </div></a> 
                                    
                                 </td>
                                 
                                 <td class="column-2">{{carts.product.title}}</td>
-                                <td class="column-3">$ {{ carts.product.price}}</td>
+                                <td class="column-3" id="price-{{ carts.id }}">$ {{ carts.price}}</td>
  
 
                                   <td class="column-4">
                                     <div class="wrap-num-product flex-w m-l-auto m-r-0">
-                                        <div class="btn-num-product-down cl8 hov-btn3 trans-04 flex-c-m" onclick="decreaseQuantity('{{ carts.id }}');">
+                                       
+                                        <button class="button-up-button cl8 hov-btn3 trans-04 flex-c-m" id='dec-0{{ carts.id }}' onclick="decreaseQuantity('{{ carts.id }}');">
                                             <i class="fs-16 zmdi zmdi-minus"></i>
-                                        </div>
+                                        </button>
 
                                         <input class="mtext-104 cl3 txt-center num-product" id="qty{{ carts.id }}" type="number" name="quantity" value="{{ carts.quantity }}">
 
-                                        <div class="btn-num-product-up cl8 hov-btn3 trans-04 flex-c-m"  onclick="increaseQuantity('{{ carts.id }}', {{ carts.product.stock }});">
+                                        <div class="button-down-button cl8 hov-btn3 trans-04 flex-c-m"  onclick="increaseQuantity('{{ carts.id }}', {{ carts.product.stock }});">
                                             <i class="fs-16 zmdi zmdi-plus"></i>
                                         </div>
                                     </div>
@@ -68,18 +78,17 @@
                                   
                               
                                 <td class="column-5">
-                                    <form method="POST" action="{% url 'remove_from_cart' %}">
-                                        {% csrf_token %}
-                                        <input type="hidden" name="item_id" value="{{ carts.id }}">
-                                        <button type="submit">
+                                   
+
+                                        <a href="{% url 'remove_from_cart' carts.id %}" type="submit">
                                             <i class="bi bi-trash">
                                                 <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-trash" viewBox="0 0 16 16">
                                                   <path d="M5.5 5.5A.5.5 0 0 1 6 6v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm2.5 0a.5.5 0 0 1 .5.5v6a.5.5 0 0 1-1 0V6a.5.5 0 0 1 .5-.5Zm3 .5a.5.5 0 0 0-1 0v6a.5.5 0 0 0 1 0V6Z"/>
                                                   <path d="M14.5 3a1 1 0 0 1-1 1H13v9a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V4h-.5a1 1 0 0 1-1-1V2a1 1 0 0 1 1-1H6a1 1 0 0 1 1-1h2a1 1 0 0 1 1 1h3.5a1 1 0 0 1 1 1v1ZM4.118 4 4 4.059V13a1 1 0 0 0 1 1h6a1 1 0 0 0 1-1V4.059L11.882 4H4.118ZM2.5 3h11V2h-11v1Z"/>
                                                 </svg>
                                               </i>
-                                          </button>
-                                    </form>
+                                            </a>
+                                    
                                 </td>
                             </tr>
                    
@@ -144,8 +153,8 @@
                         </div>
 
                         <div class="size-209">
-                            <span class="mtext-110 cl2">
-                            {{total_prices}}
+                            <span  id="sub-totat" class="mtext-110 cl2">
+                                ${{ subtotal }}
                             </span>
                         </div>
                     </div>
@@ -192,9 +201,11 @@
                         </div>
 
                         <div class="size-209 p-t-1">
-                            <span class="mtext-110 cl2">
+                            <span id="total-price" class="mtext-110 cl2">
                                 {{total_prices}}
                             </span>
+                            
+
                         </div>
                     </div>
 
@@ -212,61 +223,88 @@
 
 
 
+<!-- Your HTML code remains the same -->
 
 <script>
-  function updateQuantity(productId, quantity) {
-    $.ajax({
-      type: "POST",
-      url: "/update_quantity",  // Replace with the actual URL of your Django view
-      headers: { "X-CSRFToken": "{{ csrf_token }}" }, // Add this line to include the CSRF token
-      data: {
+    function updateQuantity(productId, quantity) {
+      $.ajax({
+        type: "POST",
+        url: "/update_quantity",
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+        data: {
           product_id: productId,
           quantity: quantity
         },
-        dataType: 'json',  // Expect JSON response from the server
+        dataType: "json",
         success: function(response) {
-            console.log(response.price);
-            console.log(response.quantity);
-            if (response.success) {
-                // Update the displayed quantity and price
-                $("#price-" + productId).text(response.price);
-          $("#quantity-" + productId).text(response.quantity);
-          console.log("Quantity updated successfully!");
-          location.reload()
-        } else {
-          console.log("Quantity update failed:", response.message);
-        }
-      },
-      error: function(xhr, errmsg, err) {
-        console.log("Error updating quantity:", errmsg);
-      }
-    });
-}
-
-function decreaseQuantity(productId) {
-  var inputField = $("#qty" + productId);
-  var currentValue = parseInt(inputField.val());
-  if (currentValue > 1) {
-    var newValue = currentValue - 1;
-    inputField.val(newValue);
-    updateQuantity(productId, newValue);
-  }
-}
-
-function increaseQuantity(productId, stock) {
-    var effect = document.getElementById('qty' + productId);
-    var qty = parseInt(effect.value);
+          console.log(response.price);
+          console.log(response.quantity);
+          if (response.success) {
+            // Update the displayed quantity and price
+            $("#total-price").text(response.total_price);
+            $("#sub-totat").text(response.subtotat);
+            $("#price-" + productId).text(response.price);
+            $("#qty" + productId).text(response.quantity);
   
-    if (!isNaN(qty) && qty < stock && qty < 10) {
-      qty++;
-      effect.value = qty;
-      updateQuantity(productId, qty);
-    } else {
-      alert("Maximum stock limit reached."); // Display a message when the maximum stock limit is reached
+            // Update the total price on the page immediately
+           
+  
+            console.log("Quantity updated successfully!");
+          } else {
+            console.log("Quantity update failed:", response.message);
+          }
+        },
+        error: function(xhr, errmsg, err) {
+          console.log("Error updating quantity:", errmsg);
+        }
+      });
     }
-  }
+  
+    function decreaseQuantity(productId) {
+        var inputField = $("#qty" + productId);
+        var currentValue = parseInt(inputField.val());
+      
+        if (currentValue > 1) {
+          var newValue = currentValue - 1;
+          inputField.val(newValue);
+          updateQuantity(productId, newValue);
+      
+          // Re-enable the decrement button since the quantity is now greater than 1
+          var decrementButton = $("#dec-0" + productId);
+          decrementButton.prop("disabled", false);
+        } else {
+          // If the quantity is one or below one, don't decrease further
+          var decrementButton = $("#dec-0" + productId);
+          decrementButton.prop("disabled", true);
+          location.reload();
+        }
+      }
+     
 
-</script> 
+  
+    function increaseQuantity(productId, stock) {
+      var effect = $("#qty" + productId);
+      var qty = parseInt(effect.val());
+  
+      if (!isNaN(qty) && qty < stock && qty < 10) {
+        var newValue = qty + 1;
+        effect.val(newValue);
+        updateQuantity(productId, newValue);
+      } else {
+        // Disable the increment button if quantity reaches stock limit or 10
+  
+        var incrementButton = $("#inc-0" + productId); 
+        incrementButton.prop("disabled", true);
+        swal({
+          text: "Quantity exceeds available stock!",
+          icon: "info",
+          button: false,
+          timer: 1500 // Auto close the success message after 1.5 seconds
+        });
+      }
+    }
+  </script>
+  
 
 
 {% endblock%}

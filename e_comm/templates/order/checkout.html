@@ -123,7 +123,7 @@ EDIT address
   
             <div class="col-md-5 col-xl-4 offset-xl-1">
               <div class="py-4 d-flex justify-content-end">
-                <h6><a href="{%url 'products'%}">Cancel and return to website</a></h6>
+                <h6><a href="{%url 'shop' 0%}">Cancel and return to website</a></h6>
               </div>
               <div class="rounded d-flex flex-column p-2" style="background-color: #f8f9fa;">
                 <div class="p-2 me-3">
@@ -200,9 +200,7 @@ EDIT address
                 "image": "{%static 'user/img/logo1.png'%}",
                 "order_id": response.order_id,                 
                 "handler": function (response) {
-                   alert(response.razorpay_payment_id);
-                    alert(response.razorpay_order_id);
-                    alert(response.razorpay_signature);
+   
                
                     var paymentId = response.razorpay_payment_id;
                     var orderId = response.razorpay_order_id;
@@ -234,8 +232,8 @@ EDIT address
                     
                 },
                 "prefill": {
-                    "name": "Gaurav Kumar",
-                    "email": "gaurav.kumar@example.com",
+                    "name": "{{ user_add.first_name }} {{ user_add.last_name }}",
+                    "email": "{{ user_add.email }}",
                     "contact": "9000090000"
                 },
                 "notes": {

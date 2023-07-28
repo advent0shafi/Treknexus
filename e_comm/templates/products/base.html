@@ -36,6 +36,14 @@
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'user/css/main.css' %}">
 	<link rel="stylesheet" type="text/css" href="{% static 'user/css/util.css' %}">
+	<style>
+		.fa-user-circle.w-10 {
+		  font-size: 20px;
+		  
+		  /* Adjust the font size as per your desired height */
+		}
+	  </style>
+	  
 	<script src="{% static 'user/js/main.js' %}"></script>
 	{% block link %}{% endblock %}
 
@@ -51,92 +59,7 @@
 
 <body>
    
-      
-   
- <!-- navbar  -->
 
-{% comment %}   
- <nav class="navbar navbar-expand-sm navbar-dark bg-dark" style="height:26px;"> 
-  <ul class="navbar-nav ml-auto">
-      <li class="nav-item">
-          <a class="nav-link" href="#">Inline Text</a>
-      </li>
-  </ul>
-</nav>
-
-<!-- Main Navbar -->
-<nav class="navbar navbar-expand-lg navbar-light bg-light">
-  
-      <a class="navbar-brand px-5" href="#"><img src="{%static 'user/img/logo1.png'%}" style="height:7vh;"></a>
-      <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
-          aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
-          <span class="navbar-toggler-icon"></span>
-      </button>
-      <div class="collapse navbar-collapse" id="navbarCollapse">
-          <ul class="navbar-nav ">
-              <li class="nav-item active">
-                  <a class="nav-link px-3" href="/">Home <span class="sr-only">(current)</span></a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link px-3" href="{%url 'products'%}">Shop</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link px-3" href="#">Contacts</a>
-              </li>
-              <li class="nav-item">
-                  <a class="nav-link px-3" href="#">About</a>
-              </li>
-          </ul>
-          <div class="wrap-icon-header flex-w flex-r-m ml-auto px-4">
-			<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 " data-notify="0">
-				<i class="zmdi zmdi-favorite-outline"></i>
-			</a>
-
-			<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
-				<i class="zmdi zmdi-shopping-cart"></i>
-			</a>
-			</div>
-			<div class="cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-				<li class="nav-item dropdown">
-				  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-					<i class="fa fa-user-circle" aria-hidden="true"></i> {{ user.username }}
-				  </a>
-				  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
-					{% if request.user.is_authenticated %} 
-					  <a class="dropdown-item" href="{% url 'profile_view' %}">My Profile</a>
-					  <div class="dropdown-divider"></div>
-				
-					  <a class="dropdown-item" href="{% url 'logout_user' %}">Logout</a>
-					{% else %}
-					  <a class="dropdown-item" href="{% url 'signin' %}">Login</a>
-					  <a class="dropdown-item" href="{% url 'signup' %}">Register</a>
-					{% endif %}
-
-				  </div>
-
-				</li>
-			  </div> {% endcomment %}
-			  	
-				
-				  
-			  
-			{% comment %} {% if user.is_authenticated %}
-			<a href="{% url 'cart' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-			  <i class="zmdi zmdi-account"></i> <p style='font-size:18px;'>{{ user.username }}</p>
-			</a>
-		  {% else %}
-			<a href="{% url 'login' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti" data-notify="0">
-			  <i class="zmdi zmdi-account"></i> Login
-			</a>
-		  {% endif %} {% endcomment %}
-		  
-{% comment %} 			  
-		</div>
-      </div>
-
-
-</nav> {% endcomment %}
-<div class="container-fluid">
 
 <header class="header-v4">
 	<!-- Header desktop -->
@@ -178,6 +101,7 @@
 
 				<!-- Menu desktop -->
 				<div class="menu-desktop">
+					
 					<ul class="main-menu">
 						
 							<li class="active-menu">
@@ -185,8 +109,8 @@
 								
 							</li>
 
-							<li>
-								<a href="{% url 'products'%}">Shop</a>
+							<li class="active-menu">
+								<a href="{% url 'shop' 0%}">Shop</a>
 							</li>
 
 						
@@ -199,20 +123,23 @@
 				</div>	
 
 				<!-- Icon header -->
-				<div class="wrap-icon-header flex-w flex-r-m">
-					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 " data-notify="0">
+				{% load cart_tags %}
+				 <div class="wrap-icon-header flex-w flex-r-m">
+					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti "{% if request.user.is_authenticated %} data-notify="{%  whishlist_count%}" {% endif %}>
 						<i class="zmdi zmdi-favorite-outline"></i>
 					</a>
-
-					<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+					{% load cart_tags %}
+				 
+					<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" {% if request.user.is_authenticated %} data-notify="{% cart_items_count %}" {% endif %}>
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</a>
 					</div>
-						{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
-						<div class="cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-							<li class="nav-item dropdown">
+
+						{% comment %} {% if request.user.is_authenticated %} {% endcomment %} 
+						<div class="cl2 hov-cl1 trans-04  p-r-11 mx-2" >
+							<li class="nav-item dropdown" >
 							  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-user-circle" aria-hidden="true"></i> {{ user.username }}
+								<i class="fa fa-user-circle w-10" aria-hidden="true" ></i> 
 							  </a>
 							  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 								{% if request.user.is_authenticated %} 
@@ -228,7 +155,7 @@
 						</div>
 						
 					
-				</div>
+				</div> 
 			</nav>
 		</div>	
 	</div>
@@ -246,15 +173,15 @@
 				<i class="zmdi zmdi-favorite-outline"></i>
 			</a>
 
-			<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="2">
+			<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" {% if request.user.is_authenticated %} data-notify="{% cart_items_count %}" {% endif %}>
 				<i class="zmdi zmdi-shopping-cart"></i>
 			</a>
 			</div>
 				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
-				<div class="cl2 hov-cl1 trans-04 p-l-22 p-r-11">
-					<li class="nav-item dropdown">
+				<div class="cl2 hov-cl1 trans-04  p-r-11 mx-2" >
+					<li class="nav-item dropdown" >
 					  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-user-circle" aria-hidden="true"></i> {{ user.username }}
+						<i class="fa fa-user-circle w-10" aria-hidden="true" ></i> 
 					  </a>
 					  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						{% if request.user.is_authenticated %} 
@@ -288,8 +215,8 @@
 				
 			</li>
 
-			<li>
-				<a href="{% url 'products'%}">Shop</a>
+			<li class="active-menu">
+				<a href="{% url 'shop' 0%}">Shop</a>
 			</li>
 
 		

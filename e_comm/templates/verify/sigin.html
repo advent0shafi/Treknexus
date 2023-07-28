@@ -4,7 +4,8 @@ sigin
 {% endblock%} <!-- descriptions -->
 {% block content %}
  <div class="d-flex justify-content-center align-items-center py-5 h-100 mt-5" style="height: 100vh;">
-    <div class="border rounded-2xl border-gray-400 p-4" style="border-radius: 24px; max-width: 100%; width: 470px;" >
+  <div class="border rounded-2xl border-gray-400 p-4" style="border-radius: 24px; max-width: 100%; width: 470px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+
       <form class="d-flex flex-column align-items-center form" id="signup-form"  action="" method="post" >
      
         {% csrf_token %}
@@ -25,12 +26,12 @@ sigin
   <br>
         <!-- Email input -->
         <div class="form-outline mb-4 ">
-          <input type="uername" id="form2Example17" class="form-control form-control-lg" placeholder="Type Your Username" name='username' style="background-color:#F5F7FA;" />
+          <input type="uername" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name='username' style="background-color:#F5F7FA;" />
                 </div>
   
         <!-- Password input -->
         <div class="form-outline mb-4 ">
-          <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder=" Type Your Password" name='pass1' style="background-color:#F5F7FA;" />
+          <input type="password" id="form2Example27" class="form-control form-control-lg" placeholder="Password" name='pass1' style="background-color:#F5F7FA;" />
         
         </div>
         

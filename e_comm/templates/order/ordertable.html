@@ -64,7 +64,7 @@ order place
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
             <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
-            <li class="breadcrumb-item"><a href="{% url 'user_address'%}">Address</a></li>
+            <li class="breadcrumb-item"><a href="{% url 'profile_address'%}">Address</a></li>
            
             <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile<a/></li>
         
@@ -102,7 +102,7 @@ order place
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col">
                   {% for orders in order %}
-                  <div class="card card-stepper" style="border-radius: 10px; margin-bottom: 20px;">
+                  <div class="card card-stepper" style="border-radius: 10px; margin-bottom: 20px;background-color:#ebf1fa;">
                     <div class="card-body p-4" style="padding-bottom: 20px;">
           
                       <div class="d-flex justify-content-between align-items-center">
@@ -113,32 +113,25 @@ order place
                           <span class="text-muted ">Items :{{orders.total_products}}</span>
                         </div>
 
-                        {% if orders.order_status == 'CANCELLED' %}
+                      
                         <div>
-                          <a href="{%url 'products' %}" class="btn btn-outline-danger" role="button">Shop More</a>
+                          <a href="{%url 'order_view' orders.id%}" class="btn btn-outline-primary" role="button">Order Details</a>
                         </div>
-                        {% else %}
-                        <div>
-                          <a href="{%url 'order_view' orders.id%}" class="btn btn-outline-primary" role="button">Track order details</a>
-                        </div>
-                        {% endif %}
+  
                       </div>
                       <hr class="my-4">
-          
-                                            
-                      
-                      
-                      
-          
                       <div class="d-flex flex-row justify-content-between align-items-center">
                         <div class="d-flex flex-column align-items-start"><span class="text-muted small">{{orders.order_date.date}}</span><span>Ordered Date</span>
                         </div>
-                        <div class="d-flex flex-column justify-content-center"><span class="text-muted small">Within 2 Week</span><span >Expecting Delivery</span></div>
+                        <div class="d-flex flex-column justify-content-center"><span class="text-muted small">{{orders.payment_method}}</span><span >Payment Method</span></div>
                         <div class="d-flex flex-column justify-content-center align-items-center"><span class="text-muted small">{{orders.order_status}}</span><span>Current Status</span></div>
                         <div class="d-flex flex-column align-items-center"><span class="text-muted small">{{orders.payment_status}}</span><span>Payment Status</span></div>
-                        <div class="d-flex flex-column align-items-end"><span class="text-muted small"><a href="{%url 'cancel_orders' orders.id %}" >Click Here</a></span><span>Cancellations</span></div>
+                        
                       </div>
-          
+                    
+             
+                      
+                      
                     </div>
                   </div>
                   {% endfor %}
@@ -171,33 +164,27 @@ order place
 {% endblock  %}
 
 {% block script %}
-<!-- Add this in the head section of your HTML file -->
-<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+
+
 
 <script>
-  $(document).ready(function () {
-    // Get the current payment status of the order
-    const currentStatus = "{{ orders.payment_status }}";
-    
-    // Array to store the order status positions
-    const statusPositions = [
-      'PENDING', 'PAID', 'CANCELLED', 'DELIVERED', 'ORDERED',
-      'RETURNED', 'SHIPPED', 'PROCESSING'
-    ];
-    
-    // Find the index of the current status in the statusPositions array
-    const currentStatusIndex = statusPositions.indexOf(currentStatus);
-    
-    // Find all the dots and lines in the tracking view
-    const dots = $('.dot');
-    const lines = $('.track-line');
-    
-    // Update the view based on the current status
-    for (let i = 0; i < currentStatusIndex; i++) {
-      dots.eq(i).addClass('completed-dot');
-      lines.eq(i).addClass('completed-line');
-    }
-  });
+  // Add an event listener to all cancel buttons with the 'cancel-button' class
+  var cancelButtonElements = document.getElementsByClassName('cancel-button');
+  for (var i = 0; i < cancelButtonElements.length; i++) {
+    cancelButtonElements[i].addEventListener('click', function(event) {
+      event.preventDefault(); // Prevent the default link behavior
+
+      var orderId = this.getAttribute('data-order-id'); // Get the order ID from the data attribute
+
+      var result = confirm('Are you sure you want to cancel the order?');
+      if (result) {
+        window.location.href = "/cancel_orders/" + orderId;
+      } else {
+        console.log('error');
+      }
+    });
+  }
 </script>
 
 {% endblock  %}

@@ -252,7 +252,7 @@ Order views
   
                       <div class="d-flex justify-content-between footer p-3">
   
-                          <span>Continue Shopping <a href="{% url 'products' %}"> Shop More</a></span>
+                          <span>Continue Shopping <a href="{% url 'shop' 0 %}"> Shop More</a></span>
                            <span>{{orders.order_date.date}}</span>
                           
                       </div>
@@ -286,12 +286,7 @@ Order views
           
                   <form method="post">
                     {% csrf_token %}
-                    <select class="form-select" name="new_status" aria-label="Default select example">
-                      <option selected>{{ orders.payment_status }}</option>
-                      {% for status_choice in status %}
-                      <option value="{{ status_choice.0 }}">{{ status_choice.1 }}</option>
-                      {% endfor %}
-                    </select>
+                  
                
                     <select class="form-select" name="order_status" aria-label="Default select example">
                       <option selected>{{ orders.order_status }}</option>

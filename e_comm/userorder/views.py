@@ -338,7 +338,7 @@ def cancel_orders(request, order_id):
 
     messages.success(request, "Order successfully cancelled.")
 
-    return redirect('ordertable')
+    return redirect('order_view')
 
 # views.py
 def initiate_payment(request):
@@ -410,4 +410,22 @@ def order_pdf(request,order_id):
     return render(request,"order/order_pdf.html",context)
 
 
-# def return_order(request)
+ 
+ 
+def return_order(request,order_id):
+    order = Order.objects.get(id = order_id)
+    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",order)
+
+    if order.payment_status == 'PAID' and order.payment_method == 'RAZORPAY' and order.order_status == 'DELIVERED':
+        order.order_status ='PENDING'
+
+    elif order.payment_status == 'PAID' and order.payment_method == 'WALLET' and order.order_status == 'DELIVERED':
+        order.order_status ='PENDING'
+    elif order.payment_status == 'PAID' and order.payment_method == 'CASH_ON_DELIVERY' and order.order_status == 'DELIVERED':
+        order.order_status ='PENDING'
+    order.save()
+
+    return redirect('ordertable')
+
+
+

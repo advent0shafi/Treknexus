@@ -47,7 +47,7 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     #apps 
     'products',
-    'cart',
+    
     'userprofile',
     'userorder',
     'authentications',
@@ -55,6 +55,7 @@ INSTALLED_APPS = [
     'coupon',
     'banners',
     'wishlist',
+    'cart.apps.CartConfig',
 ]
 # RAZO PAY SET -----------------------
 

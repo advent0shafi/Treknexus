@@ -39,79 +39,78 @@ signup
  <!-- descriptions -->
 
  <div class="d-flex justify-content-center align-items-center py-5 h-100 mt-5" style="height: 100vh;">
-    <div class="border rounded-2xl border-gray-400 p-4" style="border-radius:24px;max-width: 100%; width: 470px; ">
-      <form class="d-flex flex-column align-items-center "id="signup-form"  action="" method="post" >
-        <!-- head of form box -->
-        {% csrf_token %}
-        <div class="form-outline mb-4">
-          <legend>Sign Up</legend>
-        </div>
-        {% if messages %}
-        {% for message in messages %}
-        <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-          <strong>Hello User</strong>   {{ message }}
-          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        {% endfor %}
-    {% endif %}
-  <br>
-  <br>
-  <div class="form-outline mb-4 ">
-    <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name="username" style="background-color:#F5F7FA;" />
-          </div>
-
-        <!-- Email input -->
-        <div class="form-outline mb-4 ">
-          <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="Email" style="background-color:#F5F7FA;" />
-                </div>
-
-
-        <!-- Password input -->
-        <div class="form-outline mb-4">
-          <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" name="pass1" style="background-color:#F5F7FA;" />
-          <!-- Add the toggle password button -->
-          <span toggle="#passwordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
-              <i class="far fa-eye"></i>
-          </span>
+  <div class="border rounded-2xl border-gray-400 p-4" style="border-radius: 24px; max-width: 100%; width: 470px; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+    <form class="d-flex flex-column align-items-center" id="signup-form" action="" method="post">
+      <!-- head of form box -->
+      {% csrf_token %}
+      <div class="form-outline mb-4">
+        <legend>Sign Up</legend>
       </div>
-   <!-- Password input -->
-   <div class="form-outline mb-4">
-    <input type="password" id="confirmPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" name="pass2" style="background-color:#F5F7FA;" />
-    <!-- Add the toggle password button -->
-    <span toggle="#confirmPasswordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
-        <i class="far fa-eye"></i>
-    </span>
-</div>
-<div class="form-outline mb-4 ">
-  <input type="text" id="form2Example17" class="form-control form-control-lg" placeholder="Referal Code" name="referal_code" style="background-color:#F5F7FA;" />
-        </div>
-        <!-- 2 column grid layout for inline styling -->
-        <div class="row mb-4">
-          <div class="col d-flex justify-content-center">
-            <!-- Checkbox -->
-            <div class="form-check">
-              <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
-              <label class="form-check-label" for="form2Example31"> Remember me </label>
-            </div>
+      {% if messages %}
+      {% for message in messages %}
+      <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+        <strong>Hello User</strong> {{ message }}
+        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {% endfor %}
+      {% endif %}
+      <div class="form-outline mb-4">
+        <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name="username" style="background-color:#F5F7FA;" />
+      </div>
+
+      <!-- Email input -->
+      <div class="form-outline mb-4">
+        <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="Email" style="background-color:#F5F7FA;" />
+      </div>
+
+      <!-- Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" name="pass1" style="background-color:#F5F7FA;" />
+        <!-- Add the toggle password button -->
+        <span toggle="#passwordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
+          <i class="far fa-eye"></i>
+        </span>
+      </div>
+
+      <!-- Confirm Password input -->
+      <div class="form-outline mb-4">
+        <input type="password" id="confirmPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" name="pass2" style="background-color:#F5F7FA;" />
+        <!-- Add the toggle password button -->
+        <span toggle="#confirmPasswordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
+          <i class="far fa-eye"></i>
+        </span>
+      </div>
+
+      <div class="form-outline mb-4">
+        <input type="text" id="form2Example17" class="form-control form-control-lg" placeholder="Referral Code" name="referral_code" style="background-color:#F5F7FA;" />
+      </div>
+
+      <!-- 2 column grid layout for inline styling -->
+      <div class="row mb-4">
+        <div class="col d-flex justify-content-center">
+          <!-- Checkbox -->
+          <div class="form-check">
+            <input class="form-check-input" type="checkbox" value="" id="form2Example31" checked />
+            <label class="form-check-label" for="form2Example31"> Remember me </label>
           </div>
         </div>
-  
-        <!-- Submit button -->
-        <button type="submit" style="border-radius: 35px;width:200px;background-color: black;color: bisque;height: 46px;">Submit</button>
-        <br>
-        <div class="col text-center">
-          <!-- Simple link -->
-          <a href="{% url 'signin' %}">Already have an account? Log in</a>
-        </div>
-  
-        <!-- Register buttons -->
-     
-      </form>
-    </div>
+      </div>
+
+      <!-- Submit button -->
+      <button type="submit" style="border-radius: 35px;width:200px;background-color: black;color: bisque;height: 46px;">Submit</button>
+      <br>
+      <div class="col text-center">
+        <!-- Simple link -->
+        <a href="{% url 'signin' %}">Already have an account? Log in</a>
+      </div>
+      <br>
+      <!-- Register buttons -->
+    </form>
   </div>
-  <!-- footer -->
+</div>
+
 {%endblock%}
 
 

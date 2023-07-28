@@ -4,22 +4,49 @@ from django.db.models import Q
 from django.db.models import Q, Min
 from decimal import Decimal
 
+
+from django.http import JsonResponse
+
+
 # Create your views here.
 from django.core.paginator import Paginator, EmptyPage, PageNotAnInteger
 
-def products(request):
-    cat = Category.objects.all()
+    
+def product_details(request,slug):
+  
+    
+    pro = Variant.objects.get(slug=slug)
+    cat = pro.product.category 
+    
+    
+    product = Products.objects.filter( category=cat).exclude(variant__slug=slug)
+    
+
+    pros = Variant.objects.get(slug=slug)
+
+    context = {
+        'pros':pros,
+        'product':product
+               }
+    return render(request,'products/products_details.html',context)
+
+
+
+
+def shop(request, category_id):
+   
+    if category_id == 0:
+      
+        variants =Variant.objects.all()
+    else:
+        category = get_object_or_404(Category, id=category_id)
+        variants = Variant.objects.filter(product__category=category)
     colors = color.objects.all()
-    category_filter = request.GET.get('category')
+    catogeris = Category.objects.all()
     search_query = request.GET.get('search')
-    sort_by = request.GET.get('sort')
-    color_filter = request.GET.get('color')
     price_filter = request.GET.get('price')
-
-    variants = Variant.objects.all()
-
-    if category_filter and category_filter != 'all':
-        variants = variants.filter(product__category__name=category_filter)
+    color_filter = request.GET.get('color')
+    sort_by = request.GET.get('sort')
 
     if search_query:
         variants = variants.filter(
@@ -50,50 +77,26 @@ def products(request):
     elif sort_by == 'price_high_to_low':
         variants = variants.order_by('-price')
 
-    # Number of products to display per page
-    products_per_page = 8
+            # Number of products to display per page
+    items_per_page = 16
 
-    # Create a Paginator object
-    paginator = Paginator(variants, products_per_page)
-
-    # Get the requested page number from the query parameters
     page_number = request.GET.get('page')
 
+    paginator = Paginator(variants, items_per_page)
     try:
-        # Get the products for the requested page
         variants = paginator.page(page_number)
     except PageNotAnInteger:
-        # If page is not an integer, deliver the first page.
         variants = paginator.page(1)
     except EmptyPage:
-        # If page is out of range (e.g. 9999), deliver the last page of results.
         variants = paginator.page(paginator.num_pages)
 
-    context = {
+
+    context ={
         'colors': colors,
-        'variant': variants,
-        'cat': cat,
-        'search_query': search_query,
+        'variants': variants,
+        'cats': catogeris,
     }
 
-    return render(request, 'products/shop.html', context)
+    return render(request, "products/catogery.html", context)
 
-    
-def product_details(request,slug):
-  
-    
-    pro = Variant.objects.get(slug=slug)
-    cat = pro.product.category 
-    
-    
-    product = Products.objects.filter( category=cat).exclude(variant__slug=slug)
-    
-
-    pros = Variant.objects.get(slug=slug)
-
-    context = {
-        'pros':pros,
-        'product':product
-               }
-    return render(request,'products/products_details.html',context)
 

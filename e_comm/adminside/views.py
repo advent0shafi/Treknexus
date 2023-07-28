@@ -20,8 +20,9 @@ from django.views.decorators.cache import cache_control
 from cart.models import *
 from userprofile.models import *
 from django.contrib import messages
-
-
+from banners.models import Banner
+import razorpay
+from django.conf import settings
 
 # Create your views here.
 def is_superuser(user):
@@ -219,6 +220,10 @@ def addproduct(request):
         variant_titles = request.POST.get('variant_title')
 
         # Create the product
+        if discount_price:
+            pass
+        else:
+            discount_price = None
         category = Category.objects.get(id=category_id)
         product = Products.objects.create(
             name=product_name,
@@ -292,7 +297,10 @@ def variant_add(request,product_id):
         display_image = request.FILES.get('display_image')
         images = request.FILES.getlist('images')
 
-        # Create the variant
+        if discount_price:
+            pass
+        else:
+            discount_price = None
         product = Products.objects.get(id=product_id)
         color_slt = color.objects.get(color=colors)
         size_slt =size.objects.get(size=sizes)
@@ -348,8 +356,11 @@ def variant_edit(request, variant_id):
         images = request.FILES.getlist('images')
         colorss =color.objects.get(id = colors)
         sizes =size.objects.get(size = sizess)
+        if discount_price:
+            pass
+        else:
+            discount_price = None
 
-        # Update the variant
         variant.title = variant_titles
         variant.color = colorss
         variant.size = sizes
@@ -409,6 +420,26 @@ def catogery_add(request):
     return render(request, 'admin/catogery_add.html')
 
 
+def edit_category(request, category_id):
+    category = get_object_or_404(Category, id=category_id)
+
+    if request.method == 'POST':
+        
+        name = request.POST.get('name')
+        image = request.FILES.get('image')
+
+        category.name = name
+        if image:
+            category.image = image
+        category.slug = slugify(category.name)
+        category.save()
+
+        # Redirect to the category list view or any other appropriate view
+        return redirect('catogery')
+
+    return render(request, 'admin/catogery_edit.html', {'category': category})
+
+
 
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)
 @login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
@@ -435,16 +466,18 @@ def order_views(request,order_id):
     items = OrderItem.objects.filter(order=orders)
     total_price = sum(item.price * item.quantity for item in items)
     if request.method == 'POST':
-        payment_status = request.POST.get('new_status')
+      
         
         order_status = request.POST.get('order_status')
-        
+        orders.order_status = order_status
         money = 180
         walletss = 100
-        orders.payment_status = payment_status
-        orders.order_status = order_status
+    
+        
 
         if orders.order_status == "DELIVERED":
+            orders.payment_status = "PAID"
+            
          
             has_completed_order = Order.objects.filter(user=request.user, order_status='DELIVERED').exists()
             if not has_completed_order:
@@ -455,17 +488,18 @@ def order_views(request,order_id):
                     
                     if referral.referred_by :
                         referral_wallet = wallet.objects.get(user=referral.referred_by)
+                        referral_wallet.Wallettotal += walletss
+                        print(referral_wallet.Wallettotal,'----------------')
+                        referral_wallet.save()  # Save changes to referral_wallet
+
+                        print('refferal kitty------------------')
+                        buyer_wallet.Wallettotal += money
+                        buyer_wallet.save()  # Save changes to buyer_wallet
+
                     else: 
                         messages.error(request, "Invalid referral code.")
                    
-                    referral_wallet.Wallettotal += walletss
-                    print(referral_wallet.Wallettotal,'----------------')
-                    referral_wallet.save()  # Save changes to referral_wallet
-
-
-                    buyer_wallet.Wallettotal += money
-                    buyer_wallet.save()  # Save changes to buyer_wallet
-
+                    
                   
                 except Referral.DoesNotExist:
                     print("Referral does not exist.")
@@ -644,3 +678,147 @@ def sales_report(request):
     }
 
     return render(request, 'admin/sales_report.html', context)
+
+
+def banner_view(request):
+    banner = Banner.objects.all()
+    variant = Variant.objects.all()
+    if request.method == 'POST':
+        banner_name = request.POST.get('banner_name')
+        variant_id = request.POST.get('varaints')
+        banner_image = request.FILES.get('banner_image')
+        
+        is_active = request.POST.get('is_active')
+        print(variant_id,'----->>>>>><<<<<<<<<<----')
+
+        # Retrieve the Category instance based on the selected category_id
+
+        variants = Variant.objects.get(id=variant_id)
+        print(variants.title,'--->>>>>><<<<<<<<<<----')
+
+        # Create the Banner object with the correct category assignment
+        banner = Banner.objects.create(
+            name=banner_name,
+            variants = variants,
+            banner_image=banner_image,
+            is_active=bool(is_active),
+        )
+
+        # Redirect to a success page or any other appropriate view
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+    
+    context ={
+        'variant':variant,
+        'banner':banner
+        }
+    return render(request,"admin/banner.html",context)
+
+
+def banner_remove(request,banner_id):
+    banner = Banner.objects.get(id=banner_id)
+    banner.delete()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+   
+def banner_active(request,banner_id):
+    banner = Banner.objects.get(id=banner_id)
+    banner.is_active = True
+    banner.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+def banner_block(request,banner_id):
+    banner = Banner.objects.get(id=banner_id)
+    banner.is_active = False
+    banner.save()
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+
+
+def edit_banner(request, banner_id):
+    # Retrieve the banner you want to edit from the database
+    banner = get_object_or_404(Banner, id=banner_id)
+
+    if request.method == 'POST':
+        banner_name = request.POST.get('banner_name')
+        variant_id = request.POST.get('variants')
+        banner_image = request.FILES.get('banner_image')
+        is_active = request.POST.get('is_active')
+        variants = Variant.objects.get(id=variant_id)
+        banner.name = banner_name
+        banner.variants = variants
+        if banner_image:
+            banner.banner_image = banner_image
+        banner.is_active = bool(is_active)
+        banner.save()
+
+        
+        return redirect('banner_view')
+
+   
+    variants = Variant.objects.all()
+    context={'banner': banner, 'variants': variants}
+
+    return render(request, 'admin/edit_banner.html',context )
+
+
+def detete_image(request,image_id):
+    variant_image = product_image.objects.get(id=image_id)
+
+    variant_image.delete()
+
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
+def return_orders(request):
+    orders = Order.objects.filter(order_status = 'PENDING')
+
+    context = {
+        'order':orders
+    }
+    return render(request,'admin/return_orders.html',context)
+
+
+def refund(request,order_id):
+
+    order = Order.objects.get(id = order_id)
+
+    if order.order_status == 'PENDING' and order.payment_method == 'RAZORPAY' and order.payment_status == 'PAID':
+        print(order.total_price,'----------->>>>>>><<<<<<<<<<<------')
+        client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
+        refund_response = client.payment.refund(order.razor_pay_payment_id, {'amount': int(order.total_price * 100)})
+
+    
+        # Refund successful
+        
+        order.payment_status = 'REFUNDED'  
+    
+        if refund_response['status'] == 'processed':
+        
+            buyer_wallet = wallet.objects.get(user=order.user)
+            buyer_wallet.Wallettotal += order.total_price
+            buyer_wallet.save()
+            order.order_status = 'RETURNED'
+            order.save()
+            messages.success(request, "Order successfully cancelled. Refund processed to the wallet.")
+        else:
+            messages.error(request, "Unable to process the refund. Please try again later.")
+            return redirect('return_orders')
+
+    order_items = OrderItem.objects.filter(order=order)
+    for item in order_items:
+        variant = item.product  
+        variant.stock += item.quantity
+        variant.save()
+    if order.payment_status =='PAID' and order.payment_method != 'RAZORPAY':
+        print('its order paid and returned')
+        buyer_wallet = wallet.objects.get(user=order.user)
+        buyer_wallet.Wallettotal += order.total_price
+        buyer_wallet.save()
+        order.payment_status = 'REFUNDED'
+        order.order_status = 'RETURNED'
+    order.save()
+
+    messages.success(request, "Order successfully cancelled.")
+
+    return redirect('return_orders')
+
+
+
+

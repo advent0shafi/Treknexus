@@ -20,6 +20,7 @@ class UserAddress(models.Model):
     state = models.CharField(max_length=150)
     postal_code = models.CharField(max_length=10)
     country = models.CharField(max_length=50)
+    is_active = models.BooleanField(default=True)
 
 
     def __str__(self):

@@ -58,8 +58,14 @@ order success
                                             <div class="py-2">
 
                                                 <span class="d-block text-muted">Payment</span>
+                                                {% if orders.payment_method == "RAZORPAY" %}
                                             <span><img src="https://w7.pngwing.com/pngs/88/578/png-transparent-razorpay-logo-thumbnail-tech-companies-thumbnail.png" width="20" /></span>
-                                                
+                                                {% elif orders.payment_method == "WALLET" %}
+                                                <span><img src="https://cdn-icons-png.flaticon.com/512/3757/3757881.png" width="20" /></span>
+
+                                                {% else %}
+                                                <span><img src="https://cdn-icons-png.flaticon.com/512/2897/2897855.png" width="20" /></span>
+                                                {% endif %}
                                             </div>
                                         </td>
 
@@ -100,7 +106,7 @@ order success
                                     <td width="60%">
                                         <span class="font-weight-bold">{{product.product.title}}</span>
                                         <div class="product-qty">
-                                            <span class="d-block">Quantity:{{product.product.quantity}}</span>
+                                            <span class="d-block">Quantity:{{product.quantity}}</span>
                                             <span>Color:{{product.product.color}}</span>
                                             
                                         </div>

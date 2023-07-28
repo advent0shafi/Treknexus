@@ -22,7 +22,7 @@
       options = $.extend({
         inClass               :   'fade-in',
         outClass              :   'fade-out',
-        inDuration            :    1500,
+        inDuration            :    150,
         outDuration           :    800,
         linkElement           :   '.animsition-link',
         // e.g. linkElement   :   'a:not([target="_blank"]):not([href^="#"])'

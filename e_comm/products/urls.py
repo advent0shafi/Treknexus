@@ -4,7 +4,13 @@ from . import views
 
 
 urlpatterns = [
-    path('products',views.products,name='products'),
+  
+
     path('product_details/<slug:slug>',views.product_details,name='product_details'),
+
+    # path('search/',views.search,name="search"),
+
+    path('shop/<int:category_id>',views.shop,name='shop'),
+
 ]
 

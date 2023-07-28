@@ -96,8 +96,20 @@ detail vie
 						</h4>
 						<div class="block2-txt-child2 flex-r p-t-3 mx-5">
 							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pros.id }}">
+							
 								<img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
 								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+							  </a>
+							  <a href="#" class=" dis-block pos-relative ">
+
+							  {% load cart_tags %}
+							  {% if request.user.is_authenticated %}
+							  {% if request.user|in_wishlist:pros.id %}
+							  <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+								{% else %}
+								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+								{% endif %}
+								{% endif %}
 							  </a>
 						</div>
 					  </div>
@@ -106,6 +118,14 @@ detail vie
 						<del>$ {{ pros.price }}</del> 
 					  </span> 
 						<!-- Display original price with a strikethrough -->
+						<span class="wrap-rating fs-18 cl11 pointer">
+							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+							<input class="dis-none" type="number" name="rating">
+						</span>
 						<span class="mtext-106 cl2">
 					   $ {{ pros.discount_price }} 
 					  </span> 
@@ -114,8 +134,6 @@ detail vie
 					  $ {{ pros.price }}
 						  </span> 
 							 {% endif %}   
-				
-				  
 					  <p class="stext-102 cl3 p-t-23">
 						{{ pros.product.category }}
 					  </p>
@@ -148,11 +166,10 @@ detail vie
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
 										<select class="js-select2" name="time">
-											<option>Choose an option</option>
-											<option>Red</option>
-											<option>Blue</option>
-											<option>White</option>
-											<option>Grey</option>
+											<option>{{pros.color}}</option>
+											{% for varients in pros.product.variant_set.all %}
+											<option>{{varients.color}}</option>
+											{% endfor %}
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -187,18 +204,23 @@ detail vie
 									</div>
 								</div>
                         {% if pros.stock <= 0 %}
-						<a href="{% url 'products' %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="width:290px">
+						<a href="{% url 'shop' 0 %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="width:290px">
 							Out of Stock
 						  </a>
 						 
 									  {% else %}
+									  {% if request.user.is_authenticated %}
 									  <a href="{% url 'add_to_cart' variant_id=pros.id %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 js-addcart-detail">
 										Add to cart
 									  </a>
-									 
+									  {% else %}
+									  <a href="{% url 'signin'  %}" class="flex-c-m stext-101 cl0 size-101 bg1 bor1 hov-btn1 p-lr-15 trans-04 " style="width:290px">
+										Add to cart
+									  </a>
+									  {% endif %}
 						{% endif %}						</div>
 
-
+						
 							</div>	
 						</div>
 					</div>

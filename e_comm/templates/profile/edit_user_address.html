@@ -1,0 +1,162 @@
+{% extends 'products/base.html' %}
+
+{% block title %}
+edit address
+{% endblock %}
+
+{% block link %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock  %}
+
+
+
+
+
+
+
+{% block content %}
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
+          <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'profile_address'%}">Address</a></li>
+          <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile</a></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4 sticky-top">
+        <div class="card-body text-center">
+          <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar" class="rounded-circle img-fluid"
+            style="width: 150px;">
+          <h5 class="my-3">{{user.username}}</h5>
+          <p class="text-muted mb-1">User Profile</p>
+          <p class="text-muted mb-4">{{user.email}}</p>
+          
+          
+          <div class="d-flex justify-content-center mb-2">
+            <a href="{% url 'logout_user' %}" class="btn btn-dark"
+              style="background-color: #343a40; width: 200px; border-radius: 20px;">Logout</a>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4 mb-lg-0">
+        <div class="card-body p-0">
+          <div class="card mb-4">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="col-md-6 mb-4">
+        <div class="card mb-4">
+            <div class="card-header d-flex justify-content-center py-3">
+              <h5 class="mb-0">Edit Address</h5>
+            </div>
+            <div class="card-body d-flex justify-content-center">
+                <form method="POST" action="">
+                    {% csrf_token %}
+                  
+                <!-- 2 column grid layout with text inputs for the first and last names -->
+                <div class="row mb-3">
+                  <div class="col">
+                    <div class="form-outline">
+                      <input type="text" id="form7Example1"  name='fname' class="form-control" placeholder='First Name' value='{{user_address.first_name}}' />
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-outline">
+                        <input type="text" id="form7Example1"  name='lname' class="form-control" placeholder='Last Name'value='{{user_address.last_name}}' />
+                    </div>
+                  </div>
+                </div>
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example4" class="form-control" name='address1' placeholder='Address' value='{{user_address.address_line_1}}' />
+              
+                    
+                </div>
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example4" class="form-control" name='address2' placeholder='Aditional Address' value='{{user_address.address_line_2}}'/>
+              
+                    
+                </div>
+                
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                  <input type="text" id="form7Example4" class="form-control" name='city' placeholder='City'value='{{user_address.city}}'/>
+              
+                </div>
+                   
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example4" class="form-control" name='state' placeholder='State' value='{{user_address.state}}'/>
+                
+                  </div>
+      
+                     
+                <!-- Text input -->
+                <div class="form-outline mb-4">
+                    <input type="text" id="form7Example4" class="form-control" name='country' placeholder='country' value='{{user_address.country}}'/>
+                
+                  </div>
+        
+      
+                <!-- Email input -->
+                <div class="form-outline mb-4">
+                  <input type="email" id="form7Example5" class="form-control"name='email' placeholder='Email' value='{{user_address.email}}' />
+         
+                </div>
+      
+                <!-- Number input -->
+                <div class="form-outline mb-4">
+                  <input type="number" id="form7Example6" class="form-control" name='pincode' placeholder='Postal Code' value='{{user_address.postal_code}}'/>
+               
+                </div>
+                  <!-- Number input -->
+                  <div class="form-outline mb-4">
+                    <input type="number" id="form7Example6" class="form-control" name='phone' placeholder='Mobile Number'value='{{user_address.phone_number}}'/>
+                 
+                  </div>
+      
+             
+      
+                <!-- Checkbox -->
+                <div class="form-group d-flex justify-content-center mb-2">
+                    <button type="submit" class="btn btn-dark  px-3 py-2" style='border-circle:28pc'>
+                      Submit
+                    </button>
+                  </div>
+                  
+                  
+              </form>
+            </div>
+          </div>
+</div>
+
+
+
+{% endblock  %}
+
+
+{% block script %}
+
+
+
+
+{% endblock  %}
+
+
+
+
+

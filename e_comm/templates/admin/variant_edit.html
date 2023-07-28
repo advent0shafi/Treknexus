@@ -9,6 +9,27 @@ variant edit
   
 
 
+<div class="page-header card">
+  <h5 class="d-flex justify-content-center my-4">Variant Image</h5>
+  <div class="row align-items-end">
+    <div class="col-lg-12">
+      <div class="page-header-title d-flex justify-content-center">
+        {% if variant.product_image_set.all %}
+          {% for image in variant.product_image_set.all %}
+            <div class="card mb-3 ml-3" style="width: 18rem; ">
+              <img src="{{ image.image.url }}" class="img-fluid" alt="Product Image">
+              <div class="card-body">
+               <a href="{% url "detete_image" image.id%}" type="button" class="btn btn-outline-danger">Delete Image</a>
+              </div>
+            </div>
+          {% endfor %}
+        {% endif %}
+      </div>
+      
+    </div>
+  </div>
+</div>
+
 
 
 <div class="card">
@@ -88,6 +109,7 @@ variant edit
       <input type="file" id="display_image" value="{{ variant.variant_image.url}}" name="display_image" accept="image/*" >
       {% if variant.variant_image %}
         <img src="{{ variant.variant_image.url }}" alt="Display Image" style="max-width: 100px; margin-top: 5px;">
+
       {% endif %}
     </div>
   </div>
@@ -95,12 +117,12 @@ variant edit
   <div class="form-group row">
     <label for="images" class="col-sm-2 col-form-label">Upload File</label>
     <div class="col-sm-10">
-      <input type="file" id="images" name="images" accept="image/*" >
-      {% if variant.product_image_set.all %}
-        {% for image in variant.product_image_set.all %}
-          <img src="{{ image.image.url }}" alt="Product Image" style="max-width: 100px; margin-top: 5px;">
-        {% endfor %}
-      {% endif %}
+      <div id="image-preview">
+       
+      </div>
+    
+      <input type="file" onchange="previewImages(event)" id="images" name="images" accept="image/*"  multiple>
+      
     </div>
   </div>
   
@@ -110,7 +132,38 @@ variant edit
   
 </div>          
  </form>
+
+ 
    
   {% endblock  %}
   
 
+
+  {% block script %}
+
+  <script>
+      function previewImages(event) {
+          var previewContainer = document.getElementById('image-preview');
+          previewContainer.innerHTML = ''; // Clear previous previews
+      
+          var files = event.target.files;
+          for (var i = 0; i < files.length; i++) {
+              var file = files[i];
+              var reader = new FileReader();
+      
+              reader.onload = function (e) {
+                  var image = document.createElement('img');
+                  image.src = e.target.result;
+                  image.style.width = '100px';
+                  image.style.height = '100px';
+                  image.style.objectFit = 'cover';
+      
+                  previewContainer.appendChild(image);
+              };
+      
+              reader.readAsDataURL(file);
+          }
+      }
+      </script>
+  
+  {% endblock  %} 

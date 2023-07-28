@@ -32,6 +32,7 @@
 <link rel="stylesheet" type="text/css" href="{% static 'assets/css/jquery.mCustomScrollbar.css' %}">
 <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
 {% block link %}{% endblock  %} 
+{% block style %}{% endblock  %} 
 </head>
 
 <body>
@@ -114,6 +115,13 @@
                                         <span class="navbar-caret"></span>
                                     </a>
                                 </li>
+                                <li class="">
+                                    <a href="{% url 'userlist' %}">
+                                        <span class="navbar-icon"><i class="bi bi-house-fill" style="font-size: 24px; "></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color:white;"><pre>Users</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
                     
                                 <li class="">
                                     <a href="{% url 'catogery' %}">
@@ -141,6 +149,15 @@
                                     </a>
                                 </li>
                             </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a href="{% url 'return_orders'%}">
+                                        <span class="navbar-icon"><i class="bi bi-receipt" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Return Orders</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                            </ul>
 
                             <ul class="pcoded-item pcoded-left-item">
                                 <li>
@@ -151,6 +168,16 @@
                                     </a>
                                 </li>
                             </ul>
+                            <ul class="pcoded-item pcoded-left-item">
+                                <li>
+                                    <a href="{% url 'banner_view'%}">
+                                        <span class="navbar-icon"><i class="bi bi-receipt" style="font-size: 24px;"></i></span>
+                                        <span class="navbar-text" data-i18n="nav.dash.main" style="color: #fff;"><pre>Banner</pre></span>
+                                        <span class="navbar-caret"></span>
+                                    </a>
+                                </li>
+                            </ul>
+                    
                     
                             <div class="pcoded-navigatio-lavel" data-i18n="nav.category.other" style="color: #fff;">Other</div>
                             <ul class="pcoded-item pcoded-left-item">

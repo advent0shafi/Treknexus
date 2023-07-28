@@ -35,11 +35,6 @@ class CartItems(models.Model):
     def get_item_price(self):
         return Decimal(self.price) * Decimal(self.quantity)
     
-# User wallet 
-
-# class wallet(models.Model):
-#     user = models.ForeignKey(User,on_delete=models.CASCADE)
-#     wallet_total =models.IntegerField(null=True,blank=True)
 
 
 
@@ -56,3 +51,17 @@ class wallet(models.Model):
     def create_user_wallet(sender, instance, created, **kwargs):
         if created:
             wallet.objects.create(user=instance)
+
+
+
+
+from django.contrib.sessions.models import Session
+
+class GuestCart(models.Model):
+    session = models.ForeignKey(Session, on_delete=models.CASCADE)
+    product = models.ForeignKey(Variant, on_delete=models.CASCADE)
+    quantity = models.PositiveIntegerField(default=1)
+    price = models.DecimalField(max_digits=8, decimal_places=2)
+
+    def get_item_price(self):
+        return Decimal(self.price) * Decimal(self.quantity)

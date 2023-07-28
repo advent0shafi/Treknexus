@@ -1,159 +1,208 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Document</title>
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/css/bootstrap.min.css">
-  
-    <!-- Font Awesome CSS -->
-    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
-</head>
-<body>
-    <section >
-        <div class="container py-5">
-          <div class="card">
-            <div class="card-body">
-              <div class="row d-flex justify-content-center pb-5">
-                <div class="col-md-7 col-xl-5 mb-4 mb-md-0">
-                  <div class="py-4 d-flex flex-row">
-                    <h5><span class="far fa-check-square pe-2"></span><b>ELIGIBLE</b> |</h5>
-                    <span class="ps-2">Pay</span>
-                  </div>
-                  <h4 class="text-success">$85.00</h4>
-                  <h4>Diabetes Pump & Supplies</h4>
-                  <div class="d-flex pt-2">
-                    <div>
-                      <p>
-                        <b>Insurance Responsibility <span class="text-success">$71.76</span></b>
-                      </p>
-                    </div>
-                    <div class="ms-auto">
-                      <p class="text-primary">
-                        <i class="fas fa-plus-circle text-primary pe-1"></i>Add insurance card
-                      </p>
-                    </div>
-                  </div>
-                  <p>
-                    Insurance claims and all necessary dependencies will be submitted to your
-                    insurer for the coverred portion of this order
-                  </p>
-                  <div class="rounded d-flex" style="background-color: #f8f9fa;">
-                    <div class="p-2">Aetna-Open Access</div>
-                    <div class="ms-auto p-2">OAP</div>
-                  </div>
-                  <hr />
-                  <div class="pt-2">
-                    <div class="d-flex pb-2">
-                      <div>
-                        <p>
-                          <b>Patient Balance <span class="text-success">$13.24</span></b>
-                        </p>
-                      </div>
-                      <div class="ms-auto">
-                        <p class="text-primary">
-                          <i class="fas fa-plus-circle text-primary pe-1"></i>Add payment card
-                        </p>
-                      </div>
-                    </div>
-                    <p>
-                      This is an estimate for the portion of your order (not covered by
-                      insurance) due today . once insurance finalizes their review refunds
-                      and/or balances will reconcile automatically.
-                    </p>
-                    <form class="pb-3">
-                      <div class="d-flex flex-row pb-3">
-                        <div class="d-flex align-items-center pe-2">
-                          <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel1"
-                            value="" aria-label="..." checked />
-                        </div>
-                        <div class="rounded border d-flex w-100 p-3 align-items-center">
-                          <p class="mb-0">
-                            <i class="fab fa-cc-visa fa-lg text-primary pe-2"></i>Visa Debit
-                            Card
-                          </p>
-                          <div class="ms-auto">************3456</div>
-                        </div>
-                      </div>
+{% extends 'products/base.html' %}
+
+{% block title %}
+address
+{% endblock %}
+
+{% block link %}
+
+
+<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css">
+{% endblock  %}
+
+
+
+{% block style %}
+<style>
+  /* Custom CSS for the modal content */
+  .modal-content {
+    max-height: 80vh; /* Set the maximum height of the modal content */
+    overflow-y: auto; /* Add a vertical scroll bar when the content exceeds the height */
+  }
+
+  /* Custom CSS to position the modal in the middle of the webpage window */
+  @media (min-width: 500px) {
+    .modal-dialog {
+      position: absolute;
+      top: 20%;
       
-                      <div class="d-flex flex-row">
-                        <div class="d-flex align-items-center pe-2">
-                          <input class="form-check-input" type="radio" name="radioNoLabel" id="radioNoLabel2"
-                            value="" aria-label="..." />
-                        </div>
-                        <div class="rounded border d-flex w-100 p-3 align-items-center">
-                          <p class="mb-0">
-                            <i class="fab fa-cc-mastercard fa-lg text-dark pe-2"></i>Mastercard
-                            Office
-                          </p>
-                          <div class="ms-auto">************1038</div>
-                        </div>
-                      </div>
-                    </form>
-                    <input type="button" value="Proceed to payment" class="btn btn-primary btn-block btn-lg" />
-                  </div>
-                </div>
-      
-                <div class="col-md-5 col-xl-4 offset-xl-1">
-                  <div class="py-4 d-flex justify-content-end">
-                    <h6><a href="#!">Cancel and return to website</a></h6>
-                  </div>
-                  <div class="rounded d-flex flex-column p-2" style="background-color: #f8f9fa;">
-                    <div class="p-2 me-3">
-                      <h4>Order Recap</h4>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">Contracted Price</div>
-                      <div class="ms-auto">$186.76</div>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">Amount toward deductible</div>
-                      <div class="ms-auto">$0.00</div>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">Coinsurance( 0% )</div>
-                      <div class="ms-auto">+ $0.00</div>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">Copayment</div>
-                      <div class="ms-auto">+ $40.00</div>
-                    </div>
-                    <div class="border-top px-2 mx-2"></div>
-                    <div class="p-2 d-flex pt-3">
-                      <div class="col-8">Total Deductible, Coinsurance, and Copay</div>
-                      <div class="ms-auto">$40.00</div>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">
-                        Maximum out-of-pocket on Insurance Policy (not reached)
-                      </div>
-                      <div class="ms-auto">$6500.00</div>
-                    </div>
-                    <div class="border-top px-2 mx-2"></div>
-                    <div class="p-2 d-flex pt-3">
-                      <div class="col-8">Insurance Responsibility</div>
-                      <div class="ms-auto"><b>$71.76</b></div>
-                    </div>
-                    <div class="p-2 d-flex">
-                      <div class="col-8">
-                        Patient Balance <span class="fa fa-question-circle text-dark"></span>
-                      </div>
-                      <div class="ms-auto"><b>$71.76</b></div>
-                    </div>
-                    <div class="border-top px-2 mx-2"></div>
-                    <div class="p-2 d-flex pt-3">
-                      <div class="col-8"><b>Total</b></div>
-                      <div class="ms-auto"><b class="text-success">$85.00</b></div>
-                    </div>
-                  </div>
-                </div>
-              </div>
+      transform: translate(-50%, -50%);
+    }
+  }
+</style>
+
+{% endblock  %}
+
+
+
+{% block content %}
+
+<div class="container py-5">
+  <div class="row">
+    <div class="col">
+      <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <ol class="breadcrumb mb-0">
+          <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
+          <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
+          <li class="breadcrumb-item"><a href="{% url 'profile_address'%}">Address</a></li>
+          <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile</a></li>
+        </ol>
+      </nav>
+    </div>
+  </div>
+
+  <div class="row">
+    <div class="col-lg-4">
+      <div class="card mb-4 sticky-top">
+        <div class="card-body text-center">
+          <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar" class="rounded-circle img-fluid"
+            style="width: 150px;">
+          <h5 class="my-3">{{user.username}}</h5>
+          <p class="text-muted mb-1">User Profile</p>
+          <p class="text-muted mb-4">{{user.email}}</p>
+          <button type="button" class="btn btn-light" data-toggle="modal" data-target="#addAddressModal">
+            Add Address
+          </button>
+          <br><br>
+          <div class="d-flex justify-content-center mb-2">
+            <a href="{% url 'logout_user' %}" class="btn btn-dark"
+              style="background-color: #343a40; width: 200px; border-radius: 20px;">Logout</a>
+          </div>
+        </div>
+      </div>
+      <div class="card mb-4 mb-lg-0">
+        <div class="card-body p-0">
+          <div class="card mb-4">
+
+          </div>
+        </div>
+      </div>
+    </div>
+    
+      <div class="col-md-6 mb-4">
+          {% for user_add in address %}
+        {% if user_add.is_active %}
+        <div class="card">
+          <div class="card-body">
+            <h5 class="card-title">{{ user_add.first_name }} {{ user_add.last_name }}</h5>
+            <p class="card-text">Email: <b>{{ user_add.email}}</b></p>
+            <p class="card-text">  {{ user_add.address_line_1 }}</p>
+
+            <p class="card-text">{{ user_add.city }} . {{ user_add.postal_code }}</p>
+
+            <div class="d-flex justify-content-between mt-3" >
+              <a  href="{% url 'edit_profile_address' user_add.id%}" class="btn btn-light btn-edit"
+ 
+  style="width: 150px; border-radius: 20px;">EDIT</a>
+             
+              <a href="{% url 'delete_address' user_add.id %}" class="btn btn-dark"
+              style="background-color: #343a40; width: 150px; border-radius: 20px;">DELETE</a>
             </div>
           </div>
         </div>
-      </section>
+      {% endif %}
+          {% endfor %}
+          <br><br>
+        </div>
+   
+  </div>
+</div>
+<div class="modal fade" id="addAddressModal" tabindex="-1" role="dialog" aria-labelledby="addAddressModalLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-md" role="document">
+    <div class="modal-content">
+      <form method="post">
+        {% csrf_token %}
+        <div class="modal-header">
+          <h5 class="modal-title" id="addAddressModalLabel">Add Address</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+          <!-- Address form fields -->
+          <div class="row mb-3">
+            <div class="col">
+              <div class="form-outline">
+                <input type="text" id="form7Example1"  name='fname' class="form-control" placeholder='First Name' />
+              </div>
+            </div>
+            <div class="col">
+              <div class="form-outline">
+                  <input type="text" id="form7Example1"  name='lname' class="form-control" placeholder='Last Name' />
+              </div>
+            </div>
+          </div>
+          <div class="form-outline mb-4">
+            <input type="text" id="form7Example4" class="form-control" name='address1' placeholder='Address '/>
+      
+            
+        </div>
+        <div class="form-outline mb-4">
+            <input type="text" id="form7Example4" class="form-control" name='address2' placeholder='Aditional Address '/>
+      
+            
+        </div>
+        
+        <!-- Text input -->
+        <div class="form-outline mb-4">
+          <input type="text" id="form7Example4" class="form-control" name='city' placeholder='City'/>
+      
+        </div>
+           
+        <!-- Text input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form7Example4" class="form-control" name='state' placeholder='State'/>
+        
+          </div>
 
-      <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.1.0/js/bootstrap.bundle.min.js"></script>
+             
+        <!-- Text input -->
+        <div class="form-outline mb-4">
+            <input type="text" id="form7Example4" class="form-control" name='country' placeholder='country'/>
+        
+          </div>
 
-</body>
-</html>
+
+        <!-- Email input -->
+        <div class="form-outline mb-4">
+          <input type="email" id="form7Example5" class="form-control"name='email' placeholder='Email' />
+ 
+        </div>
+
+        <!-- Number input -->
+        <div class="form-outline mb-4">
+          <input type="number" id="form7Example6" class="form-control" name='pincode' placeholder='Postal Code'/>
+       
+        </div>
+          <!-- Number input -->
+          <div class="form-outline mb-4">
+            <input type="number" id="form7Example6" class="form-control" name='phone' placeholder='Mobile Number'/>
+         
+          </div>
+
+          <!-- Include other address form fields here -->
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+          <button type="submit" class="btn btn-primary">Save Address</button>
+        </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+
+{% endblock  %}
+
+
+{% block script %}
+
+
+
+
+{% endblock  %}
+
+
+
+
+

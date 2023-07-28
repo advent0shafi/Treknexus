@@ -24,8 +24,8 @@ class Order(models.Model):
         ('ORDERED','Ordered'),
         ('RETURNED','Returned'),
         ('SHIPPED','Shipped'),
+        ('PENDING','Pending'),
         ('PROCESSING','Processing'),
-        ('RETURN','return'),
 
     ]
     PAYMENT_METHOD_CHOICES = [
