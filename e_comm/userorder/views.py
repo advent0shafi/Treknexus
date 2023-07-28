@@ -15,36 +15,43 @@ from django.contrib import messages
 
 # Create your views here.
 
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
 @login_required(login_url='signin')
 def checkout(request, address_id):
-    wallets = wallet.objects.get(user = request.user)
-    user_add = get_object_or_404(UserAddress, id=address_id, user=request.user)
-    try:
-        cart = Cart.objects.get(user=request.user)
-    except Cart.DoesNotExist:
-        cart = None
-    
-    items = CartItems.objects.filter(cart=cart)
-    subtotal = items.aggregate(total_price=Sum('price'))['total_price'] or 0
-    
-    total_price = subtotal
-    if cart and cart.coupons:
-        coupon = get_object_or_404(Coupon, coupon_code=cart.coupons)
-        min_amount = coupon.discount_price
-        total_price = subtotal - min_amount
-    else:
+    cart = get_object_or_404(Cart, user=request.user)
+    cartitems = CartItems.objects.filter(cart = cart)
+    if cartitems:
+
+        wallets = wallet.objects.get(user = request.user)
+        user_add = get_object_or_404(UserAddress, id=address_id, user=request.user)
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except Cart.DoesNotExist:
+            cart = None
+        
+        items = CartItems.objects.filter(cart=cart)
+        subtotal = items.aggregate(total_price=Sum('price'))['total_price'] or 0
+        
         total_price = subtotal
+        if cart and cart.coupons:
+            coupon = get_object_or_404(Coupon, coupon_code=cart.coupons)
+            min_amount = coupon.discount_price
+            total_price = subtotal - min_amount
+        else:
+            total_price = subtotal
 
-    context = {
-        'wallets':wallets,
-        'cart':cart,
-        'subtotal': subtotal,
-        'user_add': user_add,
-        'cart': cart,
-        'total_price': total_price
-    }
+        context = {
+            'wallets':wallets,
+            'cart':cart,
+            'subtotal': subtotal,
+            'user_add': user_add,
+            'cart': cart,
+            'total_price': total_price
+        }
 
-    return render(request, "order/checkout.html", context)
+        return render(request, "order/checkout.html", context)
+    
+    return redirect('shop',0)
 
 
 
@@ -180,6 +187,9 @@ def place_order(request, userId):
     }
     return render(request, "order/order_success.html", context)
 
+
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def pay_wallet(request, userId):
     user_adds = UserAddress.objects.get(id=userId, user=request.user)
     cartss = Cart.objects.get(user=request.user)
@@ -261,7 +271,7 @@ def pay_wallet(request, userId):
 
 
 
-
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
 @login_required(login_url='signin')
 def ordertable(request):
     # Order the orders by the newest order first (based on the 'created_at' field)
@@ -273,6 +283,7 @@ def ordertable(request):
     return render(request, 'order/ordertable.html', context)
 
 
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
 @login_required(login_url='signin')
 def order_view(request,order_id):
     orders = Order.objects.get(id=order_id)
@@ -293,7 +304,8 @@ def order_view(request,order_id):
 
 
 
-
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def cancel_orders(request, order_id):
     # Retrieve the order or show a 404 page if the order does not exist
     order = get_object_or_404(Order, id=order_id)
@@ -340,7 +352,9 @@ def cancel_orders(request, order_id):
 
     return redirect('order_view')
 
-# views.py
+
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def initiate_payment(request):
     if request.method == 'POST':
         # Retrieve the total price and other details from the backend

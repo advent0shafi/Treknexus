@@ -577,7 +577,7 @@ def catogery_delete(request,catogery_id):
 
 # def download_order_pdf2(request,order_id):
 #     order = get_object_or_404(Order, id=order_id)
-#     return render(request, 'admin/downloadpdf.html', {'order': order})
+#     return render(request,'admin/downloadpdf.html', {'order': order})
 
 
 

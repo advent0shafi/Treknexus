@@ -1,0 +1,362 @@
+
+{% extends 'products/base.html' %}
+
+
+{% block style %}
+
+{% endblock  %}
+
+
+{% block content %}
+
+<div class="bg0 m-t-23 p-b-140">
+    <div class="container">
+      <div class="flex-w flex-sb-m p-b-52"style="text-decoration:none;">
+        <div class="flex-w flex-l-m filter-tope-group m-tb-10 d-none d-lg-block">
+          <button class="stext-106 m-r-32 m-tb-5 " data-filter="*">
+            <a href="{% url 'shop' 0 %}" style="color: black;">All</a>
+          </button>
+          
+          {% for category in cats %}
+            <button class="stext-106 m-r-32 m-tb-5" >
+              <a href="{% url 'shop' category.id %}" style="color: black;"  >{{ category.name }}</a>
+            </button>
+          {% endfor %}
+        </div>
+        
+        <div class="flex-w flex-c-m m-tb-10">
+          <div class="flex-c-m stext-106 cl6 size-104 bor4 pointer hov-btn3 trans-04 m-r-8 m-tb-4 js-show-filter">
+            <i class="icon-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-filter-list"></i>
+            <i class="icon-close-filter cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+             Filter
+          </div>
+  
+          <div class="flex-c-m stext-106 cl6 size-105 bor4 pointer hov-btn3 trans-04 m-tb-4 js-show-search">
+            <i class="icon-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-search"></i>
+            <i class="icon-close-search cl2 m-r-6 fs-15 trans-04 zmdi zmdi-close dis-none"></i>
+            Search
+          </div>
+        </div>
+        
+        <!-- Search product -->
+        <div class="dis-none panel-search w-full p-t-10 p-b-15">
+          <div class="bor8 dis-flex p-l-15">
+            <form method="GET" action="{% url 'shop' 0%}">
+            <button type="submit" class="size-113 flex-c-m fs-16 cl2 hov-cl1 trans-04">
+              <i class="zmdi zmdi-search"></i>
+            </button>
+  
+            <input class="mtext-107 cl2 size-114 plh2 p-r-15"  type="text" name="search" value="{{ search_query }}" placeholder="Search">
+          </form>
+          </div>	
+        </div>
+       
+   
+
+    
+         
+
+        <div class="dis-none panel-filter w-full p-t-10">
+      <div class="wrap-filter flex-w bg6 w-full p-lr-40 p-t-27 p-lr-15-sm">
+          <div class="filter-col1 p-r-15 p-b-27">
+              <div class="mtext-102 cl2 p-b-15">
+                  Sort By
+              </div>
+
+              <ul>
+                <li><input type="checkbox" id="color_all" name="color" value="all" {% if not selected_color %}checked{% endif %}><label for="color_all">All</label></li>
+                {% for color in colors %}
+                    <li><input type="checkbox" id="color_{{ color.color }}" name="color" value="{{ color.color }}" {% if selected_color == color.color %}checked{% endif %}><label for="color_{{ color.color }}">{{ color.color }}</label></li>
+                {% endfor %}
+              </ul>
+          </div>
+
+          <div class="filter-col2 p-r-15 p-b-27">
+              <div class="mtext-102 cl2 p-b-15">
+                  Size
+              </div>
+
+              <ul>
+                <li><input type="checkbox" id="size_all" name="size" value="all" {% if not selected_size %}checked{% endif %}><label for="size_all">All</label></li>
+                {% for size in sizes %}
+                    <li><input type="checkbox" id="size_{{ size.size }}" name="size" value="{{ size.size }}" {% if selected_size == size.size %}checked{% endif %}><label for="size_{{ size.size }}">{{ size.size }}</label></li>
+                {% endfor %}
+              </ul>
+          </div>
+
+          <div class="filter-col3 p-r-15 p-b-27">
+              <div class="mtext-102 cl2 p-b-15">
+                Price
+              </div>
+
+              <ul>
+                <li><input type="checkbox" id="price_all" name="price" value="all" {% if not selected_price %}checked{% endif %}><label for="price_all">All</label></li>
+                <li><input type="checkbox" id="price_0_50" name="price" value="0-50" {% if selected_price == '0-50' %}checked{% endif %}><label for="price_0_50">$0.00 - $50.00</label></li>
+                <!-- Add other price range options here -->
+              </ul>
+          </div>
+
+          <div class="filter-col4 p-b-27">
+              <div class="mtext-102 cl2 p-b-15">
+                  Tags
+              </div>
+
+              <div class="flex-w p-t-4 m-r--5">
+                <ul>
+                <li><input type="radio" id="sort_default" name="sort" value="default" {% if not selected_sort or selected_sort == 'default' %}checked{% endif %}><label for="sort_default">Default</label></li>
+                <li><input type="radio" id="sort_popularity" name="sort" value="popularity" {% if selected_sort == 'popularity' %}checked{% endif %}><label for="sort_popularity">Popularity</label></li>
+                </ul>
+                <!-- Apply Filters button -->
+    <button id="apply-filters-btn">Apply Filters</button>
+              </div>
+          </div>
+      </div>
+  </div>
+
+
+
+
+<div class="row isotope-grid">
+   
+    {% for pross in variants%} 
+   <div class="col-sm-6 col-md-4 col-lg-3 p-b-35 isotope-item ">
+     <!-- Block2 -->
+     <div class="block2">
+       <div class="block2-pic hov-img0">
+         {% comment %} {% with pros=pross.variant_set.all|random %} {% endcomment %}
+         <img src="{{MEDIA_URL}}{{pross.variant_image.url}}" style="width:250px;height:250px;" alt="IMG-PRODUCT">
+
+         <a href="{{pross.get_absolute_url}}" class="block2-btn flex-c-m stext-103 cl2 size-102 bg0 bor2 hov-btn1 p-lr-15 trans-04 js-show-moda1"> 
+           Quick View
+         </a>
+       </div>
+
+       <div class="block2-txt flex-w flex-t p-t-14">
+         <div class="block2-txt-child1 flex-col-l ">
+           <a href="{{pross.get_absolute_url}}" style="color: black;" class="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+             {{ pross.title }}
+           </a>
+           
+{% if pross.discount_price %}
+   <span class="stext-105 cl3">
+     <del>$ {{ pross.price }}</del> 
+   </span> 
+     <!-- Display original price with a strikethrough -->
+     <span class="stext-105 cl3">
+    $ {{ pross.discount_price }} 
+   </span> 
+   {% else %}
+   <span class="stext-105 cl3">
+   $ {{ pross.price }}
+       </span> 
+          {% endif %} 
+         </div>
+{% load static %}
+    
+         {% load static %}
+         {% if user.is_authenticated %}
+         <div class="block2-txt-child2 flex-r p-t-3">
+           <a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pross.id }}">
+             <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+             <img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+           </a>
+         </div>
+         {% else %}
+         <div class="block2-txt-child2 flex-r p-t-3">
+           <a href="#" class="dis-block pos-relative wishlist-button">
+             <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+            
+           </a>
+         </div>
+{% endif %}
+       </div>
+     </div>
+   </div>
+  
+   {% endfor %} 
+ </div>
+</div>
+</div>
+<div class="pagination justify-content-center">
+  <div class="flex-l-m  p-t-10 m-lr--7">
+    {% if variants.has_previous %}
+    <a href="?page={{ variants.previous_page_number }}" class="flex-c-m how-pagination1 trans-04 m-all-7 ">
+      {{ variants.previous_page_number }}
+    </a>
+    {% endif %}
+    <span class="flex-c-m how-pagination1 trans-04 m-all-7 active-pagination1">
+    {{ variants.number }} 
+    </span>
+    {% if variants.has_next %}
+    <a href="?page={{ variants.next_page_number }}" class="flex-c-m how-pagination1 trans-04 m-all-7">
+      {{ variants.next_page_number }}
+    </a>
+    {% endif %}
+  </div>
+</div> 
+
+
+
+{% endblock  %}
+
+
+
+{% block script  %}
+
+<script>
+
+
+
+  $(document).ready(function() {
+    $('.zoom').elevateZoom({
+      zoomWindowWidth: 300, 
+      zoomWindowHeight: 200
+    });
+  });
+
+
+  $('.js-addcart-detail').each(function(){
+  var nameProduct = $(this).parent().parent().parent().parent().find('.js-name-detail').html();
+  $(this).on('click', function(){
+    swal(nameProduct, "is added to cart !", "success");
+  });
+});
+
+</script>
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/sweetalert/2.1.2/sweetalert.min.js"></script>
+
+<script>
+$(document).ready(function() {
+  $('.btn-addwish-b2').on('click', function(e) {
+    e.preventDefault();
+    const wishlistButton = $(this);
+    const variantId = wishlistButton.data('variant-id');
+    
+    if (wishlistButton.hasClass('js-addedwish-b2')) {
+      $.ajax({
+        type: 'POST',
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+        url: '/removing_wishlist/',
+        data: {
+          variant_id: variantId
+        },
+        success: function() {
+          swal({
+            text: `Item removed from the wishlist!`,
+            icon: "warning",
+            button: false,
+            timer: 1500 // Auto close the alert after 1.5 seconds
+          });
+
+          wishlistButton.removeClass('js-addedwish-b2');
+          wishlistButton.find('.icon-heart1').show();
+          wishlistButton.find('.icon-heart2').hide();
+        },
+        error: function() {
+          console.log('Error while removing from the wishlist.');
+        }
+      });
+    } else {
+      $.ajax({
+        type: 'POST',
+        headers: { "X-CSRFToken": "{{ csrf_token }}" },
+        url: '/adding_wishlist/',
+        data: {
+          variant_id: variantId
+        },
+        success: function() {
+          swal({
+            text: `Item added to the wishlist!`,
+            icon: "success",
+            button: false,
+            timer: 1500 // Auto close the success message after 1.5 seconds
+          });
+
+          wishlistButton.addClass('js-addedwish-b2');
+          wishlistButton.find('.icon-heart1').hide();
+          wishlistButton.find('.icon-heart2').show();
+        },
+        error: function() {
+          console.log('Error while adding to the wishlist.');
+        }
+      });
+    }
+  });
+});
+</script>
+
+
+<script src="https://cdn.jsdelivr.net/npm/sweetalert2@10.16.3/dist/sweetalert2.all.min.js"></script>
+<script>
+document.addEventListener("DOMContentLoaded", function() {
+// Get all the wishlist buttons by the common class name
+const wishlistButtons = document.querySelectorAll(".wishlist-button");
+
+wishlistButtons.forEach((button) => {
+button.addEventListener("click", function(event) {
+  event.preventDefault(); // Prevent the default behavior of the link (e.g., navigating to '#')
+
+  Swal.fire({
+    icon: "info",
+    title: "Login Required",
+    text: "You need to log in to add items to your wishlist.",
+    showCancelButton: true,
+    confirmButtonText: "Go to Login Page",
+    cancelButtonText: "Stay on this Page",
+  }).then((result) => {
+    if (result.isConfirmed) {
+      // Redirect to the login page (Replace 'login-page.html' with your actual login page URL)
+      window.location.href = "{% url 'signin' %}";
+    } else {
+      // User chose to stay on the current page, add your logic here if needed
+      console.log("User chose to stay on this page");
+    }
+  });
+});
+});
+});
+</script>
+
+<script>
+    document.getElementById('apply-filters-btn').addEventListener('click', function() {
+        var selectedColors = [];
+        var selectedSizes = [];
+        var selectedPrice = null;
+        var selectedSort = null;
+
+        // Get selected color filters
+        var colorCheckboxes = document.querySelectorAll('input[name="color"]:checked');
+        colorCheckboxes.forEach(function(checkbox) {
+            selectedColors.push(checkbox.value);
+        });
+
+        // Get selected size filters
+        var sizeCheckboxes = document.querySelectorAll('input[name="size"]:checked');
+        sizeCheckboxes.forEach(function(checkbox) {
+            selectedSizes.push(checkbox.value);
+        });
+
+        // Get selected price filter
+        var priceCheckbox = document.querySelector('input[name="price"]:checked');
+        if (priceCheckbox) {
+            selectedPrice = priceCheckbox.value;
+        }
+
+        // Get selected sort option
+        var sortRadio = document.querySelector('input[name="sort"]:checked');
+        if (sortRadio) {
+            selectedSort = sortRadio.value;
+        }
+
+        // Build the URL with selected filters and apply them
+        var baseUrl = window.location.href.split('?')[0];
+        var params = new URLSearchParams(window.location.search);
+        params.set('color', selectedColors.join(','));
+        params.set('size', selectedSizes.join(','));
+        params.set('price', selectedPrice);
+        params.set('sort', selectedSort);
+        window.location.href = baseUrl + '?' + params.toString();
+    });
+</script>
+{% endblock  %}

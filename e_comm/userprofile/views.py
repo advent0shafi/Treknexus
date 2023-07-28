@@ -1,42 +1,58 @@
+import re
 from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import get_object_or_404, render,redirect
 from .models import *
 from cart.models import *
-
+from django.views.decorators.cache import cache_control
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.contrib.auth.hashers import make_password
+from django.http import HttpResponse, HttpResponseRedirect
+from django.contrib.auth import authenticate,login,logout
+from django.core.mail import send_mail,EmailMessage
+from e_comm import settings
 # Create your views here.
 
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='signin')
 def address(request):
-    wallets = wallet.objects.get(user = request.user)
-  
-    try:
-        cart = Cart.objects.get(user=request.user)
-    except Cart.DoesNotExist:
-        cart = None
+    cart = get_object_or_404(Cart, user=request.user)
+    cartitems = CartItems.objects.filter(cart = cart)
+    if cartitems:
+
+        wallets = wallet.objects.get(user = request.user)
     
-    items = CartItems.objects.filter(cart=cart)
-    subtotal = items.aggregate(total_price=Sum('price'))['total_price'] or 0
-    
-    total_price = subtotal
-    if cart and cart.coupons:
-        coupon = get_object_or_404(Coupon, coupon_code=cart.coupons)
-        min_amount = coupon.discount_price
-        total_price = subtotal - min_amount
-    else:
+        try:
+            cart = Cart.objects.get(user=request.user)
+        except Cart.DoesNotExist:
+            cart = None
+        
+        items = CartItems.objects.filter(cart=cart)
+        subtotal = items.aggregate(total_price=Sum('price'))['total_price'] or 0
+        
         total_price = subtotal
-    user_add = request.user
-    address = UserAddress.objects.filter(user = user_add)
-    context = {
-        'cart':cart,
-        'subtotal': subtotal,
-        'total_price': total_price,
-         'address':address,
-    }
+        if cart and cart.coupons:
+            coupon = get_object_or_404(Coupon, coupon_code=cart.coupons)
+            min_amount = coupon.discount_price
+            total_price = subtotal - min_amount
+        else:
+            total_price = subtotal
+        user_add = request.user
+        address = UserAddress.objects.filter(user = user_add)
+        context = {
+            'cart':cart,
+            'subtotal': subtotal,
+            'total_price': total_price,
+            'address':address,
+        }
 
-   
+    
 
- 
- 
-    return render(request,'address/address.html',context) 
+    
+    
+        return render(request,'address/address.html',context) 
+    
+    return redirect('shop',0)
 
 def add_address(request):
     if request.method == 'POST':
@@ -236,3 +252,47 @@ def edit_profile_address(request,address_id):
          'user_address':user_address
      }
      return render(request,'profile/edit_user_address.html',context)
+
+
+
+def password_reset(request):
+        if request.method == 'POST':
+            pass1 = request.POST.get('pass1')
+            newpassword1 = request.POST.get('newpass1')
+            newpassword2 = request.POST.get('newpass2')
+
+            user = request.user
+            
+
+            if newpassword1 == newpassword2:
+                # Use regex to check password criteria
+                if re.match(r'^(?=.*[a-z])(?=.*\d)(?!.*\s)[A-Za-z\d]{8,}$', newpassword1):
+                    if user.check_password(pass1):
+                        user.password = make_password(newpassword1)
+                        user.save()
+                        user = authenticate(username=user.username, password=pass1)
+                        login(request, user)
+                        subject = "Password Changed"
+                        message = """
+Your password has been successfully changed. If you did not perform this action, please contact our support team immediately.
+
+"""
+                        from_email = settings.EMAIL_HOST_USER
+                        print( from_email,'>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<')
+                        email_user = request.user
+                        print(email_user.email,'>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<')
+                        to_list = [email_user.email]
+                        send_mail(subject, from_email,message,to_list, fail_silently = True )
+                       
+                        messages.success(request, 'Password reset successful!')
+                        return HttpResponseRedirect('profile_view')
+                    else:
+                        messages.error(request, 'Current password is incorrect.')
+                else:
+                    messages.error(request, 'New password must be at least 8 characters long and include at least one uppercase letter, one lowercase letter, and one digit.')
+            else:
+                messages.error(request, 'New passwords do not match.')
+       
+            
+        return render(request,'profile/reset_password.html')
+

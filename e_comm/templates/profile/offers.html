@@ -1,8 +1,6 @@
 {% extends 'products/base.html' %}
 
-{% block title %}
-offers
-{% endblock %}
+
 {% block link %}
 <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
 
@@ -11,8 +9,8 @@ offers
 <section >
     <div class="container py-5">
       <div class="row">
-        <div class="col">
-          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <div class="col" >
+          <nav aria-label="breadcrumb" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);" class="bg-light rounded-3 p-3 mb-4">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
               <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
@@ -27,7 +25,7 @@ offers
   
       <div class="row">
         <div class="col-lg-4">
-          <div class="card mb-4">
+          <div class="card mb-4 shadow-5-strong" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
             <div class="card-body text-center">
               <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;">
@@ -52,7 +50,7 @@ offers
         </div>
         <div class="col-lg-8">
           
-            <div class="card mb-4">
+            <div class="card mb-4" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);" >
               <div class="col-lg-12">
                 <label for="wallet_amount">
                   <br>

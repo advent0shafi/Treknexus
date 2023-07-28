@@ -21,5 +21,7 @@ urlpatterns = [
     path('delete_address/<int:add_userId>',views.delete_address,name='delete_address'),
 
     path('edit_profile_address/<int:address_id>',views.edit_profile_address,name='edit_profile_address'),
+
+    path('password_reset',views.password_reset,name="password_reset"),
 ]
 

@@ -6,9 +6,9 @@
   <meta charset="UTF-8" />
   <meta http-equiv="X-UA-Compatible" content="IE=edge" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>{% block title %}{% endblock %}</title>
+  <title>TrekNesus</title>
 	<!--===============================================================================================-->	
-	<link rel="icon" type="image/png" href="{% static 'user/images/icons/favicon.png' %}">
+	<link rel="icon" type="image/png" href="{% static 'user/img/logo1.png'%}">
 	<!--===============================================================================================-->
 	<link rel="stylesheet" type="text/css" href="{% static 'user/vendor/bootstrap/css/bootstrap.min.css' %}">
 	<!--===============================================================================================-->
@@ -205,6 +205,16 @@
 		</div>
 	</div>
 
+	{% if messages %}
+	{% for message in messages %}
+	<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+	  <strong>Hello User</strong> {{ message }}
+	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+		<span aria-hidden="true">&times;</span>
+	  </button>
+	</div>
+	{% endfor %}
+	{% endif %}
 
 	<!-- Menu Mobile -->
 	<div class="menu-mobile">

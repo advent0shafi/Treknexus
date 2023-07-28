@@ -1,8 +1,6 @@
 {% extends 'products/base.html' %}
 
-{% block title%}
-signup
-{% endblock %}
+
 
 {% block link  %}
 
@@ -43,9 +41,9 @@ signup
     <form class="d-flex flex-column align-items-center" id="signup-form" action="" method="post">
       <!-- head of form box -->
       {% csrf_token %}
-      <div class="form-outline mb-4">
-        <legend>Sign Up</legend>
-      </div>
+     
+        <h3 class="mb-5">Sign in</h3>
+      
       {% if messages %}
       {% for message in messages %}
       <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
@@ -57,17 +55,17 @@ signup
       {% endfor %}
       {% endif %}
       <div class="form-outline mb-4">
-        <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name="username" style="background-color:#F5F7FA;" />
+        <input type="username" id="form2Example17" class="form-control form-control-lg" placeholder="Username" name="username" style="background-color:#F5F7FA;" Required/>
       </div>
 
       <!-- Email input -->
       <div class="form-outline mb-4">
-        <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="Email" style="background-color:#F5F7FA;" />
+        <input type="email" id="form2Example17" name="email" class="form-control form-control-lg" placeholder="Email" style="background-color:#F5F7FA;" Required/>
       </div>
 
       <!-- Password input -->
       <div class="form-outline mb-4">
-        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" name="pass1" style="background-color:#F5F7FA;" />
+        <input type="password" id="passwordInput" class="form-control form-control-lg" placeholder="Password" name="pass1" style="background-color:#F5F7FA;"Required />
         <!-- Add the toggle password button -->
         <span toggle="#passwordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
           <i class="far fa-eye"></i>
@@ -76,7 +74,7 @@ signup
 
       <!-- Confirm Password input -->
       <div class="form-outline mb-4">
-        <input type="password" id="confirmPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" name="pass2" style="background-color:#F5F7FA;" />
+        <input type="password" id="confirmPasswordInput" class="form-control form-control-lg" placeholder="Confirm Password" name="pass2" style="background-color:#F5F7FA;" Required/>
         <!-- Add the toggle password button -->
         <span toggle="#confirmPasswordInput" class="toggle-password" onclick="togglePasswordVisibility(event)">
           <i class="far fa-eye"></i>

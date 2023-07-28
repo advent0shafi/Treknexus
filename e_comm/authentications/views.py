@@ -24,24 +24,24 @@ from banners.models import Banner
 from userorder.models import *
 from django.db.models import Count
 
-# def is_valid_password(password):
+def is_valid_password(password):
    
-#     if len(password) < 8:
-#         return False
+    if len(password) < 8:
+        return False
 
-#     # Check if the password contains at least one uppercase letter, one lowercase letter, and one digit
-#     if not any(char.isupper() for char in password):
-#         return False
-#     if not any(char.islower() for char in password):
-#         return False
-#     if not any(char.isdigit() for char in password):
-#         return False
+    # Check if the password contains at least one uppercase letter, one lowercase letter, and one digit
+    if not any(char.isupper() for char in password):
+        return False
+    if not any(char.islower() for char in password):
+        return False
+    if not any(char.isdigit() for char in password):
+        return False
 
-#     # Check if the password contains spaces
-#     if ' ' in password:
-#         return False
+    # Check if the password contains spaces
+    if ' ' in password:
+        return False
 
-#     return True
+    return True
 
 
 
@@ -132,7 +132,8 @@ def signup(request):
       email = request.POST['email']
       pass1 = request.POST['pass1']
       pass2 = request.POST['pass2']
-      referral_code = request.POST['referal_code'] 
+      referral_code = request.POST.get('referal_code', None)
+      
       print(referral_code,'>>>>>>>>>>>><<<<<<<<<<<<<<<<')
 
       if pass1 != pass2:
@@ -146,9 +147,9 @@ def signup(request):
       # if User.objects.filter(email=email).exists():
       #    messages.error(request, "Email already registered.")
       #    return redirect('signup')
-      # if not is_valid_password(pass1):
-      #    messages.error(request, "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one digit.")
-      #    return redirect('signup')
+      if not is_valid_password(pass1):
+         messages.error(request, "Password must be at least 8 characters long and contain one uppercase letter, one lowercase letter, and one digit.")
+         return redirect('signup')
       if referral_code:
          try:
             referal = Referral.objects.get(referral_code = referral_code)

@@ -1,11 +1,6 @@
 
 {% extends 'products/base.html' %}
 
-{% block title %}
-order place
-{% endblock  %}
-
-
 {% block style %}
 <style>
 
@@ -57,10 +52,10 @@ order place
 
 
 <section >
-  <div class="container py-5">
+  <div class="container py-5" >
     <div class="row">
-      <div class="col">
-        <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+      <div class="col" >
+        <nav aria-label="breadcrumb" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);" class="bg-light rounded-3 p-3 mb-4">
           <ol class="breadcrumb mb-0">
             <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
             <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
@@ -75,7 +70,8 @@ order place
 
     <div class="row">
       <div class="col-lg-4">
-        <div class="card mb-4 sticky-top">
+           <div class="card mb-4 sticky-top shadow-5-strong" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
+
           <div class="card-body text-center">
             <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar"
               class="rounded-circle img-fluid" style="width: 150px;">
@@ -102,7 +98,7 @@ order place
               <div class="row d-flex justify-content-center align-items-center h-100">
                 <div class="col">
                   {% for orders in order %}
-                  <div class="card card-stepper" style="border-radius: 10px; margin-bottom: 20px;background-color:#ebf1fa;">
+                  <div class="card card-stepper" style="border-radius: 10px; margin-bottom: 20px;border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
                     <div class="card-body p-4" style="padding-bottom: 20px;">
           
                       <div class="d-flex justify-content-between align-items-center">

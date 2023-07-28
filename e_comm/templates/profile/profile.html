@@ -1,15 +1,12 @@
 {% extends 'products/base.html' %}
 
-{% block title %}
-profile
-{% endblock %}
 
 {% block content %}
 <section>
     <div class="container py-5">
       <div class="row">
-        <div class="col">
-          <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+        <div class="col" >
+          <nav aria-label="breadcrumb" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);" class="bg-light rounded-3 p-3 mb-4">
             <ol class="breadcrumb mb-0">
               <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
               <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
@@ -24,7 +21,7 @@ profile
   
       <div class="row">
         <div class="col-lg-4">
-          <div class="card mb-4">
+          <div class="card mb-4 shadow-5-strong" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
             <div class="card-body text-center">
               <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar"
                 class="rounded-circle img-fluid" style="width: 150px;">
@@ -47,33 +44,51 @@ profile
           </div>
         </div>
         <div class="col-lg-8">
-            <div class="card mb-4">
+            <div class="card mb-4" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
               <div class="card-body">
                 <form method="POST">
                   {% csrf_token %}
                   <div class="row">
                     <div class="row mb-3">
+                      <div class="row mb-4">
+                        <div class="col d-flex justify-content-center">
+                          <!-- Checkbox -->
+                          <h5>User Info</h5>
+                        </div>
+                      </div>
                       <div class="col">
                         <div class="form-outline">
+                          <label class="form-label" for="form4Example2">First Name:</label>
                           <input type="text" id="form7Example1" value="{{ user.first_name }}" name="fname" class="form-control" placeholder="First Name" />
                         </div>
                       </div>
                       <div class="col">
                         <div class="form-outline">
+                          <label class="form-label" for="form4Example2">Last Name:</label>
                           <input type="text" id="form7Example1" value="{{ user.last_name }}" name="lname" class="form-control" placeholder="Last Name" />
                         </div>
                       </div>
                     </div>
                     <div class="form-outline mb-4">
-                      <input type="text" id="form7Example4" value="{{ user.username }}" name="username" class="form-control" placeholder="Username" />
+                      <label class="form-label" for="form4Example2">Username:</label>
+                      <input type="text" id="form7Example4" value="{{ user.username }}" name="username" class="form-control" placeholder="Username" disabled/>
                     </div>
                     <div class="form-outline mb-4">
+                      <label class="form-label" for="form4Example2">Email :</label>
                       <input type="text" id="form7Example4" value="{{ user.email }}" name="email" class="form-control" placeholder="Email" />
                     </div>
                   </div>
-                  <button type="submit" class="btn btn-primary">Update</button>
+                  <div class="col d-flex justify-content-center">
+                    <button type="submit" class="btn btn-dark"  style="background-color: #343a40; width: 200px; border-radius: 20px;">Update</button>                   
+                  </div>
                 </form>
+                 <div class="my-4">
+              <div class="d-flex justify-content-center">
+                <a href="{% url 'password_reset' %}" type="button" class="btn btn-light"style="width: 200px; border-radius: 20px;">Reset Password</a>
+                  </div>
+                </div>
               </div>
+             
             </div>
           </div>
           

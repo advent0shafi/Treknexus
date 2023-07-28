@@ -12,5 +12,7 @@ urlpatterns = [
 
     path('shop/<int:category_id>',views.shop,name='shop'),
 
+    path('filter/<int:category_id>',views.filter,name='filter'),
+
 ]
 

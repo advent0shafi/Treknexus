@@ -1,9 +1,5 @@
 {% extends 'products/base.html' %}
 
-{% block title %}
-address
-{% endblock %}
-
 {% block link %}
 
 
@@ -39,13 +35,15 @@ address
 
 <div class="container py-5">
   <div class="row">
-    <div class="col">
-      <nav aria-label="breadcrumb" class="bg-light rounded-3 p-3 mb-4">
+    <div class="col" >
+      <nav aria-label="breadcrumb" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);" class="bg-light rounded-3 p-3 mb-4">
         <ol class="breadcrumb mb-0">
           <li class="breadcrumb-item active"><a href="{% url 'test'%}">Wallet </a></li>
           <li class="breadcrumb-item"><a href="{%url 'ordertable'%}">Order</a></li>
           <li class="breadcrumb-item"><a href="{% url 'profile_address'%}">Address</a></li>
-          <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile</a></li>
+         
+          <li class="breadcrumb-item active"><a href="{% url 'profile_view'%}">Profile<a/></li>
+      
         </ol>
       </nav>
     </div>
@@ -53,7 +51,8 @@ address
 
   <div class="row">
     <div class="col-lg-4">
-      <div class="card mb-4 sticky-top">
+      
+      <div class="card mb-4 sticky-top" style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
         <div class="card-body text-center">
           <img src="https://cdn-icons-png.flaticon.com/512/456/456212.png" alt="avatar" class="rounded-circle img-fluid"
             style="width: 150px;">
@@ -80,9 +79,10 @@ address
     </div>
     
       <div class="col-md-6 mb-4">
+        
           {% for user_add in address %}
         {% if user_add.is_active %}
-        <div class="card">
+        <div class="card " style="border-radius: 1rem; max-width: 100%; box-shadow: 0 6px 12px rgba(0, 0, 0, 0.2);">
           <div class="card-body">
             <h5 class="card-title">{{ user_add.first_name }} {{ user_add.last_name }}</h5>
             <p class="card-text">Email: <b>{{ user_add.email}}</b></p>
