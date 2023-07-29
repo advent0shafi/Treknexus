@@ -110,13 +110,11 @@ def signin(request):
          request.session['otp'] = otp_store
          request.session['user_pk'] = user.pk
          subject = "OTP confirmations"
-         print(otp_store,"--------------otp===================")
          message = f"Your otp is{otp_store}"
          from_email = settings.EMAIL_HOST_USER
          to_list = [user.email]
          send_mail(subject, from_email,message,to_list, fail_silently = True )
-   
-        
+         
          return render(request,'verify/otp_login.html')
       else :
          messages.error(request, "username or password incorrect")  
@@ -134,8 +132,6 @@ def signup(request):
       pass2 = request.POST['pass2']
       referral_code = request.POST.get('referal_code', None)
       
-      print(referral_code,'>>>>>>>>>>>><<<<<<<<<<<<<<<<')
-
       if pass1 != pass2:
          messages.error(request, "Passwords do not match.")
          return redirect('signup')
@@ -154,7 +150,6 @@ def signup(request):
          try:
             referal = Referral.objects.get(referral_code = referral_code)
             referred_by_user = referal.user
-            print('>>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<else')
          except User.DoesNotExist:
             messages.error(request, "Invalid referral code.")
             return redirect('signup')

@@ -171,7 +171,6 @@ def profile_address(request):
     
     if request.method == 'POST':
         # Get form data from the request
-        print('evideo000000000000')
         first_name = request.POST.get('fname')
         last_name = request.POST.get('lname')
         address_line_1 = request.POST.get('address1')
@@ -278,9 +277,7 @@ Your password has been successfully changed. If you did not perform this action,
 
 """
                         from_email = settings.EMAIL_HOST_USER
-                        print( from_email,'>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<')
                         email_user = request.user
-                        print(email_user.email,'>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<')
                         to_list = [email_user.email]
                         send_mail(subject, from_email,message,to_list, fail_silently = True )
                        

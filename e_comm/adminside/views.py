@@ -157,6 +157,11 @@ def adminpage(request):
         return redirect('admin_signin')
 
 
+
+
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
+@user_passes_test(is_superuser, login_url='admin_signin') 
 def delete_product(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     
@@ -167,6 +172,11 @@ def delete_product(request, product_id):
     return redirect('adminpage') 
 
 
+
+
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
+@user_passes_test(is_superuser, login_url='admin_signin') 
 def activate_product(request, product_id):
     product = get_object_or_404(Products, id=product_id)
     
@@ -489,10 +499,7 @@ def order_views(request,order_id):
                     if referral.referred_by :
                         referral_wallet = wallet.objects.get(user=referral.referred_by)
                         referral_wallet.Wallettotal += walletss
-                        print(referral_wallet.Wallettotal,'----------------')
                         referral_wallet.save()  # Save changes to referral_wallet
-
-                        print('refferal kitty------------------')
                         buyer_wallet.Wallettotal += money
                         buyer_wallet.save()  # Save changes to buyer_wallet
 
@@ -502,10 +509,8 @@ def order_views(request,order_id):
                     
                   
                 except Referral.DoesNotExist:
-                    print("Referral does not exist.")
+                    messages.error(request, "Invalid referral code.")
 
-
-        print('success--------------------->>>>>>>>>>>>>>>>>>')
         orders.save()
             
 
@@ -531,8 +536,6 @@ def cancel_order(request, order_id):
         # Update the payment status to 'CANCELLED'
         order_items = OrderItem.objects.filter(order=order)
         for item in order_items:
-        
-            print(item.quantity)
             variant = item.product  
             variant.stock += item.quantity
             variant.save()
@@ -689,13 +692,9 @@ def banner_view(request):
         banner_image = request.FILES.get('banner_image')
         
         is_active = request.POST.get('is_active')
-        print(variant_id,'----->>>>>><<<<<<<<<<----')
-
         # Retrieve the Category instance based on the selected category_id
 
         variants = Variant.objects.get(id=variant_id)
-        print(variants.title,'--->>>>>><<<<<<<<<<----')
-
         # Create the Banner object with the correct category assignment
         banner = Banner.objects.create(
             name=banner_name,
@@ -780,7 +779,6 @@ def refund(request,order_id):
     order = Order.objects.get(id = order_id)
 
     if order.order_status == 'PENDING' and order.payment_method == 'RAZORPAY' and order.payment_status == 'PAID':
-        print(order.total_price,'----------->>>>>>><<<<<<<<<<<------')
         client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
         refund_response = client.payment.refund(order.razor_pay_payment_id, {'amount': int(order.total_price * 100)})
 
@@ -807,7 +805,6 @@ def refund(request,order_id):
         variant.stock += item.quantity
         variant.save()
     if order.payment_status =='PAID' and order.payment_method != 'RAZORPAY':
-        print('its order paid and returned')
         buyer_wallet = wallet.objects.get(user=order.user)
         buyer_wallet.Wallettotal += order.total_price
         buyer_wallet.save()

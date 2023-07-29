@@ -95,7 +95,7 @@
 			<nav class="limiter-menu-desktop container">
 				
 				<!-- Logo desktop -->		
-				<a href="#" class="logo">
+				<a href="/" class="logo">
 					<img src="{% static 'user/img/logo1.png'%}" alt="IMG-LOGO">
 				</a>
 
@@ -125,21 +125,34 @@
 				<!-- Icon header -->
 				{% load cart_tags %}
 				 <div class="wrap-icon-header flex-w flex-r-m">
-					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti "{% if request.user.is_authenticated %} data-notify="{%  whishlist_count%}" {% endif %}>
+					{% if request.user.is_authenticated %}
+					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti "  data-notify="{%  whishlist_count%}">
 						<i class="zmdi zmdi-favorite-outline"></i>
 					</a>
+					{% else %}
+					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 "> 
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+					{% endif %}
 					{% load cart_tags %}
 				 
-					<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" {% if request.user.is_authenticated %} data-notify="{% cart_items_count %}" {% endif %}>
+					
+					<div>{% if request.user.is_authenticated %} 
+						<a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="{% cart_items_count %}">
 						<i class="zmdi zmdi-shopping-cart"></i>
 					</a>
+					{% else %}
+					<a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</a>
+					{% endif %}
 					</div>
 
 						{% comment %} {% if request.user.is_authenticated %} {% endcomment %} 
 						<div class="cl2 hov-cl1 trans-04  p-r-11 mx-2" >
 							<li class="nav-item dropdown" >
 							  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-								<i class="fa fa-user-circle w-10" aria-hidden="true" ></i> 
+								<i class="fa fa-user-circle w-10" aria-hidden="true" >{{user.username}}</i> 
 							  </a>
 							  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 								{% if request.user.is_authenticated %} 
@@ -164,24 +177,40 @@
 	<div class="wrap-header-mobile">
 		<!-- Logo moblie -->		
 		<div class="logo-mobile">
-			<a href="index.html"><img src="{% static 'user/img/logo1.png'%}" alt="IMG-LOGO"></a>
+			<a href="/"><img src="{% static 'user/img/logo1.png'%}" alt="IMG-LOGO"></a>
 		</div>
 
 		<!-- Icon header -->
 		<div class="wrap-icon-header flex-w flex-r-m m-r-15">
-			<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 " data-notify="0">
-				<i class="zmdi zmdi-favorite-outline"></i>
-			</a>
-
-			<div><a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" {% if request.user.is_authenticated %} data-notify="{% cart_items_count %}" {% endif %}>
-				<i class="zmdi zmdi-shopping-cart"></i>
-			</a>
-			</div>
+			{% load cart_tags %}
+				 <div class="wrap-icon-header flex-w flex-r-m">
+					{% if request.user.is_authenticated %}
+					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 icon-header-noti "  data-notify="{%  whishlist_count%}">
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+					{% else %}
+					<a href="{% url 'wishlist' %}" class="dis-block icon-header-item cl2 hov-cl1 trans-04 p-r-11 p-l-10 "> 
+						<i class="zmdi zmdi-favorite-outline"></i>
+					</a>
+					{% endif %}
+					{% load cart_tags %}
+				 
+					
+					<div>{% if request.user.is_authenticated %} 
+						<a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 icon-header-noti js-show-cart" data-notify="{% cart_items_count %}">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</a>
+					{% else %}
+					<a href="{% url 'cart' %}" class="icon-header-item cl2 hov-cl1 trans-04 p-l-22 p-r-11 js-show-cart">
+						<i class="zmdi zmdi-shopping-cart"></i>
+					</a>
+					{% endif %}
+					</div>
 				{% comment %} {% if request.user.is_authenticated %} {% endcomment %}
 				<div class="cl2 hov-cl1 trans-04  p-r-11 mx-2" >
 					<li class="nav-item dropdown" >
 					  <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-						<i class="fa fa-user-circle w-10" aria-hidden="true" ></i> 
+						<i class="fa fa-user-circle w-10" aria-hidden="true" >{{user.username}}</i> 
 					  </a>
 					  <div class="dropdown-menu dropdown-menu-right" aria-labelledby="navbarDropdown">
 						{% if request.user.is_authenticated %} 
@@ -205,16 +234,8 @@
 		</div>
 	</div>
 
-	{% if messages %}
-	{% for message in messages %}
-	<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
-	  <strong>Hello User</strong> {{ message }}
-	  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-		<span aria-hidden="true">&times;</span>
-	  </button>
-	</div>
-	{% endfor %}
-	{% endif %}
+	    
+
 
 	<!-- Menu Mobile -->
 	<div class="menu-mobile">
@@ -242,7 +263,16 @@
 </header>
 
 
-
+{% if messages %}
+{% for message in messages %}
+<div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+  <strong>Hello User</strong> {{ message }}
+  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+	<span aria-hidden="true">&times;</span>
+  </button>
+</div>
+{% endfor %}
+{% endif %}
 
 {% block content%}
 {% endblock %}

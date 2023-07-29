@@ -16,7 +16,7 @@
 <!-- breadcrumb -->
 <div class="container">
     <div class="bread-crumb flex-w p-l-25 p-r-15 p-t-30 p-lr-0-lg">
-        <a href="index.html" class="stext-109 cl8 hov-cl1 trans-04">
+        <a href="/" class="stext-109 cl8 hov-cl1 trans-04">
             Home
             <i class="fa fa-angle-right m-l-9 m-r-10" aria-hidden="true"></i>
         </a>
@@ -134,17 +134,7 @@
                     <h4 class="mtext-109 cl2 p-b-30">
                         Cart Totals
                     </h4>
-                    {% if messages %}
-                    {% for message in messages %}
-                    <div class="alert alert-warning alert-dismissible fade show {% if message.tags %}alert-{{ message.tags }}{% endif %}" role="alert">
-                        <strong>OOpss!</strong>    {{ message }}.
-                        <button type="button" class="close" data-dismiss="alert" aria-label="Close">
-                          <span aria-hidden="true">&times;</span>
-                        </button>
-                      </div>
-                 
-                    {% endfor %}
-                    {% endif %}
+                   
                     <div class="flex-w flex-t bor12 p-b-13">
                         <div class="size-208">
                             <span class="stext-110 cl2">
@@ -154,7 +144,7 @@
 
                         <div class="size-209">
                             <span  id="sub-totat" class="mtext-110 cl2">
-                                ${{ subtotal }}
+                                $ {{ subtotal }}
                             </span>
                         </div>
                     </div>

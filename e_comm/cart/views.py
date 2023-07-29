@@ -31,7 +31,6 @@ def add_to_cart(request, variant_id):
             pass
     else:
         if variant.discount_price:
-            print('>>>>>>>>>>>>>>>>>>',variant.discount_price)
             price_item = variant.discount_price
         else:
             price_item = variant.price
@@ -110,11 +109,8 @@ def view_cart(request):
 
 
 def remove_from_cart(request,item_id):
-
-    print(item_id)
     cart_item = CartItems.objects.get(id=item_id)
     cart_item.delete()
-    print(item_id)
     return redirect('cart')
 
     
@@ -142,10 +138,8 @@ def update_quantity(request):
         cart.save()
         subtotal = cart.get_total_price()
         if carts.coupons :
-            print(carts.coupons.discount_price,'---------------------------------------------')
             total_price = cart.total_price
             total_price -= carts.coupons.discount_price
-            print(total_price,'>>>>>>>>>>>>>>>>>>>>>>><<<<<<<<<<<<<<<<<<<<<<<<<<')
         else:
             total_price = cart.total_price
 
@@ -214,7 +208,7 @@ def view_wallet(request):
 #             product=variant,
 #             defaults={'price': variant.discount_price or variant.price}  # Set the price based on variant type
 #         )
-#         print('hellowwwwwwwwwww')
+#       
 
 #         if not created:
 #             cart_item.quantity += 1

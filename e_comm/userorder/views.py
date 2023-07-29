@@ -312,7 +312,6 @@ def cancel_orders(request, order_id):
 
     if order.payment_status == 'PAID' and order.payment_method == 'RAZORPAY' and order.order_status != 'DELIVERED':
         # Refund the payment through Razorpay
-        print(order.total_price,'----------->>>>>>><<<<<<<<<<<------')
         client = razorpay.Client(auth=(settings.RAZOR_KEY_ID, settings.RAZOR_KEY_SECRET))
         refund_response = client.payment.refund(order.razor_pay_payment_id, {'amount': int(order.total_price * 100)})
 
@@ -338,7 +337,6 @@ def cancel_orders(request, order_id):
         variant.stock += item.quantity
         variant.save()
     if order.payment_status =='PAID' and order.payment_method != 'RAZORPAY':
-        print('its order paid and returned')
         buyer_wallet = wallet.objects.get(user=order.user)
         buyer_wallet.Wallettotal += order.total_price
         buyer_wallet.save()
@@ -428,7 +426,6 @@ def order_pdf(request,order_id):
  
 def return_order(request,order_id):
     order = Order.objects.get(id = order_id)
-    print(">>>>>>>>>>>>>>>>>>>>>>>>>>>>>>",order)
 
     if order.payment_status == 'PAID' and order.payment_method == 'RAZORPAY' and order.order_status == 'DELIVERED':
         order.order_status ='PENDING'

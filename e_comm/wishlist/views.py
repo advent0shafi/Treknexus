@@ -31,7 +31,6 @@ def adding_wishlist(request):
         # Check if the variant is not already in the wishlist for the current user
         if not whishlist.objects.filter(user=request.user, product=variant).exists():
             wishlist_item = whishlist.objects.create(user=request.user, product=variant)
-            print('Item added to the wishlist:', wishlist_item)
             return JsonResponse({'status': 'success', 'message': 'Item added to the wishlist.'})
         else:
             return JsonResponse({'status': 'error', 'message': 'Item already in the wishlist.'})
@@ -60,7 +59,6 @@ def removing_wishlist(request):
 def remove_item(request,variant_id):
    
     variant = Variant.objects.get(id=variant_id)
-    print(variant_id,'-----------------------------')
  
     try:
         wishlist_item = whishlist.objects.get(user=request.user, product=variant)
