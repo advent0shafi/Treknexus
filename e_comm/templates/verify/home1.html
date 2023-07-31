@@ -251,13 +251,14 @@
 					<div class="flex-col-l-m h-full p-t-100 p-b-30 respon5">
 						<div class="layer-slick1 animated visible-false" data-appear="fadeInDown" data-delay="0">
 							<span class="ltext-101 cl2 respon2" style="color:white;">
-							{{banner.name}}
+	
+							{{banner.variants.title}}
 							</span>
 						</div>
 							
 						<div class="layer-slick1 animated visible-false" data-appear="fadeInUp" data-delay="800">
 							<h1 class="ltext-201 cl2 p-t-19 p-b-43 respon1" style="color:white;">
-							New Arrival
+								{{banner.name}}
 							</h1>
 						</div>
 							
@@ -329,14 +330,13 @@
 
 			<div class="flex-w flex-sb-m p-b-52">
 				<div class="flex-w flex-l-m filter-tope-group m-tb-10">
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5 how-active1" data-filter="*">
-						All Products
-					</button>
-{% for catogery in cat%}
-					<button class="stext-106 cl6 hov1 bor3 trans-04 m-r-32 m-tb-5" data-filter=".women">
-					{{catogery.name}}
-					</button>
-{% endfor %}
+ <a href="{% url 'shop' 0%}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+                ALL</a>
+            {% for category in cat %}
+                <a href="{% url 'shop' category.id%}" class="flex-c-m stext-107 cl6 size-301 bor7 p-lr-15 hov-tag1 trans-04 m-r-5 m-b-5">
+             {{category.name}} 
+                </a>
+  {% endfor %}
 				
 				</div>
 
@@ -364,7 +364,7 @@
 		  
 					<div class="block2-txt flex-w flex-t p-t-14">
 					  <div class="block2-txt-child1 flex-col-l ">
-						<a href="product-detail.html"  style="color: black;" class ="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
+						<a href="{{pros.get_absolute_url}}"  style="color: black;" class ="stext-104 cl4 hov-cl1 trans-04 js-name-b2 p-b-6">
 					   {{ pross.name}}
 						</a>
 		  
@@ -372,7 +372,7 @@
 						  {{pros.price}}
 						</span>
 					  </div>
-		  {% load static %}
+				  {% load static %}
 
 		  
 					</div>

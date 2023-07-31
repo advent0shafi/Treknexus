@@ -33,7 +33,7 @@ SECRET_KEY = 'django-insecure-#p=v!st_ze!kk$x2%aylh70^ze#y&iml%7^86)f_)k-1ar7p=*
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['3.110.235.101' , '0.0.0.0' ,'localhost']
 
 
 # Application definition
@@ -62,16 +62,28 @@ INSTALLED_APPS = [
 RAZOR_KEY_ID = 'rzp_test_AyKu7QOpDUvx2T'
 RAZOR_KEY_SECRET = 'bpsOz3B0UVroH3MdfcLg9pN8'
 
-
 MIDDLEWARE = [
-    'django.middleware.security.SecurityMiddleware',
-    'django.contrib.sessions.middleware.SessionMiddleware',
-    'django.middleware.common.CommonMiddleware',
-    'django.middleware.csrf.CsrfViewMiddleware',
-    'django.contrib.auth.middleware.AuthenticationMiddleware',
-    'django.contrib.messages.middleware.MessageMiddleware',
-    'django.middleware.clickjacking.XFrameOptionsMiddleware',
+    "django.middleware.security.SecurityMiddleware",
+    "corsheaders.middleware.CorsMiddleware",
+    "django.contrib.sessions.middleware.SessionMiddleware",
+    "django.middleware.common.CommonMiddleware",
+    "django.middleware.csrf.CsrfViewMiddleware",
+    "django.contrib.auth.middleware.AuthenticationMiddleware",
+    "django.contrib.messages.middleware.MessageMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware",
 ]
+
+
+# settings.py
+
+CSRF_TRUSTED_ORIGINS = [
+    "http://3.110.235.101",
+
+]
+
+CORS_ORIGIN_ALLOW_ALL = True
+
+CORS_ALLOW_CREDENTIALS = True
 
 ROOT_URLCONF = 'e_comm.urls'
 
@@ -102,7 +114,7 @@ DATABASES = {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'test_data2',
         'USER': 'postgres',
-        'PASSWORD':'786121',
+        'PASSWORD':'1234567',
         'HOST': 'localhost',
         'PORT': '5432'
     }

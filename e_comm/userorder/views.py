@@ -1,4 +1,4 @@
-from django.http import HttpResponse
+from django.http import HttpResponse, HttpResponseRedirect
 from django.shortcuts import render,redirect,get_object_or_404
 from userprofile.models import *
 from cart.models import *
@@ -348,7 +348,7 @@ def cancel_orders(request, order_id):
 
     messages.success(request, "Order successfully cancelled.")
 
-    return redirect('order_view')
+    return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)

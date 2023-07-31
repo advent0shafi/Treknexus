@@ -15,7 +15,7 @@ def cart_items_count(context):
 def whishlist_count(context):
     user = user = context['request'].user
     whishlist_count = whishlist.objects.filter(user = user).count()
-    return whishlist_count  
+    return whishlist_count  - 1
 
 @register.filter
 def in_wishlist(user, product_id):
