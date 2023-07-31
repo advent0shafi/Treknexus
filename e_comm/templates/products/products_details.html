@@ -1,12 +1,21 @@
 
 {% extends 'products/base.html' %}
 
+{% block link  %}
 
+{% load static %}
+
+{% endblock  %}
 
 {% block style %}
-
-
-<style>
+<style type="text/css">
+ body { background-color:#fafafa;}
+        img{display: block;}
+        .imgBox{width: 100px;height: 100px;border: 1px solid #ffffff;}
+		.zoom{ border : None;}
+		.zoomWindowContainer {
+        margin-top: 100px; /* Adjust the margin as needed */
+    }
 	/* Style for the wishlist icon */
 	.wishlist-icon {
 	  cursor: pointer;
@@ -63,24 +72,44 @@
                 <div class="col-md-6 col-lg-7 p-b-30">
 					<div class="p-l-25 p-r-30 p-lr-0-lg">
 						<div class="wrap-slick3 flex-sb flex-w">
-							<div class="wrap-slick3-dots"></div>
-							<div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
-
-							<div class="slick3 gallery-lb">
-								{% for pro in pros.product_image_set.all %}
-								<div class="item-slick3" data-thumb="{{ pro.image.url }}">
-									<div class="wrap-pic-w pos-relative">
-										<img class="zoom" src="{{ pro.image.url }}" alt="IMG-PRODUCT">
-
-										<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04" href="images/product-detail-01.jpg">
-											<i class="fa fa-expand"></i>
-										</a>
-									</div>
+						  <div class="wrap-slick3-dots"></div>
+							 <div class="wrap-slick3-arrows flex-sb-m flex-w"></div>
+						
+							 <div class="slick3 gallery-lb">
+								<!-- Main product image -->
+								<div class="item-slick3 imgbox" data-thumb="{{ pros.variant_image.url }}">
+								  <div class="wrap-pic-w pos-relative imgbox zoom">
+									<img class="main-image imgbox zoom" src="{{ pros.variant_image.url }}" alt="Main Product Image">
+									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04 zoom" href="{{ pros.variant_image.url }}" data-origin="{{ pros.variant_image.url }}">
+									  <i class="fa fa-expand"></i>
+									</a>
+								  </div>
 								</div>
-   								{% endfor %}
-
-							</div>
-						</div>
+								{% for pro in pros.product_image_set.all %}
+								<div class="item-slick3 imgbox" data-thumb="{{ pro.image.url }}">
+									<div class="wrap-pic-w pos-relative imgbox zoom">
+									  <img class="main-image imgbox zoom" src="{{ pro.image.url }}" alt="Main Product Image">
+									  <a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04 zoom" href="{{ pro.image.url }}" data-origin="{{ pro.image.url }}">
+										<i class="fa fa-expand"></i>
+									  </a>
+									</div>
+								  </div>
+								  {% endfor %}
+								<!-- Loop through additional product images -->
+								{% comment %} {% for pro in pros.product_image_set.all %}
+								<div class="item-slick3" data-thumb="{{ pro.image.url }}">
+								  <div class="wrap-pic-w pos-relative">
+									<img class="additional-image" src="{{ pro.image.url }}" alt="Additional Product Image">
+									<a class="flex-c-m size-108 how-pos1 bor0 fs-16 cl10 bg0 hov-btn3 trans-04 zoom" href="{{ pro.image.url }}" data-origin="{{ pro.image.url }}">
+									  <i class="fa fa-expand"></i>
+									</a>
+								  </div>
+								</div>
+								{% endfor %} {% endcomment %}
+							  </div>
+							
+						  </div>
+						
 					</div>
 				</div>
               
@@ -92,22 +121,22 @@
 						  {{ pros.title }}
 						</h4>
 						<div class="block2-txt-child2 flex-r p-t-3 mx-5">
-							<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pros.id }}">
-							
-								<img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
-								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
-							  </a>
-							  <a href="#" class=" dis-block pos-relative ">
-
 							  {% load cart_tags %}
 							  {% if request.user.is_authenticated %}
 							  {% if request.user|in_wishlist:pros.id %}
-							  <img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
+							<a href="{% url 'remove_item' pros.id%}" class=" dis-block pos-relative ">
+							
+							  <div class="icon-heart2 dis-block trans-04 ab-t-l zoom" >x</div>
+							 
+							  <img class="dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+							</a>
 								{% else %}
-								<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+								<a href="{% url 'adding_wishlist_direct' pros.id%}" class=" dis-block pos-relative ">
+								<div class="dis-block trans-04 zoom" ><i class="item-rating pointer zmdi zmdi-star-outline"></i></div>
+								</a>
 								{% endif %}
 								{% endif %}
-							  </a>
+						
 						</div>
 					  </div>
 					  {% if pros.discount_price %}
@@ -115,14 +144,7 @@
 						<del>$ {{ pros.price }}</del> 
 					  </span> 
 						<!-- Display original price with a strikethrough -->
-						<span class="wrap-rating fs-18 cl11 pointer">
-							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-							<i class="item-rating pointer zmdi zmdi-star-outline"></i>
-							<input class="dis-none" type="number" name="rating">
-						</span>
+						
 						<span class="mtext-106 cl2">
 					   $ {{ pros.discount_price }} 
 					  </span> 
@@ -131,9 +153,18 @@
 					  $ {{ pros.price }}
 						  </span> 
 							 {% endif %}   
+							 
 					  <p class="stext-102 cl3 p-t-23">
 						{{ pros.product.category }}
 					  </p>
+					  <span class="wrap-rating fs-18 cl11 pointer">
+						<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+						<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+						<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+						<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+						<i class="item-rating pointer zmdi zmdi-star-outline"></i>
+						<input class="dis-none" type="number" name="rating">
+					</span>
 						<div class="p-t-33">
 							<div class="flex-w flex-r-m p-b-10">
 								<div class="size-203 flex-c-m respon6">
@@ -142,13 +173,9 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">		
+										<select class="js-select2" name="time" disabled>		
 								<option>{{pros.size}} </option>
-											{% for varients in pros.product.variant_set.all %}
-										
-											<option >{{varients.size}}</option>
-										
-											{% endfor %}
+											
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
@@ -162,15 +189,14 @@
 
 								<div class="size-204 respon6-next">
 									<div class="rs1-select2 bor8 bg0">
-										<select class="js-select2" name="time">
+										<select class="js-select2" name="time" disabled>
 											<option>{{pros.color}}</option>
-											{% for varients in pros.product.variant_set.all %}
-											<option>{{varients.color}}</option>
-											{% endfor %}
+											<!-- Add more options if needed -->
 										</select>
 										<div class="dropDownSelect2"></div>
 									</div>
 								</div>
+								
 							</div>
 							
 
@@ -403,11 +429,11 @@
 
 		<div class="bg6 flex-c-m flex-w size-302 m-t-73 p-tb-15">
 			<span class="stext-107 cl6 p-lr-25">
-				SKU: JAK-01
+				SKU: 
 			</span>
 
 			<span class="stext-107 cl6 p-lr-25">
-				Categories: Jacket, Men
+				Categories: {{ pros.product.category }}
 			</span>
 		</div>
 	</section>
@@ -453,8 +479,16 @@
 								{% load static %}
 								<div class="block2-txt-child2 flex-r p-t-3">
 									<a href="#" class="btn-addwish-b2 dis-block pos-relative js-addwish-b2" data-variant-id="{{ pross.id }}">
-										<img class="icon-heart1 dis-block trans-04" src="{% static 'user/images/icons/icon-heart-01.png' %}" alt="ICON">
-										<img class="icon-heart2 dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+										{% load cart_tags %}
+										{% if request.user.is_authenticated %}
+										{% if request.user|in_wishlist:pros.id %}
+										<div class="icon-heart2 dis-block trans-04 ab-t-l zoom" >x</div>
+									   
+										<img class="dis-block trans-04 ab-t-l" src="{% static 'user/images/icons/icon-heart-02.png' %}" alt="ICON">
+										  {% else %}
+										  <div class="dis-block trans-04 zoom" ><i class="item-rating pointer zmdi zmdi-star-outline"></i></div>
+										  {% endif %}
+										  {% endif %}
 									  </a>
 								</div>
 								
@@ -476,16 +510,49 @@
 
 {% block script  %}
 
+<script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.6.0/jquery.min.js"></script>
+  <!-- Slick Slider -->
+  <script src="{% static 'path/to/slick/slick.min.js' %}"></script>
+  <!-- SweetAlert 2 -->
+  <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11.0.19/dist/sweetalert2.all.min.js"></script>
+  <!-- ElevateZoom -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/elevatezoom/3.0.8/jquery.elevatezoom.min.js"></script>
+  <script>
+    // Function to update the main image and reapply the zoom
+    function updateMainImage(imageUrl) {
+      var mainImage = $('.imgbox img.imgbox.zoom');
+      mainImage.attr('src', imageUrl);
+      mainImage.data('zoom-image', imageUrl);
+      mainImage.elevateZoom({
+        zoomWindowWidth: 200,
+        zoomWindowHeight: 200
+      });
+    }
+
+    // Initialize ElevateZoom for the first image
+    $('.imgbox.zoom img').elevateZoom({
+      zoomWindowWidth: 400,
+      zoomWindowHeight: 400
+    });
+
+    // Add a click event handler to the additional images for zoom
+	$('.slick3 .item-slick3:not(.active) .zoom').on('click', function(e) {
+		e.preventDefault();
+		var imageUrl = $(this).attr('data-origin');
+		updateMainImage(imageUrl);
+	  });
+	  
+    // Add a callback to update the zoom when changing slides with arrows
+    $('.slick3').on('afterChange', function(event, slick, currentSlide) {
+      var imageUrl = $('.slick3 .item-slick3').eq(currentSlide).find('img').attr('data-origin');
+      updateMainImage(imageUrl);
+    });
+  </script>
+
 <script>
 
 
 
-  $(document).ready(function() {
-    $('.zoom').elevateZoom({
-      zoomWindowWidth: 300, 
-      zoomWindowHeight: 200
-    });
-  });
 
 
   $('.js-addcart-detail').each(function(){
@@ -506,6 +573,7 @@ $(document).ready(function() {
 	  const variantId = wishlistButton.data('variant-id');
 	  
 	  if (wishlistButton.hasClass('js-addedwish-b2')) {
+		
 		$.ajax({
 		  type: 'POST',
 		  headers: { "X-CSRFToken": "{{ csrf_token }}" },
@@ -524,12 +592,14 @@ $(document).ready(function() {
 			wishlistButton.removeClass('js-addedwish-b2');
 			wishlistButton.find('.icon-heart1').show();
 			wishlistButton.find('.icon-heart2').hide();
+			
 		  },
 		  error: function() {
 			console.log('Error while removing from the wishlist.');
 		  }
 		});
 	  } else {
+	
 		$.ajax({
 		  type: 'POST',
 		  headers: { "X-CSRFToken": "{{ csrf_token }}" },
@@ -538,6 +608,7 @@ $(document).ready(function() {
 			variant_id: variantId
 		  },
 		  success: function() {
+		
 			swal({
 			  text: `Item added to the wishlist!`,
 			  icon: "success",
@@ -558,7 +629,5 @@ $(document).ready(function() {
   });
   </script>
   
-  
-
-
+ 
 {% endblock  %}

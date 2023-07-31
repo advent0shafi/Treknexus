@@ -3,51 +3,69 @@
 {% block title%}
 catogery
 {% endblock %}
-
-{% block content%}
+{% block link %}
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
+{% endblock %}
+{% block content %}
 {% load static %}
 <div class="card">
-  <div class="card-header">
-      <h5>Category Page</h5>
-      <span>HEYY  <code>table</code> inside table element</span>
-      <div class="card-header-right">
-          <ul class="list-unstyled card-option">
-              <li><i class="icofont icofont-simple-left "></i></li>
-              <li><i class="icofont icofont-maximize full-card"></i></li>
-              <li><i class="icofont icofont-minus minimize-card"></i></li>
-              <li><i class="icofont icofont-refresh reload-card"></i></li>
-              <li><i class="icofont icofont-error close-card"></i></li>
-          </ul>
-      </div>
-  </div>
-  <div class="card-block table-border-style">
-      <div class="table-responsive">
-          <table class="table">
-              <thead>
-                  <tr>
-                      <th>No</th></th>
-                      <th>Name</th>
-                      <th>Image</th>
-                      <th>Actions</th>
-                  </tr>
-              </thead>
-              <tbody>
-                  {% for category in cat %}
-                  <tr>
-                      <th scope="row">{{ forloop.counter }}</th>
-                      <td>{{ category.name }}</td>
-                      <td><img src="{{ MEDIA_URL }}{{ category.image.url }}" style="width: 120px; height: 100px;" alt=""></td>
-                      <td>
-                          <a class="btn btn-dark" href="{% url 'catogery_delete' category.id %}">Delete</a>
-                          <a class="btn btn-light" href="{% url 'edit_category' category.id %}">Edit</a>
-                      </td>
-                  </tr>
-                  {% endfor %}
-              </tbody>
-          </table>
-      </div>
-  </div>
-  <a class="btn btn-dark" href="{% url 'catogery_add' %}">ADD CATEGORY</a>
+    <div class="card-header">
+        <h5>Category Page</h5>
+        <span>HEYY  <code>table</code> inside table element</span>
+        <div class="card-header-right">
+            <ul class="list-unstyled card-option">
+                <li><i class="icofont icofont-simple-left "></i></li>
+                <li><i class="icofont icofont-maximize full-card"></i></li>
+                <li><i class="icofont icofont-minus minimize-card"></i></li>
+                <li><i class="icofont icofont-refresh reload-card"></i></li>
+                <li><i class="icofont icofont-error close-card"></i></li>
+            </ul>
+        </div>
+    </div>
+    <div class="card-block table-border-style">
+        <div class="table-responsive">
+            <table id="ordersTable" class="table table-striped mt-2">
+                <thead>
+                    <tr>
+                        <th>No</th>
+                        <th>Name</th>
+                        <th>Image</th>
+                        <th>Actions</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for category in cat %}
+                    <tr>
+                        <th scope="row">{{ forloop.counter }}</th>
+                        <td>{{ category.name }}</td>
+                        <td><img src="{{ MEDIA_URL }}{{ category.image.url }}" style="width: 120px; height: 100px;" alt=""></td>
+                        <td>
+                            <a class="btn btn-dark" href="{% url 'catogery_delete' category.id %}">Delete</a>
+                            <a class="btn btn-light" href="{% url 'edit_category' category.id %}">Edit</a>
+                        </td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+    <a class="btn btn-dark" href="{% url 'catogery_add' %}">ADD CATEGORY</a>
 </div>
+{% endblock %}
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
 
+<script>
+    $(document).ready(function () {
+        $('#ordersTable').DataTable({
+            lengthMenu: [5, 10, 25, 50],
+            pageLength: 5,
+            ordering: true,
+            searching: true,
+            paging: true,
+            // Other DataTables options go here
+        });
+    });
+</script>
 {% endblock %}

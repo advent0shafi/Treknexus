@@ -128,7 +128,9 @@ def admin_home(request):
 
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)
 def admin_signin(request):
-   
+   if request.user.is_authenticated and request.user.is_superuser:
+       
+       return redirect('admin_home')
    if request.method == 'POST':
       username = request.POST["username"]
      
@@ -204,7 +206,7 @@ def block_user(request, user_id):
     return HttpResponseRedirect(reverse('userlist'))  # Redirect to user list page after blocking
 
 def unblock_user(request, user_id):
-    pro = get_object_or_404(Products, id=user_id)
+    pro = get_object_or_404(User, id=user_id)
     pro.is_active = True
     pro.save()
     return HttpResponseRedirect(reverse('userlist'))  # Redirect to user list page after unblocking
@@ -556,31 +558,6 @@ def catogery_delete(request,catogery_id):
      
     return redirect('catogery')  
 
-# def download_order_pdf(request, order_id):
-#     # Fetch the order details from the database
-#     order = Order.objects.get(id=order_id)
-
-#     # Generate the PDF content
-#     template_path = 'admin/downloadpdf.html'  # Create a new template for the PDF content
-#     context = {'order': order}
-#     template = get_template(template_path)
-#     html = template.render(context)
-#     result = BytesIO()
-    
-#     # Create the PDF document
-#     pdf = pisa.pisaDocument(BytesIO(html.encode("UTF-8")), result)
-
-#     if not pdf.err:
-#         # Set the response headers for downloading the PDF
-#         response = HttpResponse(result.getvalue(), content_type='application/pdf')
-#         response['Content-Disposition'] = f'attachment; filename="order_{order_id}.pdf"'
-#         return response
-
-#     return HttpResponse('Error generating PDF', status=500)
-
-# def download_order_pdf2(request,order_id):
-#     order = get_object_or_404(Order, id=order_id)
-#     return render(request,'admin/downloadpdf.html', {'order': order})
 
 
 
@@ -638,7 +615,9 @@ def admin_logout(request):
 
 
 
-
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
+@user_passes_test(is_superuser, login_url='admin_signin') 
 def sales_report(request):
     # Get the current date and time
     current_datetime = timezone.now()
@@ -683,6 +662,9 @@ def sales_report(request):
     return render(request, 'admin/sales_report.html', context)
 
 
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
+@user_passes_test(is_superuser, login_url='admin_signin') 
 def banner_view(request):
     banner = Banner.objects.all()
     variant = Variant.objects.all()
@@ -723,6 +705,7 @@ def banner_active(request,banner_id):
     banner.is_active = True
     banner.save()
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
+
 def banner_block(request,banner_id):
     banner = Banner.objects.get(id=banner_id)
     banner.is_active = False
@@ -730,7 +713,9 @@ def banner_block(request,banner_id):
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))
 
 
-
+@cache_control(no_cache=True,must_revalidate=True,no_store=True)
+@login_required(login_url='admin_signin')  # This ensures that the user is logged in before accessing the view.
+@user_passes_test(is_superuser, login_url='admin_signin') 
 def edit_banner(request, banner_id):
     # Retrieve the banner you want to edit from the database
     banner = get_object_or_404(Banner, id=banner_id)

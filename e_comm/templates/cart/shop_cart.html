@@ -51,7 +51,7 @@
                             {% for carts in cart.cartitems_set.all  %}
                             <tr class="table_row">
                                 <td class="column-1">
-                                    <a href="{% url 'remove_from_cart' carts.id %}"><div class="how-itemcart1">
+                                    <a href="{{ carts.product.get_absolute_url}}"><div class="how-itemcart1">
                                      <img src="{{MEDIA_URL}}{{carts.product.variant_image.url}}" alt="IMG">
                                     </div></a> 
                                    
@@ -163,11 +163,11 @@
                                 <a href="{% url 'remove_coupon' %}" > {{ cart.coupons.coupon_code }}</a>
                             </p>
                             <p class="stext-111 cl6 p-t-2">
-                                {{ cart.coupons.discount_price }}
+                               - {{ cart.coupons.discount_price }}
                                  </p>
                                  {% else %}
                                  <p class="stext-111 cl6 p-t-2">
-                                   no coupon applied
+                                 Check for coupons
                                 </p>
                                 <p class="stext-111 cl6 p-t-2">
                                   00
@@ -192,7 +192,7 @@
 
                         <div class="size-209 p-t-1">
                             <span id="total-price" class="mtext-110 cl2">
-                                {{total_prices}}
+                               $ {{total_prices}}
                             </span>
                             
 

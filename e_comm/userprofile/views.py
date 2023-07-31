@@ -11,6 +11,8 @@ from django.http import HttpResponse, HttpResponseRedirect
 from django.contrib.auth import authenticate,login,logout
 from django.core.mail import send_mail,EmailMessage
 from e_comm import settings
+from django.template.loader import render_to_string
+
 # Create your views here.
 
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)
@@ -130,14 +132,12 @@ def profile_view(request):
         # Get the form data from the request
         first_name = request.POST.get('fname')
         last_name = request.POST.get('lname')
-        username = request.POST.get('username')
         email = request.POST.get('email')
         
         # Update the user object with the new information
         user = request.user
         user.first_name = first_name
         user.last_name = last_name
-        user.username = username
         user.email = email
         user.save()
         
@@ -271,15 +271,16 @@ def password_reset(request):
                         user.save()
                         user = authenticate(username=user.username, password=pass1)
                         login(request, user)
-                        subject = "Password Changed"
-                        message = """
-Your password has been successfully changed. If you did not perform this action, please contact our support team immediately.
-
-"""
-                        from_email = settings.EMAIL_HOST_USER
-                        email_user = request.user
-                        to_list = [email_user.email]
-                        send_mail(subject, from_email,message,to_list, fail_silently = True )
+                        esubject = "Password Changed - TrekNexsus"
+                        emessage = render_to_string('verify/password_changed.html', {'name': request.user.username })
+                        email = EmailMessage(
+                            esubject,
+                            emessage,
+                            settings.EMAIL_HOST_USER,
+                            [request.user.email],
+                        )
+                        email.fail_silently = True
+                        email.send()
                        
                         messages.success(request, 'Password reset successful!')
                         return HttpResponseRedirect('profile_view')

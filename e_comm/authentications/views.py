@@ -96,7 +96,9 @@ def home(request):
       return render(request, 'verify/home1.html',context)
 
 def signin(request):
- 
+   if request.user.is_authenticated:
+       
+       return redirect('home')
    
    if request.method == 'POST':
       username = request.POST["username"]
@@ -109,11 +111,20 @@ def signin(request):
          otp_store = get_random_string(length=5, allowed_chars='0123456789')
          request.session['otp'] = otp_store
          request.session['user_pk'] = user.pk
-         subject = "OTP confirmations"
-         message = f"Your otp is{otp_store}"
-         from_email = settings.EMAIL_HOST_USER
-         to_list = [user.email]
-         send_mail(subject, from_email,message,to_list, fail_silently = True )
+         esubject = "OTP Login"
+         emessage = render_to_string('verify/otp_mail.html',{
+         'name':user.username,
+         'otp': otp_store,
+      })
+         email = EmailMessage(
+            esubject,
+            emessage,
+            settings.EMAIL_HOST_USER,
+            [user.email],
+
+         )
+         email.fail_silently = True
+         email.send()
          
          return render(request,'verify/otp_login.html')
       else :
@@ -125,6 +136,9 @@ def signin(request):
 
 
 def signup(request):
+   if request.user.is_authenticated:
+       
+       return redirect('home')
    if request.method == 'POST' :
       username = request.POST['username']
       email = request.POST['email']
@@ -173,7 +187,7 @@ def signup(request):
          refferal_codes.save()
 
 # send email to confirm 
-      messages.success(request, "An link has been sent to your email so please go to the email and click the link give in that")
+     
       
       current_site = get_current_site(request)
       esubject = "confirm your email @ trejnexsus"
@@ -192,9 +206,13 @@ def signup(request):
       )
       email.fail_silently = True
       email.send()
-    
-
+      messages.success(request, "An link has been sent to your email so please go to the email and click the link give in that")
+      return redirect('sendmail')
    return render(request,'verify/signup.html')
+
+def sendmail(request):
+
+   return render(request, 'verify/email_send.html')
 
 def activate(request, uidb64, token):
    
@@ -228,6 +246,9 @@ def verifyotp(request):
 
 
 def forget_password(request):
+   if request.user.is_authenticated:
+      
+      return redirect('home')
    if request.method == 'POST' :
       username = request.POST['username']
       user = User.objects.get(username = username)
@@ -248,7 +269,9 @@ def forget_password(request):
       )
       email.fail_silently = True
       email.send()
-    
+
+      messages.success(request, "An link has been sent to your email so please go to the email and click the link give in that")
+      return redirect('sendmail')
    
    return render(request,'verify/forget_password.html')
     

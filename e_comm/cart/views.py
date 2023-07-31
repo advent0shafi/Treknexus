@@ -39,7 +39,8 @@ def add_to_cart(request, variant_id):
                                 product=variant, 
                                 quantity=1, 
                                 price=price_item)
-
+        
+    messages.success(request, "Successfullly added ptoduct to cart")
     return HttpResponseRedirect(request.META.get('HTTP_REFERER'))  # Redirect to the cart view
 
 # def view_cart(request):
@@ -111,6 +112,7 @@ def view_cart(request):
 def remove_from_cart(request,item_id):
     cart_item = CartItems.objects.get(id=item_id)
     cart_item.delete()
+    messages.success(request, "Successfullly removed product from cart")
     return redirect('cart')
 
     

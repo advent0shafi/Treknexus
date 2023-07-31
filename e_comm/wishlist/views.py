@@ -4,6 +4,8 @@ from products.models import *
 from .models import *
 from django.views.decorators.cache import cache_control
 from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+
 # Create your views here.
 @cache_control(no_cache=True,must_revalidate=True,no_store=True)
 @login_required(login_url='signin')
@@ -63,8 +65,25 @@ def remove_item(request,variant_id):
     try:
         wishlist_item = whishlist.objects.get(user=request.user, product=variant)
         wishlist_item.delete()
+        messages.success(request, 'product removed from your whishlist.')
         return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
     except whishlist.DoesNotExist:
         return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
 
  
+
+def adding_wishlist_direct(request,variant_id):
+  
+    try:
+        variant = Variant.objects.get(id=variant_id)
+    except Variant.DoesNotExist:
+        return JsonResponse({'status': 'error', 'message': 'Invalid variant ID.'})
+
+    # Check if the variant is not already in the wishlist for the current user
+    if not whishlist.objects.filter(user=request.user, product=variant).exists():
+        wishlist_item = whishlist.objects.create(user=request.user, product=variant)
+        messages.success(request, 'product add to your whishlist.')
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+    else:
+        return HttpResponseRedirect(request.META.get('HTTP_REFERER')) 
+

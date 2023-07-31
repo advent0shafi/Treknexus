@@ -3,7 +3,10 @@
 {% block title %}
 coupon management
 {% endblock  %}
+{% block link  %}
+<link href="https://cdn.datatables.net/1.11.5/css/jquery.dataTables.min.css" rel="stylesheet">
 
+{% endblock  %}
 {% block content %}
 
 <div class="card">
@@ -64,7 +67,7 @@ coupon management
     </div>
     <div class="card-block table-border-style">
         <div class="table-responsive">
-            <table class="table">
+            <table id="userListTable" class="table table-striped">
                 <thead>
                     <tr>
                         <th>Coupon Id</th>
@@ -102,3 +105,21 @@ coupon management
 {% endblock  %}
 
 
+{% block script %}
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script src="https://cdn.datatables.net/1.11.5/js/jquery.dataTables.min.js"></script>
+<script>
+    $(document).ready(function () {
+        $('#userListTable').DataTable({
+            lengthMenu: [5, 10, 25, 50], // Set the page length options
+            pageLength: 10, // Set the default page length
+            ordering: true, // Enable sorting
+            searching: true, // Enable search functionality
+            paging: true, // Enable pagination
+            // Other DataTables options go here
+        });
+    });
+</script>
+
+
+{% endblock  %}
