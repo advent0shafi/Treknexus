@@ -59,8 +59,8 @@ INSTALLED_APPS = [
 ]
 # RAZO PAY SET -----------------------
 
-RAZOR_KEY_ID = 'rzp_test_AyKu7QOpDUvx2T'
-RAZOR_KEY_SECRET = 'bpsOz3B0UVroH3MdfcLg9pN8'
+RAZOR_KEY_ID = ''
+RAZOR_KEY_SECRET = ''
 
 MIDDLEWARE = [
     "django.middleware.security.SecurityMiddleware",
